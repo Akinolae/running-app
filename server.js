@@ -1,17 +1,23 @@
 var express = require('express');
-var http = require('http');
-var path = require('path');
 var bodyParser = require('body-parser');
 var handlebars  = require('express-handlebars'), hbs;
 var app = express();
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy;
-  
-console.log('starting');
+var functions = require('./functions.js');
+var mongodb = require('mongodb');
+var path = require('path');
+var database = require('./database.js');
+
+// Use connect method to connect to the Server
+database.mongoConnect(function(db){
+  console.log('connected');
+  db.close();
+})
 
 hbs = handlebars.create({
-    defaultLayout: 'Main'
+    defaultLayout: 'main'
 });
 
 app.engine('handlebars', hbs.engine);
@@ -31,20 +37,14 @@ passport.use(new LocalStrategy({
     passwordField: 'password'
 },
   function(username, password, done) {
-    console.log('authorizing');
-    console.log(username);
-    console.log(password);
-    return done(null,'user');
-    //User.findOne({ username: username }, function (err, user) {
-    //   if (err) { return done(err); }
-    //   if (!user) {
-    //     return done(null, false, { message: 'Incorrect username.' });
-    //   }
-    //   if (!user.validPassword(password)) {
-    //     return done(null, false, { message: 'Incorrect password.' });
-    //   }
-    //   return done(null, user);
-    // });
+    functions.addUser(username, password,function(success){
+      if(success){
+        console.log('logged in');
+        return done(null,'user');
+      } else {
+        return done(null);
+      }
+    })
   }
 ));
 passport.use(new FacebookStrategy({

@@ -6,7 +6,7 @@ var passport = require('passport')
 // Routes
 module.exports = function(app){
      
-    app.get('/', HomeController.Index);
+    app.get('/', HomeController.index);
     
     // Redirect the user to Facebook for authentication.  When complete,
     // Facebook will redirect the user back to the application at
@@ -30,15 +30,11 @@ module.exports = function(app){
         res.sendFile(__dirname + "/login.html");
     })
     
-    app.get('/login',function(req,res){
-        res.sendFile(__dirname + "/login.html");
-    })
+    app.get('/login',HomeController.login)
+    
     app.post('/login',
         passport.authenticate('local', {successRedirect: '/',
-            failureRedirect: '/login',session:false}),
-        function(req,res){
-            console.log('request');
-        }
+            failureRedirect: '/login',session:false})
     );
  
 };

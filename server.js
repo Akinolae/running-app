@@ -21,7 +21,7 @@ app.use(passport.session());
 
 
 passport.use(new FacebookStrategy({
-    clientID: '1119006258173108',
+    clientID: 1119006258173108,
     clientSecret: '25e314e4d5ccc779797fd7c550852188',
     callbackURL: "/auth/facebook/callback"
   },

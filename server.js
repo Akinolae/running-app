@@ -51,6 +51,7 @@ passport.use(new FacebookStrategy({
     callbackURL: "/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
+    console.log(accessToken);
     return done(null,'user');
   }
 ));

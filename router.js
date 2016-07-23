@@ -1,10 +1,10 @@
 var HomeController = require('./controllers/HomeController')
-  , passport = require('passport');
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy
+  , FacebookStrategy = require('passport-facebook').Strategy;
 
 // Routes
 module.exports = function(app){
-     
-    // Main Routes
      
     app.get('/', HomeController.Index);
     
@@ -18,7 +18,23 @@ module.exports = function(app){
     // access was granted, the user will be logged in.  Otherwise,
     // authentication has failed.
     app.get('/auth/facebook/callback',
-      passport.authenticate('facebook', { successRedirect: '/',
-                                          failureRedirect: '/login' }));
+        passport.authenticate('facebook', {successRedirect: '/',
+                                  failureRedirect: '/login',
+                                  failureFlash: true, session:false }),
+        function(req,res){
+            console.log(req.body);
+        }
+        );
+    
+    app.get('/login',function(req,res){
+        res.sendFile(__dirname + "/login.html");
+    })
+    app.post('/login',
+        passport.authenticate('local', {successRedirect: '/',
+            failureRedirect: '/login',session:false}),
+        function(req,res){
+            console.log(req.body);
+        }
+    );
  
 };

@@ -7,6 +7,8 @@ var app = express();
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy;
+  
+console.log('starting');
 
 hbs = handlebars.create({
     defaultLayout: 'Main'

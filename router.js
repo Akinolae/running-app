@@ -22,7 +22,7 @@ module.exports = function(app){
                                   //failureRedirect: '/login',
                                   failureFlash: true, session:false }),
         function(req,res){
-            res.write(req.body);
+            res.write(JSON.stringify(req.body));
         }
         );
         

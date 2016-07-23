@@ -25,6 +25,10 @@ module.exports = function(app){
             console.log(req.body);
         }
         );
+        
+    app.get('/#_=_',function(req,res){
+        res.sendFile(__dirname + "/login.html");
+    })
     
     app.get('/login',function(req,res){
         res.sendFile(__dirname + "/login.html");

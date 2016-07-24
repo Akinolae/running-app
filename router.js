@@ -20,7 +20,7 @@ module.exports = function(app){
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {successRedirect: '/login',
                                   failureRedirect: '/login',
-                                  failureFlash: true, session:false }),
+                                  failureFlash: true}),
         function(req,res){
             res.write(JSON.stringify(req.body));
         }
@@ -34,7 +34,7 @@ module.exports = function(app){
     
     app.post('/login',
         passport.authenticate('local', {successRedirect: '/',
-            failureRedirect: '/login',session:false})
+            failureRedirect: '/login', session:true})
     );
  
 };

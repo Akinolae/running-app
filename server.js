@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var handlebars  = require('express-handlebars'), hbs;
 var app = express();
+var session = require('express-session');
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy;
@@ -23,6 +24,9 @@ hbs = handlebars.create({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
+app.use(session({ secret: 'anything',
+    resave: true,
+    saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: false })) // parse application/x-www-form-urlencoded
@@ -32,17 +36,28 @@ app.use(express.static(path.join(__dirname, 'static')));
 // send app to router
 require('./router')(app);
 
+// Passport session setup.
+passport.serializeUser(function(user, done) {
+  console.log("serializing " + user.username);
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  console.log("deserializing " + obj);
+  done(null, obj);
+});
+
 passport.use(new LocalStrategy({
     usernameField: 'username',
-    passwordField: 'password'
+    passwordField: 'password',
+    passReqToCallback : true
 },
-  function(username, password, done) {
-    functions.addUser(username, password,function(success){
-      if(success){
-        console.log('logged in');
-        return done(null,'user');
+  function(req,username, password, done) {
+    functions.addUser(username, password,function(user){
+      if(user){
+        done(null,user);
       } else {
-        return done(null);
+        done(null);
       }
     })
   }

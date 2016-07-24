@@ -31,7 +31,11 @@ exports.addUser = function(username, password, callback){
                 //user not already in db
                 users.insert({'username':username,'password':password}, function(err, data){
                     if(err) throw err;
-                    callback(true);
+                    var user = {
+                        'username':username,
+                        'password':password
+                    };
+                    callback(user);
                     db.close();
                 });
             }

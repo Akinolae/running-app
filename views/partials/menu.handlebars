@@ -3,3 +3,8 @@
     <li><a href="/about">About</a></li>
     <li><a href="/contact">Contact</a></li>
 </ul>
+{{#if user}}
+<p>Username: {{user.username}}</p>
+{{else}}
+<p>Not logged in</p>
+{{/if}}

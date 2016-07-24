@@ -1,10 +1,8 @@
 exports.index = function(request, response){
-    //response.pageInfo.title = 'Hello World';
-    response.render('home/index', response.pageInfo);
+    response.render('home/index', {user: request.user});
 };
 
 exports.login = function(request, response){
-    //response.pageInfo.title = 'Hello World';
-    response.render('home/login', response.pageInfo);
+    response.render('home/login', {user: request.user});
 };
  

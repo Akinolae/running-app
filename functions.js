@@ -78,8 +78,11 @@ exports.fbregister = function(id, name, callback){
             if(data.length>0){
                 console.log('user exists');
                 console.log(data);
+                var user = {
+                    'username':data[0].username
+                };
                 db.close();
-                callback();
+                callback(user);
                 return;
             } else {
                 //user not already in db

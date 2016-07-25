@@ -96,7 +96,6 @@ passport.use(new FacebookStrategy({
     console.log(JSON.stringify(profile));
     functions.fbregister(profile.id, profile.displayName,function(user){
       if(user){
-        console.log('user found');
         //req.session.success = 'You are successfully logged in ' + user.username + '!';
         done(null,user);
       } else {

@@ -7,6 +7,7 @@ var passport = require('passport')
 module.exports = function(app){
      
     app.get('/', HomeController.index);
+    app.get('/#_=_', HomeController.index);//Facebook redirects
     
     // Redirect the user to Facebook for authentication.  When complete,
     // Facebook will redirect the user back to the application at

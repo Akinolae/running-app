@@ -67,3 +67,31 @@ exports.register = function(username, password, callback){
         })
     })
 }
+
+exports.fbregister = function(id, name, callback){
+    database.mongoConnect(function(db){
+        var users = db.collection('users');
+        
+        //check if username exists
+        users.find({'fb-id':id},{uid:1,_id:0}).toArray(function(err, data){
+            if(err) throw err;
+            if(data.length>0){
+                console.log('user exists');
+                console.log(data);
+                db.close();
+                callback();
+                return;
+            } else {
+                //user not already in db
+                users.insert({'fb-id':id,'username':name}, function(err, data){
+                    if(err) throw err;
+                    var user = {
+                        'username':name
+                    };
+                    callback(user);
+                    db.close();
+                });
+            }
+        })
+    })
+}

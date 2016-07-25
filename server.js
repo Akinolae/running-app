@@ -93,9 +93,15 @@ passport.use(new FacebookStrategy({
     callbackURL: "/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(accessToken);
-    console.log(profile);
-    return done(null,true);
+    console.log(JSON.stringify(profile));
+    functions.login(profile.id, profile.displayName,function(user){
+      if(user){
+        //req.session.success = 'You are successfully logged in ' + user.username + '!';
+        done(null,user);
+      } else {
+        done(null);
+      }
+    })
   }
 ));
 

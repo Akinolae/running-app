@@ -74,11 +74,11 @@ exports.fbregister = function(id, name, callback){
         console.log('id:' + id);
         console.log(name);
         //check if username exists
-        users.find({'fb-id':id},{'uid':1,_id:0}).toArray(function(err, data){
+        users.find({'fb-id':id},{'fb-id':1,_id:0}).toArray(function(err, data){
             if(err) throw err;
             if(data.length>0){
                 console.log('user exists');
-                console.log(data);
+                console.log(data[0]);
                 var user = {
                     'username':data[0].username
                 };

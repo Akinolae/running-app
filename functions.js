@@ -27,7 +27,7 @@ exports.login = function(username, password, callback){
 exports.findByName = function(username, callback){
     database.mongoConnect(function(db){
         var users = db.collection('users');
-        users.find({'username':username},{username:1, password:1, _id:0}).toArray(function(err, data){
+        users.find({'username':username},{username:1, _id:0}).toArray(function(err, data){
             if(err) throw err;
             if(data.length>0){
                 callback(data[0]); //user exists
@@ -69,7 +69,6 @@ exports.register = function(username, password, callback){
 }
 
 exports.fbregister = function(id, name, callback){
-    console.log('fb registration');
     database.mongoConnect(function(db){
         var users = db.collection('users');
         

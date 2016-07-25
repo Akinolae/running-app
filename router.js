@@ -19,15 +19,9 @@ module.exports = function(app){
     // authentication has failed.
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {successRedirect: '/login',
-                                  failureRedirect: '/login'}),
-        function(req,res){
-            res.write(JSON.stringify(req.body));
-        }
+                                  failureRedirect: '/login'})
         );
-        
-    app.get('/#_=_',function(req,res){
-        res.sendFile(__dirname + "/login.html");
-    })
+      
     
     app.get('/login',HomeController.login)
     

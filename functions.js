@@ -69,6 +69,7 @@ exports.register = function(username, password, callback){
 }
 
 exports.fbregister = function(id, name, callback){
+    console.log('fb registration');
     database.mongoConnect(function(db){
         var users = db.collection('users');
         

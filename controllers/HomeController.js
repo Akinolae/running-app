@@ -5,4 +5,8 @@ exports.index = function(request, response){
 exports.login = function(request, response){
     response.render('home/login', {user: request.user});
 };
+
+exports.register = function(request, response){
+    response.render('home/register', {user: request.user});
+};
  

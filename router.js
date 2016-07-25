@@ -19,8 +19,7 @@ module.exports = function(app){
     // authentication has failed.
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {successRedirect: '/login',
-                                  failureRedirect: '/login',
-                                  failureFlash: true}),
+                                  failureRedirect: '/login'}),
         function(req,res){
             res.write(JSON.stringify(req.body));
         }
@@ -33,8 +32,15 @@ module.exports = function(app){
     app.get('/login',HomeController.login)
     
     app.post('/login',
-        passport.authenticate('local', {successRedirect: '/',
+        passport.authenticate('local-login', {successRedirect: '/',
             failureRedirect: '/login', session:true})
+    );
+    
+    app.get('/register',HomeController.register)
+    
+    app.post('/register',
+        passport.authenticate('local-register', {successRedirect: '/',
+            failureRedirect: '/register', session:true})
     );
  
 };

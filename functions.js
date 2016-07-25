@@ -4,28 +4,53 @@ exports.logC = function(string){
     console.log(string);
 };
 
-exports.checkUser = function(username, password){
-    var name = 'Peter';
-    var pw = 'pw';
-    if(username == name && password == pw){
-        return true;
-    } else {
-        return false;
-    }
+exports.login = function(username, password, callback){
+    database.mongoConnect(function(db){
+        var users = db.collection('users');
+        users.find({'username':username},{username:1, password:1, _id:0}).toArray(function(err, data){
+            if(err) throw err;
+            if(data.length>0){
+                console.log(data);
+                if(data[0].password == password){
+                    callback(data[0]); //user exists, password correct
+                } else {
+                    callback(null); //user exists, password wrong
+                }
+            } else {
+                callback(); //username doesn't exist
+            }
+            db.close();
+        })
+    });
 }
 
-exports.addUser = function(username, password, callback){
+exports.findByName = function(username, callback){
+    database.mongoConnect(function(db){
+        var users = db.collection('users');
+        users.find({'username':username},{username:1, password:1, _id:0}).toArray(function(err, data){
+            if(err) throw err;
+            if(data.length>0){
+                callback(data[0]); //user exists
+            } else {
+                callback(); //username doesn't exist
+            }
+            db.close();
+        })
+    });
+}
+
+exports.register = function(username, password, callback){
     database.mongoConnect(function(db){
         var users = db.collection('users');
         
         //check if username exists
         users.find({'username':username},{username:1,_id:0}).toArray(function(err, data){
             if(err) throw err;
-            if(data.length > 0){
+            if(data.length>0){
                 console.log('user exists');
                 console.log(data);
                 db.close();
-                callback(false);
+                callback();
                 return;
             } else {
                 //user not already in db

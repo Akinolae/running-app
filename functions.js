@@ -72,9 +72,9 @@ exports.fbregister = function(id, name, callback){
     database.mongoConnect(function(db){
         var users = db.collection('users');
         console.log('id:' + id);
-        console.log('name');
+        console.log(name);
         //check if username exists
-        users.find({'fb-id':id},{uid:1,_id:0}).toArray(function(err, data){
+        users.find({'fb-id':id},{'uid':1,_id:0}).toArray(function(err, data){
             if(err) throw err;
             if(data.length>0){
                 console.log('user exists');

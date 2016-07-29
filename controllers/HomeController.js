@@ -21,7 +21,7 @@ exports.Survey = function(request, response){
         if(data == null){response.redirect('/');}
         var requestedSurvey = data;
         functions.findUserByID(requestedSurvey.creator, function(creator){
-            response.render('home/Survey', {survey: data, creator:creator, user: request.user});
+            response.render('home/Survey', {survey: requestedSurvey, creator:creator, user: request.user});
         })
         
     });

@@ -1,7 +1,7 @@
 <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/login">Login</a></li>
-    <li><a href="/auth/facebook">Log in With Facebook</a></li>
+    <a href="/"><li class='btn btn-default'>Home</li></a>
+    <a href="/login"><li class='btn btn-default'>Login</li></a>
+    <a href="/auth/facebook"><li class='btn btn-default'>Log in With Facebook</li></a>
 </ul>
 {{#if user}}
 <p>Username: {{user.username}}</p>
@@ -9,5 +9,5 @@
 <p>Not logged in</p>
 {{/if}}
 {{#if success}}
-    <p>Success message: {{success}}</p>
+    <p>{{success}}</p>
 {{/if}}

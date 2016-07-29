@@ -2,12 +2,12 @@ var HomeController = require('./controllers/HomeController')
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy;
+var functions = require('./functions.js');
 
 // Routes
 module.exports = function(app){
      
     app.get('/', HomeController.index);
-    app.get('/#_=_', HomeController.index);//Facebook redirects
     
     // Redirect the user to Facebook for authentication.  When complete,
     // Facebook will redirect the user back to the application at
@@ -24,18 +24,31 @@ module.exports = function(app){
         );
       
     
-    app.get('/login',HomeController.login)
+    app.get('/login',HomeController.login);
     
     app.post('/login',
         passport.authenticate('local-login', {successRedirect: '/',
             failureRedirect: '/login', session:true})
     );
     
-    app.get('/register',HomeController.register)
+    app.get('/register',HomeController.register);
     
     app.post('/register',
         passport.authenticate('local-register', {successRedirect: '/',
             failureRedirect: '/register', session:true})
     );
+    
+    app.get('/newSurvey', HomeController.newSurvey);
+    
+    app.post('/newSurvey', function(req, res){
+        var question = req.body.question;
+        var responses = functions.responsesArray(req.body.responses);
+        var user = req.user;
+        functions.insertSurvey(user,question,responses,function(){
+            res.redirect('/');
+        });
+    });
+    
+    app.get('/Survey/:id', HomeController.Survey);
  
 };

@@ -1,6 +1,8 @@
 <p>{{survey.question}}</p>
 
 <form action="/answer" method="post">
+    <input type="hidden" name="surveyID" value={{survey._id}}>
+    {{#if user}}<input type="hidden" name="userID" value={{user._id}}>{{/if}}
     {{#each survey.valid_responses}}
       <input type='radio' name='response' value={{this}}>{{this}}<br>
     {{/each}}

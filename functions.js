@@ -149,3 +149,18 @@ exports.getSurvey = function(id,callback){
         })
     });
 }
+
+exports.insertResponse = function(surveyID,userID,response,callback){
+    var oid = new ObjectID(surveyID);
+    database.mongoConnect(function(db){
+        var surveys = db.collection('surveys');
+        surveys.update({_id:oid},{
+            $push: {
+                user_responses: {'user':userID, 'response':response}
+            }
+        }, function(){
+            db.close();
+            callback();
+        });
+    })
+}

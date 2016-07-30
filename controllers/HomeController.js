@@ -16,12 +16,12 @@ exports.newSurvey = function(request, response){
     response.render('home/newSurvey', {user: request.user});
 }
 
-exports.Survey = function(request, response){
+exports.survey = function(request, response){
     functions.getSurvey(request.params.id, function(data){
         if(data == null){response.redirect('/');}
         var requestedSurvey = data;
         functions.findUserByID(requestedSurvey.creator, function(creator){
-            response.render('home/Survey', {survey: requestedSurvey, creator:creator, user: request.user});
+            response.render('home/survey', {survey: requestedSurvey, creator:creator, user: request.user});
         })
         
     });

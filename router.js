@@ -49,6 +49,15 @@ module.exports = function(app){
         });
     });
     
-    app.get('/Survey/:id', HomeController.Survey);
+    app.get('/survey/:id', HomeController.survey);
+    
+    app.post('/answer/', function(req,res){
+        var surveyID = req.body.surveyID;
+        var userID = req.body.userID;
+        var response = req.body.response;
+        functions.insertResponse(surveyID,userID,response,function(){
+            res.redirect('/');
+        })
+    });
  
 };

@@ -11,9 +11,12 @@ exports.login = function(username, password, callback){
         users.find({'username':username},{username:1, password:1, _id:1}).toArray(function(err, data){
             if(err) throw err;
             if(data.length>0){
-                console.log(data);
                 if(data[0].password == password){
-                    callback(data[0]); //user exists, password correct
+                var user = {
+                    '_id':data[0]._id,
+                    'username':data[0].username
+                };
+                    callback(user); //user exists, password correct
                 } else {
                     callback(null); //user exists, password wrong
                 }
@@ -118,6 +121,9 @@ exports.responsesArray = function(responseString){
     var arr = responseString.replace(/\r?\n|\r/g,'').split(';');
     for(var i = 0; i < arr.length; i++){
         arr[i] = arr[i].trim();
+    }
+    for(var i = 0; i < arr.length; i++){
+        if(arr[i] == ''){arr.splice(i,1); i--;} //cleans array
     }
     return arr;
 }

@@ -12,17 +12,22 @@ exports.register = function(request, response){
     response.render('home/register', {user: request.user});
 };
 
-exports.newSurvey = function(request, response){
-    response.render('home/newSurvey', {user: request.user});
-}
-
-exports.survey = function(request, response){
-    functions.getSurvey(request.params.id, function(data){
-        if(data == null){response.redirect('/');}
-        var requestedSurvey = data;
-        functions.findUserByID(requestedSurvey.creator, function(creator){
-            response.render('home/survey', {survey: requestedSurvey, creator:creator, user: request.user});
-        })
-        
+exports.editProfile = function(request, response){
+    var userID = request.user._id.toString();
+    functions.getProfile(userID, function(profile){
+        response.render('home/editProfile', {user: request.user, profile: profile})
     });
+};
+
+exports.profile = function(request, response){
+    var userID = request.params.userID;
+    functions.findUserByID(userID, function(user){
+        if(user){
+            functions.getProfile(userID, function(profile){
+                if(profile){
+                    response.render('home/profile', {user: user, profile: profile})
+                }
+            });
+        }
+    })
 }

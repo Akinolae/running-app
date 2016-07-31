@@ -43,7 +43,7 @@ exports.findByName = function(username, callback){
     });
 }
 
-exports.findUserByID = function(id, callback){
+exports.findUserByID = function(id, callback){//returns only name and id
     var oid = new ObjectID(id)
     database.mongoConnect(function(db){
         var users = db.collection('users');
@@ -169,4 +169,43 @@ exports.insertResponse = function(surveyID,userID,response,callback){
             callback();
         });
     })
+}
+
+exports.createProfile = function(userID, pace, distance, lat, lon, callback){
+    database.mongoConnect(function(db){
+        var profiles = db.collection('profiles');
+        profiles.insert({'userID':userID, 'pace':pace, 'distance':distance, 'lat':lat, 'lon':lon}, function(err,data){
+            if(err) throw err;
+            callback();
+            db.close();
+        })
+    })
+}
+
+exports.editProfile = function(userID, pace, distance, lat, lon, callback){
+    database.mongoConnect(function(db){
+        var profiles = db.collection('profiles');
+        profiles.update({userID:userID},{
+            $set: {pace:pace, distance:distance, lat:lat, lon:lon}
+        }, function(){
+            callback();
+            db.close();
+        });
+    })
+}
+
+exports.getProfile = function(userID, callback){
+    database.mongoConnect(function(db){
+        var profiles = db.collection('profiles');
+        profiles.find({userID:userID},{_id:0}).toArray(function(err,data){
+            if(err) throw err;
+            if(data.length > 0){
+                callback(data[0]);
+            } else {
+                callback();
+            }
+            db.close();
+        }
+    )
+})
 }

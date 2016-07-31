@@ -34,30 +34,26 @@ module.exports = function(app){
     app.get('/register',HomeController.register);
     
     app.post('/register',
-        passport.authenticate('local-register', {successRedirect: '/',
+        passport.authenticate('local-register', {successRedirect: '/createProfile',
             failureRedirect: '/register', session:true})
     );
     
-    app.get('/newSurvey', HomeController.newSurvey);
+    app.get('/editProfile', HomeController.editProfile);
     
-    app.post('/newSurvey', function(req, res){
-        var question = req.body.question;
-        var responses = functions.responsesArray(req.body.responses);
-        var user = req.user;
-        functions.insertSurvey(user,question,responses,function(){
-            res.redirect('/');
-        });
-    });
-    
-    app.get('/survey/:id', HomeController.survey);
-    
-    app.post('/answer/', function(req,res){
-        var surveyID = req.body.surveyID;
-        var userID = req.body.userID;
-        var response = req.body.response;
-        functions.insertResponse(surveyID,userID,response,function(){
-            res.redirect('/');
+    app.post('/createProfile', function(request, response){
+        functions.createProfile(request.body.userID, request.body.pace, request.body.distance,
+        request.body.lat, request.body.lon, function(){
+            response.redirect('/');
         })
-    });
+    })
+    
+    app.post('/editProfile', function(request, response){
+        functions.editProfile(request.body.userID, request.body.pace, request.body.distance,
+        request.body.lat, request.body.lon, function(){
+            response.redirect('/');
+        })
+    })
+    
+    app.get('/profile/:userID', HomeController.profile);
  
 };

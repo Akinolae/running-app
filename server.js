@@ -88,8 +88,8 @@ passport.use('local-login', new LocalStrategy({
   }
 ));
 passport.use(new FacebookStrategy({
-    clientID: '1119006258173108',
-    clientSecret: '19bb8fb576b7e39b559ab6d1b4bae098',
+    clientID: '778573108946412',
+    clientSecret: '49ff49a5c7a606111aacf179ddfb3389',
     callbackURL: "/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {

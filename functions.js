@@ -44,10 +44,10 @@ exports.findByName = function(username, callback){
 }
 
 exports.findUserByID = function(id, callback){//returns only name and id
-    var oid = new ObjectID(id)
+    id = new ObjectID(String(id));
     database.mongoConnect(function(db){
         var users = db.collection('users');
-        users.find({_id:oid},{username:1, _id:1}).toArray(function(err, data){
+        users.find({_id:id},{username:1, _id:1}).toArray(function(err, data){
             if(err) throw err;
             if(data.length>0){
                 callback(data[0]); //user exists
@@ -128,48 +128,6 @@ exports.responsesArray = function(responseString){
     return arr;
 }
 
-exports.insertSurvey = function(creator,question,responses,callback){
-    database.mongoConnect(function(db){
-        var surveys = db.collection('surveys');
-        surveys.insert({'creator':creator._id,'question':question,'valid_responses':responses,'user_responses':[]},function(err,data){
-            if(err) throw err;
-            callback();
-            db.close();
-        })
-    });
-}
-
-exports.getSurvey = function(id,callback){
-    var oid = new ObjectID(id);
-    database.mongoConnect(function(db){
-        var surveys = db.collection('surveys');
-        surveys.find({_id:oid},{}).toArray(function(err,data){
-            if(err) throw err;
-            if(data.length > 0){
-                callback(data[0]);
-            }
-            else {
-                callback(null);
-            }
-            db.close();
-        })
-    });
-}
-
-exports.insertResponse = function(surveyID,userID,response,callback){
-    var oid = new ObjectID(surveyID);
-    database.mongoConnect(function(db){
-        var surveys = db.collection('surveys');
-        surveys.update({_id:oid},{
-            $push: {
-                user_responses: {'user':userID, 'response':response}
-            }
-        }, function(){
-            db.close();
-            callback();
-        });
-    })
-}
 
 exports.createProfile = function(userID, pace, distance, lat, lon, callback){
     database.mongoConnect(function(db){
@@ -195,6 +153,7 @@ exports.editProfile = function(userID, pace, distance, lat, lon, callback){
 }
 
 exports.getProfile = function(userID, callback){
+    userID = String(userID);
     database.mongoConnect(function(db){
         var profiles = db.collection('profiles');
         profiles.find({userID:userID},{_id:0}).toArray(function(err,data){
@@ -221,8 +180,7 @@ exports.getAllUserIDs = function(callback){
                 for(var i = 0; i < data.length; i ++){
                     IDArray.push(data[i]._id);
                 }
-                console.log(IDArray);
-                callback(data);
+                callback(IDArray);
             } else {
                 callback();
             }
@@ -230,27 +188,3 @@ exports.getAllUserIDs = function(callback){
         });
     });
 };
-
-exports.getUsersAndProfiles = function(IDArray, callback){
-    database.mongoConnect(function(db){
-        db.users.aggregate([
-            {
-                $lookup:
-                {
-                  from: "profiles",
-                  localField: "_id",
-                  foreignField: "UserID",
-                  as: "profile_info"
-                }
-            }]).toArray(function(err, data){
-                if(err) throw err;
-                console.log(data);
-                if(data.length > 0){
-                    callback(data);
-                } else {
-                    callback();
-                }
-                db.close();
-            })
-    });
-}

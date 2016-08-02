@@ -34,9 +34,15 @@ exports.profile = function(request, response){
 
 exports.listUsers = function(request, response){
     var userID = request.params.userID;
+    var infoArray = [];
     functions.getAllUserIDs(function(IDArray){
-        functions.getNamesAndProfiles(IDArray, function(data){
-            console.log(data);
-        })
+        for(var i = 0; i < IDArray.length; i++){
+            functions.findUserByID(IDArray[i], function(user){
+                functions.getProfile(user._id, function(profile){
+                    infoArray.push({'user':user.username, 'profile':profile});
+                    console.log(infoArray);
+                })
+            })
+        }
     });
 }

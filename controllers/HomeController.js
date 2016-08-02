@@ -33,16 +33,18 @@ exports.profile = function(request, response){
 }
 
 exports.listUsers = function(request, response){
-    var userID = request.params.userID;
-    var infoArray = [];
-    functions.getAllUserIDs(function(IDArray){
-        for(var i = 0; i < IDArray.length; i++){
-            functions.findUserByID(IDArray[i], function(user){
-                functions.getProfile(user._id, function(profile){
-                    infoArray.push({'user':user.username, 'profile':profile});
-                    console.log(infoArray);
-                })
+    var userID = request.user._id.toString();
+    console.log('userID ' + userID);
+    var userProfile;
+    functions.getProfile(userID, function(profile){
+        userProfile = profile;
+        functions.getAllUserIDs(function(IDArray){
+            functions.getNamesAndProfiles(IDArray, function(infoArray){
+                console.log(infoArray);
+                console.log(userProfile);
+                response.render('home/listUsers.handlebars', {user:request.user, infoArray: infoArray, userProfile: userProfile})
             })
-        }
-    });
+        })
+    })
+        
 }

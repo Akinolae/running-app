@@ -39,6 +39,8 @@ module.exports = function(app){
     );
     
     app.get('/editProfile', HomeController.editProfile);
+
+    app.get('/createProfile', HomeController.editProfile);    
     
     app.post('/createProfile', function(request, response){
         functions.createProfile(request.body.userID, request.body.pace, request.body.distance,

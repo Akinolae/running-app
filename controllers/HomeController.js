@@ -31,3 +31,12 @@ exports.profile = function(request, response){
         }
     })
 }
+
+exports.listUsers = function(request, response){
+    var userID = request.params.userID;
+    functions.getAllUserIDs(function(IDArray){
+        functions.getNamesAndProfiles(IDArray, function(data){
+            console.log(data);
+        })
+    });
+}

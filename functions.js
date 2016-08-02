@@ -209,3 +209,48 @@ exports.getProfile = function(userID, callback){
     )
 })
 }
+
+exports.getAllUserIDs = function(callback){
+    var IDArray = [];
+    database.mongoConnect(function(db){
+        console.log('findingUserIDs');
+        var users = db.collection('users')
+        users.find({}, {_id:1}).toArray(function(err, data){
+            if(err) throw err;
+            if(data.length > 0){
+                for(var i = 0; i < data.length; i ++){
+                    IDArray.push(data[i]._id);
+                }
+                console.log(IDArray);
+                callback(data);
+            } else {
+                callback();
+            }
+            db.close();
+        });
+    });
+};
+
+exports.getUsersAndProfiles = function(IDArray, callback){
+    database.mongoConnect(function(db){
+        db.users.aggregate([
+            {
+                $lookup:
+                {
+                  from: "profiles",
+                  localField: "_id",
+                  foreignField: "UserID",
+                  as: "profile_info"
+                }
+            }]).toArray(function(err, data){
+                if(err) throw err;
+                console.log(data);
+                if(data.length > 0){
+                    callback(data);
+                } else {
+                    callback();
+                }
+                db.close();
+            })
+    });
+}

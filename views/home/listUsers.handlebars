@@ -1,0 +1,23 @@
+{{#if userProfile}}
+    <h1>{{userProfile.pace}}</h1>
+{{/if}}
+{{#if infoArray}}
+    <h1>Nearby Users</h1>
+    <table class='users-table'>
+        <tr>
+            <th>Name</th>
+            <th>Pace (min/mile)</th>
+            <th>Typical Mileage</th>
+            <th>Separation (miles)</th>
+        </tr>
+       {{#each infoArray}}
+            <tr class='users-display'>
+                <td>{{this.name}}</td>
+                <td>{{this.profile.pace}}</td>
+                <td>{{this.profile.distance}}</td>
+                <td>{{this.separation}}</td>
+            </tr>
+        {{/each}}
+    </table>
+
+{{/if}}

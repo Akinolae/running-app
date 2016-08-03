@@ -42,13 +42,6 @@ module.exports = function(app){
 
     app.get('/createProfile', HomeController.editProfile);    
     
-    app.post('/createProfile', function(request, response){
-        functions.createProfile(request.body.userID, request.body.pace, request.body.distance,
-        request.body.lat, request.body.lon, function(){
-            response.redirect('/');
-        })
-    })
-    
     app.post('/editProfile', function(request, response){
         functions.editProfile(request.body.userID, request.body.pace, request.body.distance,
         request.body.lat, request.body.lon, function(){

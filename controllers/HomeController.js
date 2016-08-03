@@ -1,4 +1,5 @@
 var functions = require('../functions.js');
+var database = require('../database.js');
 
 exports.index = function(request, response){
     response.render('home/index', {user: request.user});
@@ -14,37 +15,40 @@ exports.register = function(request, response){
 
 exports.editProfile = function(request, response){
     var userID = request.user._id.toString();
-    functions.getProfile(userID, function(profile){
-        response.render('home/editProfile', {user: request.user, profile: profile})
+    database.mongoConnect(function(db){
+        functions.findUser(userID, db, function(profile){
+            response.render('home/editProfile', {user: request.user})
+        });
     });
 };
 
 exports.profile = function(request, response){
     var userID = request.params.userID;
-    functions.findUserByID(userID, function(user){
-        if(user){
-            functions.getProfile(userID, function(profile){
-                if(profile){
-                    response.render('home/profile', {user: user, profile: profile})
-                }
-            });
-        }
-    })
+    database.mongoConnect(function(db){
+        functions.findUserByID(userID, db, function(user){
+            if(user){
+                functions.getProfile(userID, db, function(profile){
+                    if(profile){
+                        response.render('home/profile', {user: user, profile: profile})
+                    }
+                });
+            }
+        });
+    });
 }
 
 exports.listUsers = function(request, response){
     var userID = request.user._id.toString();
-    console.log('userID ' + userID);
     var userProfile;
-    functions.getProfile(userID, function(profile){
-        userProfile = profile;
-        functions.getAllUserIDs(function(IDArray){
-            functions.getNamesAndProfiles(IDArray, function(infoArray){
-                console.log(infoArray);
-                console.log(userProfile);
-                response.render('home/listUsers.handlebars', {user:request.user, infoArray: infoArray, userProfile: userProfile})
-            })
-        })
-    })
-        
+    database.mongoConnect(function(db){
+        functions.getProfile(userID, db, function(profile){
+            userProfile = profile;
+            functions.getAllUserIDs(db, function(IDArray){
+                functions.getNamesAndProfiles(IDArray, db, function(infoArray){
+                    infoArray = functions.getSeparationArray(userProfile, infoArray)
+                    response.render('home/listUsers.handlebars', {user:request.user, infoArray: infoArray, userProfile: userProfile})
+                });
+            });
+        });
+    });
 }

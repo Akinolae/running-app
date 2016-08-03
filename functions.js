@@ -23,7 +23,6 @@ exports.login = function(username, password, callback){
             } else {
                 callback(); //username doesn't exist
             }
-            db.close();
         })
     });
 }
@@ -38,28 +37,24 @@ function findByName(username, callback){
             } else {
                 callback(); //username doesn't exist
             }
-            db.close();
         })
     });
 }
 exports.findByName = findByName;
 
-function findUserByID(id, callback){//returns only name and id
+function findUser(id, db, callback){//returns only name and id
     id = new ObjectID(String(id));
-    database.mongoConnect(function(db){
-        var users = db.collection('users');
-        users.find({_id:id},{username:1, _id:1}).toArray(function(err, data){
-            if(err) throw err;
-            if(data.length>0){
-                callback(data[0]); //user exists
-            } else {
-                callback(); //username doesn't exist
-            }
-            db.close();
-        })
-    });
+    var users = db.collection('users');
+    users.find({_id:id},{password:0}).toArray(function(err, data){
+        if(err) throw err;
+        if(data.length>0){
+            callback(data[0]); //user exists
+        } else {
+            callback(); //username doesn't exist
+        }
+    })
 }
-exports.findUserByID = findUserByID;
+exports.findUser = findUser;
 
 exports.register = function(username, password, callback){
     database.mongoConnect(function(db){
@@ -70,7 +65,6 @@ exports.register = function(username, password, callback){
             if(err) throw err;
             if(data.length>0){
                 console.log('user exists');
-                db.close();
                 callback();
                 return;
             } else {
@@ -79,7 +73,6 @@ exports.register = function(username, password, callback){
                     if(err) throw err;
                     var user = data.ops[0];
                     callback(user);
-                    db.close();
                 });
             }
         })
@@ -99,7 +92,6 @@ exports.fbregister = function(id, name, callback){
                     '_id':data[0]._id,
                     'username':data[0].username
                 };
-                db.close();
                 callback(user);
                 return;
             } else {
@@ -112,7 +104,6 @@ exports.fbregister = function(id, name, callback){
                         'username':name
                     };
                     callback(user);
-                    db.close();
                 });
             }
         })
@@ -131,71 +122,54 @@ exports.responsesArray = function(responseString){
 }
 
 
-exports.createProfile = function(userID, pace, distance, lat, lon, callback){
-    database.mongoConnect(function(db){
-        var profiles = db.collection('profiles');
-        profiles.insert({'userID':userID, 'pace':pace, 'distance':distance, 'lat':lat, 'lon':lon}, function(err,data){
-            if(err) throw err;
-            callback();
-            db.close();
-        })
-    })
-}
-
 function editProfile(userID, pace, distance, lat, lon, callback){
+    userID = new ObjectID(String(userID));
     database.mongoConnect(function(db){
-        var profiles = db.collection('profiles');
-        profiles.update({userID:userID},{
-            $set: {pace:pace, distance:distance, lat:lat, lon:lon}
-        }, function(){
-            callback();
-            db.close();
-        });
+        var users = db.collection('users');
+        users.update({_id:userID},{
+            $set: {profile: {'pace':pace, 'distance':distance, 'lat':lat, 'lon':lon}}
+            }, function(){
+                callback();
+            })
     })
 }
 exports.editProfile = editProfile;
 
-function getProfile(userID, callback){
+function getProfile(userID, db, callback){
     userID = String(userID);
-    database.mongoConnect(function(db){
-        var profiles = db.collection('profiles');
-        profiles.find({userID:userID},{_id:0}).toArray(function(err,data){
-            if(err) throw err;
-            if(data.length > 0){
-                callback(data[0]);
-            } else {
-                callback();
-            }
-            db.close();
-        })
+    var profiles = db.collection('profiles');
+    profiles.find({userID:userID},{_id:0}).toArray(function(err,data){
+        if(err) throw err;
+        if(data.length > 0){
+            callback(data[0]);
+        } else {
+            callback();
+        }
     })
 }
 exports.getProfile = getProfile;
 
-exports.getAllUserIDs = function(callback){
+exports.getAllUserIDs = function(db, callback){
     var IDArray = [];
-    database.mongoConnect(function(db){
-        var users = db.collection('users')
-        users.find({}, {_id:1}).toArray(function(err, data){
-            if(err) throw err;
-            if(data.length > 0){
-                for(var i = 0; i < data.length; i ++){
-                    IDArray.push(data[i]._id);
-                }
-                callback(IDArray);
-            } else {
-                callback();
+    var users = db.collection('users')
+    users.find({}, {_id:1}).toArray(function(err, data){
+        if(err) throw err;
+        if(data.length > 0){
+            for(var i = 0; i < data.length; i ++){
+                IDArray.push(data[i]._id);
             }
-            db.close();
-        });
+            callback(IDArray);
+        } else {
+            callback();
+        }
     });
 };
 
-exports.getNamesAndProfiles = function(IDArray, callback){
+exports.getNamesAndProfiles = function(IDArray, db, callback){
     var infoArray = [];
     for(var i = 0; i < IDArray.length; i++){
-        findUserByID(IDArray[i], function(user){
-            getProfile(user._id, function(profile){
+        findUser(IDArray[i], db, function(user){
+            getProfile(user._id, db, function(profile){
                 infoArray.push({'userID':user._id, 'name':user.username, 'profile':profile});
                 if(infoArray.length == IDArray.length){
                     callback(infoArray);
@@ -205,14 +179,16 @@ exports.getNamesAndProfiles = function(IDArray, callback){
     }
 }
 
-function getSeparation(p1, p2){//returns separation in miles
-    var lat1 = p1.profile.lat;
-    var lon1 = p1.profile.lon;
-    var lat2 = p2.profile.lat;
-    var lon2 = p2.profile.lon;
-    return getDistance(lat1,lon1,lat2,lon2);
+exports.getSeparationArray = function(userProfile, profileArray){//inserts separation field into profile
+    var lat1 = userProfile.lat;
+    var lon1 = userProfile.lon;
+    for(var i = 0; i < profileArray.length; i++){
+        var separation = getDistance(lat1, lon1, profileArray[i].profile.lat, profileArray[i].profile.lon)
+        profileArray[i].separation = separation;
+    }
+    return profileArray;
 }
 
 function getDistance(lat1, lon1, lat2, lon2){
-    return Math.sqrt((lat1 - lat2)^2 + (lon1 - lon2)^2) * 69;
+    return Math.sqrt(Math.pow((lat1 - lat2),2) + Math.pow((lon1 - lon2),2)) * 69;
 }

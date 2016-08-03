@@ -1,5 +1,5 @@
-{{#if userProfile}}
-    <h1>{{userProfile.pace}}</h1>
+{{#if user}}
+    <h1>{{user.profile.pace}}</h1>
 {{/if}}
 {{#if infoArray}}
     <h1>Nearby Users</h1>
@@ -12,7 +12,7 @@
         </tr>
        {{#each infoArray}}
             <tr class='users-display'>
-                <td>{{this.name}}</td>
+                <td>{{this.username}}</td>
                 <td>{{this.profile.pace}}</td>
                 <td>{{this.profile.distance}}</td>
                 <td>{{this.separation}}</td>

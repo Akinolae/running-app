@@ -42,17 +42,20 @@ function findByName(username, callback){
 }
 exports.findByName = findByName;
 
-function findUser(id, db, callback){//returns only name and id
+function findUser(id, callback){//returns only name and id
     id = new ObjectID(String(id));
-    var users = db.collection('users');
-    users.find({_id:id},{password:0}).toArray(function(err, data){
-        if(err) throw err;
-        if(data.length>0){
-            callback(data[0]); //user exists
-        } else {
-            callback(); //username doesn't exist
-        }
-    })
+    database.mongoConnect(function(db){
+        var users = db.collection('users');
+        users.find({_id:id},{password:0}).toArray(function(err, data){
+            if(err) throw err;
+            console.log('user data' + data);
+            if(data.length>0){
+                callback(data[0]); //user exists
+            } else {
+                callback(); //username doesn't exist
+            }
+        })
+    });
 }
 exports.findUser = findUser;
 
@@ -135,58 +138,47 @@ function editProfile(userID, pace, distance, lat, lon, callback){
 }
 exports.editProfile = editProfile;
 
-function getProfile(userID, db, callback){
-    userID = String(userID);
-    var profiles = db.collection('profiles');
-    profiles.find({userID:userID},{_id:0}).toArray(function(err,data){
-        if(err) throw err;
-        if(data.length > 0){
-            callback(data[0]);
-        } else {
-            callback();
-        }
-    })
-}
-exports.getProfile = getProfile;
-
 exports.getAllUserIDs = function(db, callback){
     var IDArray = [];
-    var users = db.collection('users')
-    users.find({}, {_id:1}).toArray(function(err, data){
-        if(err) throw err;
-        if(data.length > 0){
-            for(var i = 0; i < data.length; i ++){
-                IDArray.push(data[i]._id);
+    database.mongoConnect(function(db){
+        var users = db.collection('users')
+        users.find({}, {_id:1}).toArray(function(err, data){
+            if(err) throw err;
+            if(data.length > 0){
+                for(var i = 0; i < data.length; i ++){
+                    IDArray.push(data[i]._id);
+                }
+                callback(IDArray);
+            } else {
+                callback();
             }
-            callback(IDArray);
-        } else {
-            callback();
-        }
+        });
     });
 };
 
-exports.getNamesAndProfiles = function(IDArray, db, callback){
-    var infoArray = [];
-    for(var i = 0; i < IDArray.length; i++){
-        findUser(IDArray[i], db, function(user){
-            getProfile(user._id, db, function(profile){
-                infoArray.push({'userID':user._id, 'name':user.username, 'profile':profile});
-                if(infoArray.length == IDArray.length){
-                    callback(infoArray);
-                }
-            })
-        })
-    }
+exports.getAllUsers = function(callback){
+    database.mongoConnect(function(db){
+        var users = db.collection('users')
+        users.find({}, {password:0}).toArray(function(err, data){
+            if(err) throw err;
+            if(data.length > 0){
+                callback(data);
+            } else {
+                callback();
+            }
+        });
+    });
+    
 }
 
-exports.getSeparationArray = function(userProfile, profileArray){//inserts separation field into profile
-    var lat1 = userProfile.lat;
-    var lon1 = userProfile.lon;
-    for(var i = 0; i < profileArray.length; i++){
-        var separation = getDistance(lat1, lon1, profileArray[i].profile.lat, profileArray[i].profile.lon)
-        profileArray[i].separation = separation;
+exports.getSeparationArray = function(user, userArray){//inserts separation field into profile
+    var lat1 = user.profile.lat;
+    var lon1 = user.profile.lon;
+    for(var i = 0; i < userArray.length; i++){
+        var separation = getDistance(lat1, lon1, userArray[i].profile.lat, userArray[i].profile.lon)
+        userArray[i].separation = separation;
     }
-    return profileArray;
+    return userArray;
 }
 
 function getDistance(lat1, lon1, lat2, lon2){

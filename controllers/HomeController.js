@@ -16,8 +16,8 @@ exports.register = function(request, response){
 exports.editProfile = function(request, response){
     var userID = request.user._id.toString();
     database.mongoConnect(function(db){
-        functions.findUser(userID, db, function(profile){
-            response.render('home/editProfile', {user: request.user})
+        functions.findUser(userID, function(user){
+            response.render('home/editProfile', {user: user})
         });
     });
 };
@@ -39,16 +39,12 @@ exports.profile = function(request, response){
 
 exports.listUsers = function(request, response){
     var userID = request.user._id.toString();
-    var userProfile;
-    database.mongoConnect(function(db){
-        functions.getProfile(userID, db, function(profile){
-            userProfile = profile;
-            functions.getAllUserIDs(db, function(IDArray){
-                functions.getNamesAndProfiles(IDArray, db, function(infoArray){
-                    infoArray = functions.getSeparationArray(userProfile, infoArray)
-                    response.render('home/listUsers.handlebars', {user:request.user, infoArray: infoArray, userProfile: userProfile})
-                });
-            });
+    var user;
+    functions.findUser(userID, function(profile){
+        user = profile;
+        functions.getAllUsers(function(userArray){
+            userArray = functions.getSeparationArray(user, userArray)
+            response.render('home/listUsers.handlebars', {user:user, infoArray: userArray})
         });
     });
 }

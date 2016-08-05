@@ -11,3 +11,12 @@
 .failure {
     background-color: red;
 }
+body {
+    background-color: #6BBAA7;
+}
+.navbar {
+    background-color: #FBA100;
+}
+.main-container {
+    background-color: #B6A19E;
+}

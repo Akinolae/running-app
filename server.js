@@ -33,7 +33,8 @@ app.use(function(req, res, next){
   if (success) res.locals.success = success;
   next();
 });
-app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 require('./router')(app);
 

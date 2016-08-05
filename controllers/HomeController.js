@@ -38,13 +38,18 @@ exports.profile = function(request, response){
 }
 
 exports.listUsers = function(request, response){
-    var userID = request.user._id.toString();
-    var user;
-    functions.findUser(userID, function(profile){
-        user = profile;
-        functions.getAllUsers(function(userArray){
-            userArray = functions.getSeparationArray(user, userArray)
-            response.render('home/listUsers.handlebars', {user:user, infoArray: userArray})
+    if(request.user){
+        var userID = request.user._id.toString();
+        var user;
+        functions.findUser(userID, function(profile){
+            user = profile;
+            functions.getAllUsers(function(userArray){
+                userArray = functions.getSeparationArray(user, userArray)
+                response.render('home/listUsers.handlebars', {user:user, infoArray: userArray})
+            });
         });
-    });
+    } else {
+        request.session.failure = 'Please log in to view other users';
+        response.redirect('back');
+    }
 }

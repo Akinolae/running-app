@@ -5,3 +5,9 @@
     width:50%;
     text-align:left;
 }
+.success {
+    background-color: green;
+}
+.failure {
+    background-color: red;
+}

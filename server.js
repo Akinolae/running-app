@@ -29,8 +29,13 @@ app.use(passport.session());
 // Session-persisted message middleware
 app.use(function(req, res, next){
   var success = req.session.success;
+  var failure = req.session.failure;
+  
   delete req.session.success;
+  delete req.session.failure;
+  
   if (success) res.locals.success = success;
+  if (failure) res.locals.failure = failure;
   next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
@@ -66,6 +71,7 @@ passport.use('local-register', new LocalStrategy({
         req.session.success = 'You are successfully registered and logged in ' + user.username + '!';
         done(null,user);
       } else {
+        req.session.failure = 'Registration failed!';
         done(null);
       }
     })
@@ -83,6 +89,7 @@ passport.use('local-login', new LocalStrategy({
         req.session.success = 'You are successfully logged in ' + user.username + '!';
         done(null,user);
       } else {
+        req.session.failure = 'Login failed!'
         done(null);
       }
     })

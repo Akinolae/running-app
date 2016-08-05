@@ -7,6 +7,7 @@
             <th>Pace (min/mile)</th>
             <th>Typical Mileage</th>
             <th>Separation (miles)</th>
+            <th>Message</th>
         </tr>
        {{#each infoArray}}
             <tr class='users-display'>
@@ -14,6 +15,7 @@
                 <td>{{this.profile.pace}}</td>
                 <td>{{this.profile.distance}}</td>
                 <td>{{this.separation}}</td>
+                <td><a href='/sendMessage/{{this._id}}'>Send Message</a></td>
             </tr>
         {{/each}}
     </table>

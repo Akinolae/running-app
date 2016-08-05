@@ -9,9 +9,7 @@
         
         <div class='navbar-header pull-right'>
             <ul class='nav '>
-                <p>
-                    {{#if user}}Logged in as: {{user.username}}{{else}}Not logged in{{/if}}
-                </p>
+                <li>{{#if user}}<a href="/profile/{{user._id}}">Logged in as: {{user.username}}</a>{{else}}Not logged in{{/if}}</li>
                 <a href="/"><li class='btn btn-default'>Home</li></a>
                 <a href="/login"><li class='btn btn-default'>Login</li></a>
                 <a href="/auth/facebook"><li class='btn btn-default'>Log in With Facebook</li></a>
@@ -21,9 +19,3 @@
     </div>
 </nav>
 
-{{#if success}}
-    <p class='success'>{{success}}</p>
-{{/if}}
-{{#if failure}}
-    <p class='failure'>{{failure}}</p>
-{{/if}}

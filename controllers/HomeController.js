@@ -25,13 +25,9 @@ exports.editProfile = function(request, response){
 exports.profile = function(request, response){
     var userID = request.params.userID;
     database.mongoConnect(function(db){
-        functions.findUserByID(userID, db, function(user){
+        functions.findUser(userID, function(user){
             if(user){
-                functions.getProfile(userID, db, function(profile){
-                    if(profile){
-                        response.render('home/profile', {user: user, profile: profile})
-                    }
-                });
+                response.render('home/profile', {user: user})
             }
         });
     });
@@ -50,6 +46,21 @@ exports.listUsers = function(request, response){
         });
     } else {
         request.session.failure = 'Please log in to view other users';
+        response.redirect('back');
+    }
+}
+
+exports.sendMessage = function(request, response){
+    if(!request.user){
+        request.session.failure = "You must be logged in to send a message";
+        response.redirect('/');
+    }
+    if (request.params.userID){
+        functions.findUser(request.params.userID.toString(), function(to){
+            response.render('home/sendMessage', {from:request.user, to:to})
+        })
+    } else {
+        request.session.failure = 'No recipient ID';
         response.redirect('back');
     }
 }

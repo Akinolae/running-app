@@ -52,5 +52,7 @@ module.exports = function(app){
     app.get('/profile/:userID', HomeController.profile);
     
     app.get('/listUsers', HomeController.listUsers);
+    
+    app.get('/sendMessage/:userID', HomeController.sendMessage);
  
 };

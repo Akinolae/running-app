@@ -41,8 +41,9 @@ exports.listUsers = function(request, response){
         functions.findUser(userID, function(profile){
             user = profile;
             functions.getAllUsers(function(userArray){
-                userArray = functions.getSeparationArray(user, userArray)
-                response.render('home/listUsers.handlebars', {user:user, infoArray: userArray})
+                userArray = functions.getSeparationArray(user, userArray);
+                userArray = functions.getDirectionArray(user, userArray);
+                response.render('home/listUsers.handlebars', {user:user, infoArray: userArray});
             });
         });
     } else {

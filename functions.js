@@ -165,13 +165,39 @@ exports.getSeparationArray = function(user, userArray){//inserts separation fiel
     var lon1 = user.profile.lon;
     for(var i = 0; i < userArray.length; i++){
         var separation = getDistance(lat1, lon1, userArray[i].profile.lat, userArray[i].profile.lon)
-        userArray[i].separation = separation;
+        userArray[i].separation = separation.toFixed(1);
+    }
+    return userArray;
+}
+
+exports.getDirectionArray = function(user, userArray){//inserts separation field into profile
+    var lat1 = user.profile.lat;
+    var lon1 = user.profile.lon;
+    for(var i = 0; i < userArray.length; i++){
+        var direction = getDirection(lat1, lon1, userArray[i].profile.lat, userArray[i].profile.lon)
+        userArray[i].direction = direction;
     }
     return userArray;
 }
 
 function getDistance(lat1, lon1, lat2, lon2){
     return Math.sqrt(Math.pow((lat1 - lat2),2) + Math.pow((lon1 - lon2),2)) * 69;
+}
+
+function getDirection(lat1, lon1, lat2, lon2){
+    var direction = [];
+    if(lon1 < lon2){
+        direction.unshift('W');
+    } else {
+        direction.unshift('E');
+    }
+    if(lat1 < lat2){
+        direction.unshift('N');
+    } else {
+        direction.unshift('S');
+    }
+    direction = direction.join('');
+    return direction;
 }
 
 exports.addMessageToArray = function(userID, fromID, toID, fromName, toName, arrayName, message){

@@ -104,7 +104,7 @@ exports.fbregister = function(id, name, callback){
                     console.log(data);
                     var user = {
                         '_id':data.ops[0]._id,
-                        'username':name
+                        'username':firstName
                     };
                     callback(user);
                 });

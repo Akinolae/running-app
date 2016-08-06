@@ -97,12 +97,11 @@ passport.use('local-login', new LocalStrategy({
 ));
 passport.use(new FacebookStrategy({
     clientID: '778573108946412',
-    clientSecret: '49ff49a5c7a606111aacf179ddfb3389',
+    clientSecret: process.env.FACEBOOK_SECRET,
     callbackURL: "/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     console.log(JSON.stringify(profile));
-    console.log(refreshToken);
     functions.fbregister(profile.id, profile.displayName,function(user){
       if(user){
         done(null,user);

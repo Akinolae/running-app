@@ -53,6 +53,8 @@ module.exports = function(app){
     
     app.get('/listUsers', HomeController.listUsers);
     
+    app.post('/listUsers', HomeController.listUsers);
+    
     app.get('/sendMessage/:userID', HomeController.getMessageForm);
     
     app.post('/sendMessage', HomeController.sendMessage);

@@ -225,3 +225,15 @@ exports.getMessages = function(userID, arrayName, callback){
         })
     })
 }
+
+exports.filterUsers = function(user, userArray, maxSeparation, pace, distance){
+    for(var i = 0; i < userArray.length; i++){
+        if(parseFloat(userArray[i].separation) > maxSeparation ||
+        Math.abs(parseFloat(userArray[i].profile.pace) - user.profile.pace) > pace ||
+        Math.abs(parseFloat(userArray[i].profile.distance) - user.profile.distance) > distance){
+            userArray.splice(i,1);
+            i--;
+        }
+    }
+    return userArray;
+}

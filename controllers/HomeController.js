@@ -35,21 +35,23 @@ exports.profile = function(request, response){
 }
 
 exports.listUsers = function(request, response){
-    if(request.user){
-        var userID = request.user._id.toString();
-        var user;
-        functions.findUser(userID, function(profile){
-            user = profile;
-            functions.getAllUsers(function(userArray){
-                userArray = functions.getSeparationArray(user, userArray);
-                userArray = functions.getDirectionArray(user, userArray);
-                response.render('home/listUsers.handlebars', {user:user, infoArray: userArray});
-            });
-        });
-    } else {
-        request.session.failure = 'Please log in to view other users';
+    if(!request.user){
+        request.session.failure = "You must be logged in to view other users";
         response.redirect('/');
     }
+    var userID = request.user._id.toString();
+    var user;
+    functions.findUser(userID, function(profile){
+        user = profile;
+        functions.getAllUsers(function(userArray){
+            userArray = functions.getSeparationArray(user, userArray);
+            userArray = functions.getDirectionArray(user, userArray);
+            
+            userArray=functions.filterUsers(user, userArray, request.body.maxSeparation, request.body.filterPace, request.body.filterDistance)
+            
+            response.render('home/listUsers.handlebars', {user:user, infoArray: userArray});
+        });
+    });
 }
 
 exports.getMessageForm = function(request, response){

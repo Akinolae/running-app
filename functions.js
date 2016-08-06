@@ -48,7 +48,6 @@ function findUser(id, callback){//returns only name and id
         var users = db.collection('users');
         users.find({_id:id},{password:0}).toArray(function(err, data){
             if(err) throw err;
-            console.log('user data' + data);
             if(data.length>0){
                 callback(data[0]); //user exists
             } else {
@@ -173,14 +172,28 @@ function getDistance(lat1, lon1, lat2, lon2){
     return Math.sqrt(Math.pow((lat1 - lat2),2) + Math.pow((lon1 - lon2),2)) * 69;
 }
 
-exports.addMessageToArray = function(userID, fromID, toID, arrayName, message){
+exports.addMessageToArray = function(userID, fromID, toID, fromName, toName, arrayName, message){
     var userID = new ObjectID(String(userID.toString()));
     var pushModifier = { $push: {} };
-    pushModifier.$push[arrayName] = {'message':message, 'from':fromID, 'to':toID};
+    pushModifier.$push[arrayName] = {'message':message, 'fromID':fromID, 'toID':toID, 'fromName':fromName, 'toName':toName};
     database.mongoConnect(function(db){
         var users = db.collection('users');
         users.update({_id:userID}, pushModifier, function(){
             db.close();
         });
+    })
+}
+
+exports.getMessages = function(userID, arrayName, callback){
+    var userID = new ObjectID(String(userID.toString()));
+    database.mongoConnect(function(db){
+        var users = db.collection('users');
+        var returnField = {};
+        returnField[arrayName] = 1;
+        returnField['_id'] = 0;
+        users.find({'_id':userID}, returnField).toArray(function(err, data){
+            if(err) throw err;
+            callback(data[0][arrayName]);
+        })
     })
 }

@@ -1,0 +1,17 @@
+{{#if newMessages}}
+<div class='container'>
+    <h1>Nearby Users</h1>
+    <table class='users-table'>
+        <tr>
+            <th>Message</th>
+            <th>From</th>
+        </tr>
+       {{#each newMessages}}
+            <tr class='users-display'>
+                <td>{{this.message}}</td>
+                <td>{{this.fromName}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</div>
+{{/if}}

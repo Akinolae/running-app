@@ -56,5 +56,7 @@ module.exports = function(app){
     app.get('/sendMessage/:userID', HomeController.getMessageForm);
     
     app.post('/sendMessage', HomeController.sendMessage);
+    
+    app.get('/inbox', HomeController.inbox);
  
 };

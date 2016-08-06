@@ -50,17 +50,34 @@ exports.listUsers = function(request, response){
     }
 }
 
-exports.sendMessage = function(request, response){
+exports.getMessageForm = function(request, response){
     if(!request.user){
         request.session.failure = "You must be logged in to send a message";
         response.redirect('/');
     }
     if (request.params.userID){
         functions.findUser(request.params.userID.toString(), function(to){
+            console.log(request.user);
+            console.log(to);
             response.render('home/sendMessage', {from:request.user, to:to})
         })
     } else {
         request.session.failure = 'No recipient ID';
         response.redirect('back');
     }
+};
+
+exports.sendMessage = function(request, response){
+    var fromID = request.body.fromID;
+    var toID = request.body.toID;
+    console.log(JSON.stringify(request.body));
+    console.log(toID);
+    var message = request.body.message;
+    console.log(message);
+    
+    //add to recipient's array
+    functions.addMessageToArray(toID, fromID, toID, 'newMessages', message)
+    
+    //add to senders sent box
+    functions.addMessageToArray(fromID, fromID, toID, 'sentMessages', message)
 }

@@ -113,18 +113,6 @@ exports.fbregister = function(id, name, callback){
     });
 };
 
-exports.responsesArray = function(responseString){
-    var arr = responseString.replace(/\r?\n|\r/g,'').split(';');
-    for(var i = 0; i < arr.length; i++){
-        arr[i] = arr[i].trim();
-    }
-    for(var i = 0; i < arr.length; i++){
-        if(arr[i] == ''){arr.splice(i,1); i--;} //cleans array
-    }
-    return arr;
-}
-
-
 function editProfile(userID, pace, distance, lat, lon, callback){
     userID = new ObjectID(String(userID));
     database.mongoConnect(function(db){
@@ -185,3 +173,14 @@ function getDistance(lat1, lon1, lat2, lon2){
     return Math.sqrt(Math.pow((lat1 - lat2),2) + Math.pow((lon1 - lon2),2)) * 69;
 }
 
+exports.addMessageToArray = function(userID, fromID, toID, arrayName, message){
+    var userID = new ObjectID(String(userID.toString()));
+    var pushModifier = { $push: {} };
+    pushModifier.$push[arrayName] = {'message':message, 'from':fromID, 'to':toID};
+    database.mongoConnect(function(db){
+        var users = db.collection('users');
+        users.update({_id:userID}, pushModifier, function(){
+            db.close();
+        });
+    })
+}

@@ -1,12 +1,12 @@
 <h3>From {{from.username}}</h3>
 
 <h1>{{#if to}}Send message to {{to.username}}{{/if}}</h1>
-<form action='sendMessage' method='post'>
-    <input type="hidden" name="userID" value={{from._id}}>
+<form action='/sendMessage' method='post'>
+    <input type="hidden" name="fromID" value={{from._id}}>
     <input type="hidden" name="toID" value={{to._id}}>
     <div>
         <label>Message: </label>
-        <input type='text' name='message'>
+        <textarea rows='4' cols='50' name='message'></textArea>
     </div>
     <div>
         <input type="submit" value="Send"/>

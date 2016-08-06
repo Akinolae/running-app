@@ -15,6 +15,7 @@ exports.register = function(request, response){
 
 exports.editProfile = function(request, response){
     var userID = request.user._id.toString();
+    console.log(request.user);
     database.mongoConnect(function(db){
         functions.findUser(userID, function(user){
             response.render('home/editProfile', {user: user})

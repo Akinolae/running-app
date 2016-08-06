@@ -11,7 +11,7 @@
         <input type='text' name='distance' {{#if user.profile}}value={{user.profile.distance}}{{/if}}>
     </div>
     <div>
-        <label>Enter start coordinates (exact location will not be shown to other users: </label><br>
+        <label>Enter start coordinates (exact location will not be shown to other users): </label><br>
         Latitude:<input type='text' name='lat' id='lat' {{#if user.profile}}value={{user.profile.lat}}{{/if}}><br>
         Longitude:<input type='text' name='lon' id='lon' {{#if user.profile}}value={{user.profile.lon}}{{/if}}><br>
         <button type='button' id='getLocation'>Get location from device</button>
@@ -23,17 +23,6 @@
 {{/if}}
 
 <script type='text/javascript'>
-    function getLatLong(callback) {
-      $.getJSON('//freegeoip.net/json/', function(location) {
-        $('#lat').val(location.latitude);
-        $('#lon').val(location.longitude); 
-        //callback(data);
-        },
-        function(error) {}, {
-          timeout: 10000
-        }
-      )
-    };
     
     function getLocation() {
         if (navigator.geolocation) {

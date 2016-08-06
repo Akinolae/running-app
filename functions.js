@@ -98,7 +98,8 @@ exports.fbregister = function(id, name, callback){
                 return;
             } else {
                 //user not already in db
-                users.insert({'fb-id':id,'username':name}, function(err, data){
+                var firstName = name.split(' ')[0];
+                users.insert({'fb-id':id,'username':firstName}, function(err, data){
                     if(err) throw err;
                     console.log(data);
                     var user = {

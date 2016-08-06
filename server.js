@@ -102,6 +102,7 @@ passport.use(new FacebookStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     console.log(JSON.stringify(profile));
+    console.log(refreshToken);
     functions.fbregister(profile.id, profile.displayName,function(user){
       if(user){
         done(null,user);

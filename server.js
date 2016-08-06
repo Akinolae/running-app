@@ -49,11 +49,11 @@ app.set('view engine', 'handlebars');
 // Passport session setup.
 passport.serializeUser(function(user, done) {
   console.log("serializing " + user.username);
-  done(null, user.username);
+  done(null, user._id);
 });
 
-passport.deserializeUser(function(username, done) {
-  functions.findByName(username, function(user){
+passport.deserializeUser(function(_id, done) {
+  functions.findUser(_id, function(user){
     console.log("deserializing " + user.username);
     done(null, user);
   })

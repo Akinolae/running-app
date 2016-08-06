@@ -1,23 +1,16 @@
 {{#if infoArray}}
     <h1>Nearby Users</h1>
-    <table class='users-table'>
-        <tr>
-            <th>Name</th>
-            <th>Pace (min/mile)</th>
-            <th>Typical Mileage</th>
-            <th>Separation (miles)</th>
-            <th>Direction</th>
-            <th>Message</th>
-        </tr>
+    <div class='row'>
        {{#each infoArray}}
-            <tr class='users-display'>
-                <td>{{this.username}}</td>
-                <td>{{this.profile.pace}}</td>
-                <td>{{this.profile.distance}}</td>
-                <td>{{this.separation}}</td>
-                <td>{{this.direction}}</td>
-                <td><a href='/sendMessage/{{this._id}}'>Send Message</a></td>
-            </tr>
+            <div class='col-sm-4'>
+                <a href='/sendMessage/{{this._id}}'>
+                    <div class='user-box'>
+                        <p><strong></strong>{{this.username}}</strong> <span class='glyphicon glyphicon-envelope'></span></p>
+                        <p>Prefers ~{{this.profile.distance}} miles at {{this.profile.pace}} min/mile</p>
+                        <p>Approximately {{this.separation}} miles {{this.direction}}</td>
+                    </div>
+                </a>
+            </div>
         {{/each}}
     </table>
 {{/if}}

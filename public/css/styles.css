@@ -1,12 +1,4 @@
-.users-table {
-    max-width:100%;
-    text-align:left;
-    table-layout:fixed;
-}
-table td{
-    word-wrap:break-word;
-    overflow: hidden;
-}
+
 .success {
     background-color: green;
 }
@@ -22,4 +14,15 @@ body {
 .main-container {
     background-color: #B6A19E;
     max-width: 100vw;
+}
+.user-box {
+    border: 1px solid transparent;
+    color: #B6A19E;
+    border-radius: 10px;
+    margin: 2%;
+    padding: 2%;
+    background-color: #6C648B;
+}
+.user-box:hover {
+    border: 1px solid #FBA100;
 }

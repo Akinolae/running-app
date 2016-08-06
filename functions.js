@@ -49,6 +49,7 @@ function findUser(id, callback){//returns only name and id
         users.find({_id:id},{password:0}).toArray(function(err, data){
             if(err) throw err;
             if(data.length>0){
+                console.log(data);
                 callback(data[0]); //user exists
             } else {
                 callback(); //username doesn't exist

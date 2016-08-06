@@ -13,15 +13,15 @@
         </div>
         
         <div class='collapse navbar-collapse pull-right' id='collapse-menu'>
-            <div>
-                {{#if user}}<a  class="pull-right" href="/profile/{{user._id}}">{{user.username}}</a>{{else}}Not logged in{{/if}}
-            </div>
-            <ul class='navbar nav'>
-                <li><a href="/">Home</a></li>
-                <li><a href="/inbox">Inbox</a></li>
-                <li><a href="/editProfile">Edit Profile</a></li>
-                <li><a href="/listUsers">Show Nearby Runners</a></li>
-            </ul>
+            {{#if user}}
+                <ul class='navbar nav'>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/inbox">Inbox</a></li>
+                    <li><a href="/editProfile">Edit Profile</a></li>
+                    <li><a href="/listUsers">Show Nearby Runners</a></li>
+                    <li><a  href="/profile/{{user._id}}">{{user.username}}</a></li>
+                </ul>
+            {{/if}}
         </div>
     </div>
 </nav>

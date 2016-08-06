@@ -27,5 +27,6 @@ ul.navbar, ul.navbar li {
     background-color: #6C648B;
 }
 .user-box:hover {
-    border: 1px solid #FBA100;
+    background-color: #FBA100;
+    color: black;
 }

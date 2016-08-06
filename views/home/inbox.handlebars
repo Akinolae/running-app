@@ -9,7 +9,7 @@
        {{#each newMessages}}
             <tr class='users-display'>
                 <td>{{this.message}}</td>
-                <td>{{this.fromName}}</td>
+                <td><a href='/profile/{{this.fromID}}'>{{this.fromName}}</a> <a href='/sendMessage/{{this.fromID}}'><span class='glyphicon glyphicon-envelope'></span></td>
             </tr>
         {{/each}}
     </table>

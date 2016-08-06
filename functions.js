@@ -8,7 +8,7 @@ exports.logC = function(string){
 exports.login = function(username, password, callback){
     database.mongoConnect(function(db){
         var users = db.collection('users');
-        users.find({'username':username},{username:1, password:1, _id:1}).toArray(function(err, data){
+        users.find({'username':username, password:{$exists:true}},{username:1, password:1, _id:1}).toArray(function(err, data){
             if(err) throw err;
             if(data.length>0){
                 if(data[0].password == password){

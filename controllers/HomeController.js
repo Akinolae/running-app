@@ -14,6 +14,10 @@ exports.register = function(request, response){
 };
 
 exports.editProfile = function(request, response){
+    if(!request.user){
+        request.session.failure = "Must be logged in to view profile";
+        response.redirect('back');
+    }
     var userID = request.user._id.toString();
     console.log(request.user);
     database.mongoConnect(function(db){
@@ -24,13 +28,9 @@ exports.editProfile = function(request, response){
 };
 
 exports.profile = function(request, response){
-    var userID = request.params.userID;
-    database.mongoConnect(function(db){
-        functions.findUser(userID, function(user){
-            if(user){
-                response.render('home/profile', {user: user})
-            }
-        });
+    var userID = request.params.userID.toString();
+    functions.findUser(userID, function(foundUser){
+        response.render('home/profile', {user: request.user, profileOf: foundUser})
     });
 }
 
@@ -48,7 +48,7 @@ exports.listUsers = function(request, response){
         });
     } else {
         request.session.failure = 'Please log in to view other users';
-        response.redirect('back');
+        response.redirect('/');
     }
 }
 
@@ -59,7 +59,7 @@ exports.getMessageForm = function(request, response){
     }
     if (request.params.userID){
         functions.findUser(request.params.userID.toString(), function(to){
-            response.render('home/sendMessage', {from:request.user, to:to})
+            response.render('home/sendMessage', {user: request.user, from:request.user, to:to})
         })
     } else {
         request.session.failure = 'No recipient ID';
@@ -86,10 +86,13 @@ exports.sendMessage = function(request, response){
 }
 
 exports.inbox = function(request, response){
+    if(!request.user){
+        request.session.failure = "Must be logged in to view inbox";
+        response.redirect('/');
+    }
     var userID = request.user._id;
     functions.getMessages(userID, 'newMessages', function(data){
         var messageArray = data;
-        console.log(messageArray);
-        response.render('home/inbox', {newMessages : messageArray})
+        response.render('home/inbox', {user: request.user, newMessages : messageArray})
     })
 }

@@ -1,0 +1,30 @@
+<div class="modal fade message" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+      
+        <div class="modal-body">
+                
+            <form action='/sendMessage' method='post' id='messageForm'>
+                <input type="hidden" name="fromID" value={{user._id}}>
+                <input type="hidden" name="toID" id='toID'>
+                <input type="hidden" name="time" id='time'>
+                <input type="hidden" name="fromName" value={{user.username}}>
+                <input type="hidden" name="toName" id='toName'>
+                <div class='form-inline'>
+                  <label for='text'>Subject:</label>
+                  <input type='text' class='form-control' name='subject'></input>
+                </div>
+                <br>
+                <textarea class='form-control' rows='4' cols='50' name='message'></textArea>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-default" value='send'/>
+                </div>
+            </form>
+        </form>
+    </div>
+  </div>
+</div>

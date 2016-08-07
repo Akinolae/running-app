@@ -49,7 +49,6 @@ function findUser(id, callback){//returns only name and id
         users.find({_id:id},{password:0}).toArray(function(err, data){
             if(err) throw err;
             if(data.length>0){
-                console.log(data);
                 callback(data[0]); //user exists
             } else {
                 callback(); //username doesn't exist
@@ -200,10 +199,10 @@ function getDirection(lat1, lon1, lat2, lon2){
     return direction;
 }
 
-exports.addMessageToArray = function(userID, fromID, toID, fromName, toName, arrayName, message){
+exports.addMessageToArray = function(userID, fromID, toID, fromName, toName, arrayName, subject, message, time){
     var userID = new ObjectID(String(userID.toString()));
     var pushModifier = { $push: {} };
-    pushModifier.$push[arrayName] = {'message':message, 'fromID':fromID, 'toID':toID, 'fromName':fromName, 'toName':toName};
+    pushModifier.$push[arrayName] = {'subject': subject, 'message':message, 'fromID':fromID, 'toID':toID, 'fromName':fromName, 'toName':toName, 'time':time};
     database.mongoConnect(function(db){
         var users = db.collection('users');
         users.update({_id:userID}, pushModifier, function(){

@@ -73,15 +73,16 @@ exports.sendMessage = function(request, response){
     var fromID = request.body.fromID,
         toID = request.body.toID,
         fromName = request.body.fromName,
-        toName = request.body.toName;
-        
-    var message = request.body.message;
+        toName = request.body.toName,
+        time = request.body.time,
+        subject = request.body.subject,
+        message = request.body.message;
     
     //add to recipient's array
-    functions.addMessageToArray(toID, fromID, toID, fromName, toName, 'newMessages', message)
+    functions.addMessageToArray(toID, fromID, toID, fromName, toName, 'newMessages', subject, message, time)
     
     //add to senders sent box
-    functions.addMessageToArray(fromID, fromID, toID, fromName, toName, 'sentMessages', message)
+    functions.addMessageToArray(fromID, fromID, toID, fromName, toName, 'sentMessages', subject, message, time)
     
     request.session.success = "Message Sent";
     response.redirect('back');

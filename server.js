@@ -14,8 +14,14 @@ var database = require('./database.js');
 var router = express.Router();
 
 hbs = handlebars.create({
-    defaultLayout: 'main'
-});
+    defaultLayout: 'main',
+
+    // Uses multiple partials dirs, templates in "shared/templates/" are shared
+    // with the client-side of the app (see below).
+    partialsDir: [
+        'views/partials/'
+        ]
+    });
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false })) // parse application/x-www-form-urlencoded

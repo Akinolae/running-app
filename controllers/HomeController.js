@@ -19,7 +19,6 @@ exports.editProfile = function(request, response){
         response.redirect('back');
     }
     var userID = request.user._id.toString();
-    console.log(request.user);
     database.mongoConnect(function(db){
         functions.findUser(userID, function(user){
             response.render('home/editProfile', {user: user})

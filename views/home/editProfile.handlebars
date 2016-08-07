@@ -4,20 +4,44 @@
     <input type="hidden" name="userID" value={{user._id}}>
     <div>
         <label>Enter typical mile pace: </label>
-        <input type='text' name='pace' {{#if user.profile}}value={{user.profile.pace}}{{/if}}>
+            <div class="dropdown">
+                <select class="form-control" id="pace" name='pace'>
+                  <option>7:00</option>
+                  <option>7:30</option>
+                  <option>8:00</option>
+                  <option>8:30</option>
+                  <option>9:00</option>
+                  <option>9:30</option>
+                  <option>10:00</option>
+                  <option>10:30</option>
+                  <option>11:00</option>
+                  <option>11:30</option>
+                </select>
+            </div>
     </div>
     <div>
-        <label>Enter typical distance: </label>
-        <input type='text' name='distance' {{#if user.profile}}value={{user.profile.distance}}{{/if}}>
+        <label>Enter typical mileage: </label>
+        <select class="form-control" id="distance" name='distance'>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+          <option>10</option>
+        </select>
     </div>
     <div>
         <label>Enter start coordinates (exact location will not be shown to other users): </label><br>
         Latitude:<input type='text' name='lat' id='lat' {{#if user.profile}}value={{user.profile.lat}}{{/if}}><br>
         Longitude:<input type='text' name='lon' id='lon' {{#if user.profile}}value={{user.profile.lon}}{{/if}}><br>
-        <button type='button' id='getLocation'>Get location from device</button>
+        <button type='button' id='getLocation' data-toggle="tooltip" title="Requires secure connection (https)">Get location from device</button>
     </div>
     <div>
-        <input type="submit" value="Create"/>
+        <input type="submit" value={{#if user.profile}}'Save'{{else}}'Create'{{/if}}/>
     </div>
 </form>
 {{/if}}
@@ -28,7 +52,6 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
         } else {
-            alert("Geolocation is not supported by this browser.");
         }
     }
     function showPosition(position) {

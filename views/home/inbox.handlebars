@@ -37,7 +37,7 @@
     };
     
     $('tr').click(function(){
-        $('.modal-title').html('Send message to ' + this.title);
+        $('#message-title').html('Send message to ' + this.title);
         $('#messageForm #toID').val(this.id);
         $('#messageForm #toName').val(this.title);
         $('#messageForm #time').val(Date.now());

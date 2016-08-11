@@ -34,25 +34,28 @@
           <option>10</option>
         </select>
     </div>
-    <div>
-        <label>Start coordinates (exact location will not be shown to other users): </label><br>
-        Latitude:<input type='text' name='lat' id='lat' {{#if user.profile}}value={{user.profile.lat}}{{/if}}><br>
-        Longitude:<input type='text' name='lon' id='lon' {{#if user.profile}}value={{user.profile.lon}}{{/if}}><br>
-        <br>
-        <div class='form-input'>
-            <label for='addressInput'>Get location from address:</label>
-            <input type='text' id='addressInput' value='Enter address'>
-            <button class='btn' id='getLocationFromGoogle'>Get</button>
-        </div>
-        <p>-or-</p>
-        <div class='form-input'>
-            <label for='addressInput'>Get location from device:</label>
-            <button type='button' id='getLocationFromDevice' data-toggle="tooltip" title="Requires secure connection (https)" class='btn'>Get</button>
-        </div>
+    
+    <label>Start coordinates (exact location will not be shown to other users): </label>
+    <div class='input-group'>
+        <input type='text' class='form-control' id='addressInput' placeholder='Enter start address'>
+        <span class='input-group-btn'>
+            <button class='btn btn-secondary' type='button' id='getLocationFromGoogle'>Get</button> 
+        </span>
+        <span class='input-group-addon'>-or-</span>
+        <span class='input-group-btn'>
+            <button class='btn btn-secondary' type='button' id='getLocationFromDevice' data-toggle="tooltip" title="Requires secure connection (https)" >Get Location from Device</button> 
+        </span>
     </div>
-    <div>
-        <input type="submit" value={{#if user.profile}}'Save'{{else}}'Create'{{/if}}/>
+        
+    <br>
+    <div class='input-group'>
+        <span class='input-group-addon'>Latitude:</span>
+        <input type='text' class='form-control' name='lat' id='lat' {{#if user.profile}}value={{user.profile.lat}}{{/if}}>
+        <span class='input-group-addon'>Longitude:</span>
+        <input type='text' class='form-control' name='lon' id='lat' {{#if user.profile}}value={{user.profile.lat}}{{/if}}>
     </div>
+    <br>
+    <button class='btn btn-default input-block-level form-control'>{{#if user.profile}}Save{{else}}Create{{/if}}</button>
 </form>
 {{/if}}
 
@@ -73,7 +76,8 @@
         getLocation();
     }
     
-    $('#getLocationFromGoogle').click(function(){
+    $('#getLocationFromGoogle').click(function(event){
+        event.preventDefault();
         var address = $('#addressInput').val();
         $.ajax({
             url: 'https://maps.googleapis.com/maps/api/geocode/json',

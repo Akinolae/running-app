@@ -35,10 +35,20 @@
         </select>
     </div>
     <div>
-        <label>Enter start coordinates (exact location will not be shown to other users): </label><br>
+        <label>Start coordinates (exact location will not be shown to other users): </label><br>
         Latitude:<input type='text' name='lat' id='lat' {{#if user.profile}}value={{user.profile.lat}}{{/if}}><br>
         Longitude:<input type='text' name='lon' id='lon' {{#if user.profile}}value={{user.profile.lon}}{{/if}}><br>
-        <button type='button' id='getLocation' data-toggle="tooltip" title="Requires secure connection (https)">Get location from device</button>
+        <br>
+        <div class='form-input'>
+            <label for='addressInput'>Get location from address:</label>
+            <input type='text' id='addressInput' value='Enter address'>
+            <button class='btn' id='getLocationFromGoogle'>Get</button>
+        </div>
+        <p>-or-</p>
+        <div class='form-input'>
+            <label for='addressInput'>Get location from device:</label>
+            <button type='button' id='getLocationFromDevice' data-toggle="tooltip" title="Requires secure connection (https)" class='btn'>Get</button>
+        </div>
     </div>
     <div>
         <input type="submit" value={{#if user.profile}}'Save'{{else}}'Create'{{/if}}/>
@@ -59,7 +69,23 @@
         $('#lon').val(position.coords.longitude); 
     }
     
-    document.getElementById('getLocation').onclick = function(){
+    document.getElementById('getLocationFromDevice').onclick = function(){
         getLocation();
     }
+    
+    $('#getLocationFromGoogle').click(function(){
+        var address = $('#addressInput').val();
+        $.ajax({
+            url: 'https://maps.googleapis.com/maps/api/geocode/json',
+            data: {'address': address},
+            dataType: 'json',
+            success: function(r){  
+               $('#lat').val(r.results[0].geometry.location.lat);
+               $('#lon').val(r.results[0].geometry.location.lng); 
+            }, 
+            error: function(e){ 
+               console.log('error', e); 
+            }
+        })
+    })
 </script>

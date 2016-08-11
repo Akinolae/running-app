@@ -14,11 +14,17 @@ exports.login = function(username, password, callback){
                 if(data[0].password == password){
                 var user = {
                     '_id':data[0]._id,
-                    'username':data[0].username
+                    'username':data[0].username,
+                    'validPassword':true
                 };
                     callback(user); //user exists, password correct
                 } else {
-                    callback(null); //user exists, password wrong
+                    var user = {
+                        '_id':data[0]._id,
+                        'username':data[0].username,
+                        'validPassword':false
+                    };
+                    callback(user); //user exists, password wrong
                 }
             } else {
                 callback(); //username doesn't exist

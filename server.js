@@ -91,13 +91,16 @@ passport.use('local-login', new LocalStrategy({
 },
   function(req,username, password, done) {
     functions.login(username, password,function(user){
-      if(user){
-        req.session.success = 'You are successfully logged in ' + user.username + '!';
-        done(null,user);
-      } else {
-        req.session.failure = 'Login failed!'
-        done(null);
+      if(!user) {
+        req.session.failure = 'Incorrect username'
+        return done(null, false);
       }
+      if (!user.validPassword) {
+        req.session.failure = 'Invalid password'
+        return done(null, false);
+      }
+      req.session.success = 'You are successfully logged in ' + user.username + '!';
+      return done(null,user);
     })
   }
 ));

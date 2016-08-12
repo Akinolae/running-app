@@ -30,3 +30,7 @@ ul.navbar, ul.navbar li {
     background-color: #FBA100;
     color: black;
 }
+
+.col-sm-6 {
+    margin-top: 10px;
+}

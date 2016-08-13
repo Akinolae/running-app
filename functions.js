@@ -1,10 +1,6 @@
 var database = require('./database.js');
 var ObjectID = require('mongodb').ObjectID;
 
-exports.logC = function(string){
-    console.log(string);
-};
-
 exports.login = function(username, password, callback){
     database.mongoConnect(function(db){
         var users = db.collection('users');
@@ -83,6 +79,24 @@ exports.register = function(username, password, callback){
                     callback(user);
                 });
             }
+        })
+    })
+}
+
+function getAllNames(IDArray, callback){
+    database.mongoConnect(function(db){
+        var users = db.collection('users');
+        var OIDArray = []
+        for(var i = 0; i < IDArray.length; i++){
+            OIDArray[i] = new ObjectID(IDArray[i]);
+        }
+        users.find({_id: {$in: OIDArray}},{'username':1}).toArray(function(err,data){
+            if(err) throw err;
+            var nameArray = {};
+            for(var i = 0; i < data.length; i++){
+                nameArray[String(data[i]._id)] = data[i].username;
+            }
+            callback(nameArray);
         })
     })
 }
@@ -212,6 +226,52 @@ exports.newConversation = function(usersArray, subject, message, callback){
             if(err) throw err;
             if(callback) {callback()};
         })
+    })
+}
+
+exports.reply = function(conversationID, messageObject){
+    conversationID = new ObjectID(String(conversationID.toString()));
+    database.mongoConnect(function(db){
+        var conversations = db.collection('conversations');
+        conversations.update({'_id': conversationID}, {
+            $push: {messages: messageObject}
+        },function(){
+            db.close();
+        })
+    })    
+}
+
+exports.findUserConversations = function(userID, callback){
+    var messages = [];
+    database.mongoConnect(function(db){
+        var conversations = db.collection('conversations');
+        var users = db.collection('users');
+        conversations.find({}).toArray(function(err,data){
+            if(err) throw err;
+            for(var i = 0; i < data.length; i++){
+                if(data[i].users.indexOf(userID) > -1){
+                    messages.push(data[i]);
+                }
+            }
+            callback(messages);
+        })
+    })
+}
+
+exports.findConversationByID = function(ID, callback){
+    ID = new ObjectID(String(ID.toString()));
+    database.mongoConnect(function(db){
+        var conversations = db.collection('conversations');
+        conversations.find({_id: ID}).toArray(function(err,data){
+            if(err) throw err;
+            var conversation = data[0];
+            getAllNames(conversation.users, function(nameArray){
+                conversation.names = nameArray;
+                callback(conversation);
+                db.close();
+            })
+        })
+        
     })
 }
 

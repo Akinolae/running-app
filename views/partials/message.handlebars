@@ -8,13 +8,14 @@
       
         <div class="modal-body">
                 
-            <form action='/sendMessage' method='post' id='messageForm'>
+            <form method='post' id='messageForm'>
                 <input type="hidden" name="fromID" value={{user._id}}>
                 <input type="hidden" name="toID" id='toID'>
                 <input type="hidden" name="time" id='time'>
                 <input type="hidden" name="fromName" value={{user.username}}>
                 <input type="hidden" name="toName" id='toName'>
-                <div class='form-inline'>
+                <input type="hidden" name="conversationID" id='conversationID'>
+                <div id='subjectBox' class='form-inline'>
                   <label for='text'>Subject:</label>
                   <input type='text' class='form-control' name='subject'></input>
                 </div>

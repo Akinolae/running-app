@@ -13,7 +13,7 @@
                 <td class='col-sm-2'><strong>{{this.subject}}</strong></td>
                 <td class='col-sm-2'>{{this.fromName}}</td>
                 <td class='col-sm-6'>{{this.message}}</td>
-                <td class='time col-sm-6' id='{{this.time}}'></td>
+                <td class='time col-sm-2' id='{{this.time}}'></td>
             </tr>
         {{/each}}
     </table>
@@ -30,6 +30,8 @@
                 $(this).html(parseDate(parseInt($(this).attr('id'))));
             }
         })
+        
+        
     })
     
     function parseDate(time) {
@@ -41,6 +43,7 @@
         $('#messageForm #toID').val(this.id);
         $('#messageForm #toName').val(this.title);
         $('#messageForm #time').val(Date.now());
+        $('#messageForm').get(0).setAttribute('action','/sendMessage');
         $('.message').modal('show'); 
     })
 </script>

@@ -83,6 +83,7 @@
         $('#toID').val(this.id);
         $('#toName').val(this.title);
         $('#time').val(Date.now());
+        $('#messageForm').get(0).setAttribute('action','/sendMessage');
         $('.message').modal('show'); 
     })
     

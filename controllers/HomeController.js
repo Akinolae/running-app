@@ -77,18 +77,64 @@ exports.sendMessage = function(request, response){
         subject = request.body.subject,
         message = request.body.message;
     
-    //add to recipient's array
-    //functions.addMessageToArray(toID, fromID, toID, fromName, toName, 'newMessages', subject, message, time)
-    
-    //add to senders sent box
-    //functions.addMessageToArray(fromID, fromID, toID, fromName, toName, 'sentMessages', subject, message, time)
-    
     //create new conversations
     var userArray = [fromID, toID];
-    functions.newConversation(userArray, subject, message)
+    var messageObject = {from: fromID, time: Date.now(), message: message};
+    functions.newConversation(userArray, subject, messageObject)
     
     request.session.success = "Message Sent";
     response.redirect('back');
+}
+
+exports.reply = function(request, response){
+    var fromID = request.body.fromID,
+        fromName = request.body.fromName,
+        conversationID = request.body.conversationID,
+        time = request.body.time,
+        message = request.body.message;
+    
+    //create new conversations
+    var messageObject = {from: fromID, time: time, message: message};
+    
+    functions.reply(conversationID, messageObject)
+    
+    request.session.success = "Message Sent";
+    response.redirect('back');
+}
+
+exports.messages = function(request, response){
+    var userID = request.user._id.toString();
+    functions.findUserConversations(userID, function(data){
+        var conversations = [];
+        for(var i = 0; i < data.length; i++){
+            var lastMessage = data[i].messages[data[i].messages.length - 1];
+            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'lastUser':lastMessage.from, 'lastMessage':lastMessage.message, 'lastTime':lastMessage.time});
+        }
+        response.render('home/messages', {user:request.user, conversations: conversations});
+    });
+};
+
+exports.conversation = function(request, response){
+    var conversationID = request.params.conversationID;
+    var userID = request.user._id.toString();
+    functions.findConversationByID(conversationID, function(conversation){
+        
+        if(conversation.users.indexOf(userID) < 0){
+            request.session.failure = 'Conversations are only visible to participants';
+            response.redirect('back');
+        } else {
+            
+            //put names in message array
+            var messages = conversation.messages;
+            var names = conversation.names;
+            for(var i = 0; i < messages.length; i++){
+                messages[i].fromName = names[messages[i].from];
+            }
+            
+            //render conversation
+            response.render('home/conversation', {user:request.user, conversation:conversation, messages:messages});
+        }
+    })
 }
 
 exports.inbox = function(request, response){

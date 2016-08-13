@@ -1,0 +1,45 @@
+<h1 id='subject'>{{conversation.subject}}</h1>
+<input type="hidden" id="conversationID" value={{conversation._id}}>
+
+<table class='table table-hover'>
+    <tr>
+        <th>From</th>
+        <th>Time</th>
+        <th>Message</th>
+    </tr>
+   {{#each messages}}
+        <tr>
+            <td><strong>{{this.fromName}}</strong></td>
+            <td class='time' id='{{this.time}}'></td>
+            <td>{{this.message}}</td>
+        </tr>
+    {{/each}}
+</table>
+
+<button id='newMessage' class='btn btn-success'>Send New Message</button>
+
+<script type='text/javascript'>
+
+    $(document).ready(function(){
+        $('.time').each(function(){
+            var time = $(this).attr('id');
+            
+            if(!isNaN(time) && time != 0){
+                $(this).html(parseDate(parseInt($(this).attr('id'))));
+            }
+        })
+    })
+    
+    function parseDate(time) {
+        return moment(time).fromNow();
+    };
+    
+    $('#newMessage').click(function(){
+        $('#message-title').html('Re: ' + $('#subject').html());
+        $('#messageForm #subjectBox').hide();
+        $('#messageForm #conversationID').val($('#conversationID').val());
+        $('#messageForm #time').val(Date.now());
+        $('#messageForm').get(0).setAttribute('action','/reply');
+        $('.message').modal('show'); 
+    })
+</script>

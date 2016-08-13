@@ -61,5 +61,11 @@ module.exports = function(app){
     app.post('/sendMessage', HomeController.sendMessage);
     
     app.get('/inbox', HomeController.inbox);
+    
+    app.get('/messages', HomeController.messages);
+    
+    app.get('/conversations/:conversationID', HomeController.conversation);
+    
+    app.post('/reply', HomeController.reply);
  
 };

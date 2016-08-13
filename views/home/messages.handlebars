@@ -1,0 +1,35 @@
+<table class='table table-hover col-sm-12 users-table'>
+    <tr>
+        <th>Subject</th>
+        <th>Last Sender</th>
+        <th>Last Message</th>
+        <th>Last Message Date</th>
+    </tr>
+   {{#each conversations}}
+        
+        <tr onclick="document.location = '/conversations/{{this._id}}';">
+            <td><strong>{{this.subject}}</strong></td>
+            <td>{{this.lastUser}}</td>
+            <td>{{this.lastMessage}}</td>
+            <td class='time' id='{{this.lastTime}}'></td>
+        </tr>
+        
+    {{/each}}
+</table>
+
+<script type='text/javascript'>
+
+    $(document).ready(function(){
+        $('.time').each(function(){
+            var time = $(this).attr('id');
+            
+            if(!isNaN(time) && time != 0){
+                $(this).html(parseDate(parseInt($(this).attr('id'))));
+            }
+        })
+    })
+    
+    function parseDate(time) {
+        return moment(time).fromNow();
+    };
+</script>

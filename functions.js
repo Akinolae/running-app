@@ -205,6 +205,16 @@ function getDirection(lat1, lon1, lat2, lon2){
     return direction;
 }
 
+exports.newConversation = function(usersArray, subject, message, callback){
+    database.mongoConnect(function(db){
+        var conversations = db.collection('conversations');
+        conversations.insert({'subject': subject, 'users': usersArray, 'messages': [message]}, function(err, data){
+            if(err) throw err;
+            if(callback) {callback()};
+        })
+    })
+}
+
 exports.addMessageToArray = function(userID, fromID, toID, fromName, toName, arrayName, subject, message, time){
     var userID = new ObjectID(String(userID.toString()));
     var pushModifier = { $push: {} };

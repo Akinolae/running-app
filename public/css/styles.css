@@ -20,7 +20,7 @@ ul.navbar, ul.navbar li {
 }
 .user-box {
     border: 1px solid transparent;
-    color: white;
+    color: black;
     border-radius: 10px;
     margin: 2%;
     padding: 2%;
@@ -34,3 +34,4 @@ ul.navbar, ul.navbar li {
 .col-sm-6 {
     margin-top: 10px;
 }
+/*Colors: #6C648B #6BBAA7 #FBA100 #B6A19E*/

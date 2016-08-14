@@ -6,7 +6,7 @@
     background-color: red;
 }
 body {
-    background-color: #6BBAA7;
+    background-color: #6C648B;
 }
 .navbar {
     background-color: #FBA100;
@@ -24,7 +24,7 @@ ul.navbar, ul.navbar li {
     border-radius: 10px;
     margin: 2%;
     padding: 2%;
-    background-color: #6C648B;
+    background-color: #6BBAA7;
 }
 .user-box:hover {
     background-color: #FBA100;
@@ -33,5 +33,18 @@ ul.navbar, ul.navbar li {
 
 .col-sm-6 {
     margin-top: 10px;
+}
+.message-bubble {
+    background-color: #6BBAA7;
+    max-width: 300px;
+    display: table;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 20px;
+}
+.message-bubble p {
+    position: relative;
+    bottom:50%;
+    transform: translate(0%, 25%);
 }
 /*Colors: #6C648B #6BBAA7 #FBA100 #B6A19E*/

@@ -90,7 +90,7 @@ exports.reply = function(request, response){
     var fromID = request.body.fromID,
         fromName = request.body.fromName,
         conversationID = request.body.conversationID,
-        time = request.body.time,
+        time = Date.now(),
         message = request.body.message;
     
     //create new conversations
@@ -108,7 +108,7 @@ exports.messages = function(request, response){
         var conversations = [];
         for(var i = 0; i < data.length; i++){
             var lastMessage = data[i].messages[data[i].messages.length - 1];
-            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'lastUser':lastMessage.from, 'lastMessage':lastMessage.message, 'lastTime':lastMessage.time});
+            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'lastMessage':lastMessage.message, 'lastTime':lastMessage.time});
         }
         response.render('home/messages', {user:request.user, conversations: conversations});
     });

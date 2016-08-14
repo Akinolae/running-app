@@ -6,8 +6,8 @@
     </tr>
    {{#each conversations}}
         
-        <tr onclick="document.location = '/conversations/{{this._id}}';">
-            <td><strong>{{this.subject}}</strong></td>
+        <tr onclick="document.location = '/conversations/{{this._id}}';" {{#if this.isNew}}class='bold'{{/if}}>
+            <td>{{this.subject}}</td>
             <td>{{this.lastMessage}}</td>
             <td class='time' id='{{this.lastTime}}'></td>
         </tr>

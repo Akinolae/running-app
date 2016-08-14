@@ -52,4 +52,7 @@ ul.navbar, ul.navbar li {
     bottom:50%;
     transform: translate(0%, 25%);
 }
+.bold {
+    font-weight: bold;
+}
 /*Colors: #6C648B #6BBAA7 #FBA100 #B6A19E*/

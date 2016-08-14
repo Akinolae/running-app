@@ -26,6 +26,10 @@
                 $(this).html(parseDate(parseInt($(this).attr('id'))));
             }
         })
+        
+        $('form').submit(function(event){
+            event.preventDefault();
+        })
     })
     
     function parseDate(time) {

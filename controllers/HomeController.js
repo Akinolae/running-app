@@ -103,13 +103,23 @@ exports.reply = function(request, response){
 }
 
 exports.messages = function(request, response){
-    var userID = request.user._id.toString();
+    var user = request.user;
+    var userID = user._id.toString();
     functions.findUserConversations(userID, function(data){
         var conversations = [];
         for(var i = 0; i < data.length; i++){
             var lastMessage = data[i].messages[data[i].messages.length - 1];
-            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'lastMessage':lastMessage.message, 'lastTime':lastMessage.time});
+            var isNew = false;
+            
+            if(user.newMessages && user.newMessages.indexOf(data[i]._id.toString()) > -1){
+                isNew = true;
+            }
+            
+            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'lastMessage':lastMessage.message, 'lastTime':lastMessage.time, 'isNew':isNew});
         }
+        conversations.sort(function(a,b){
+            return b.lastTime - a.lastTime;
+        })
         response.render('home/messages', {user:request.user, conversations: conversations});
     });
 };
@@ -131,8 +141,12 @@ exports.conversation = function(request, response){
                 messages[i].fromName = names[messages[i].from];
             }
             
-            //render conversation
-            response.render('home/conversation', {user:request.user, conversation:conversation, messages:messages});
+            //remove from new messages
+            functions.removeNewMessage(userID,conversationID, function(){
+                //render conversation
+                response.render('home/conversation', {user:request.user, conversation:conversation, messages:messages});
+            });
+            
         }
     })
 }

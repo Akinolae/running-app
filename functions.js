@@ -242,7 +242,6 @@ exports.reply = function(conversationID, messageObject){
         });
         
         addToNewMessages(conversationID);
-        
     });    
 };
 
@@ -254,19 +253,32 @@ function addToNewMessages(conversationID,callback){
             if(err) throw err;
             var userArray = convertArrayToOID(data[0].users);
             var users = db.collection('users');
+            console.log(userArray);
             
             //make sure there is a newMessages array
             users.update({_id:{$in: userArray}, 'newMessages': {$exists : false}},{
-                $set: {newMessages: [conversationID.toString()]}  
+                $push: {newMessages: conversationID.toString()}  
             }, {multi:true}, function(){
                 users.update({_id:{$in: userArray}},{
                     $addToSet: {newMessages:conversationID.toString()}  
                 }, {multi:true});
             });
         });
-        
     });
 }
+
+function removeNewMessage(userID, conversationID,callback){
+    userID = new ObjectID(String(userID.toString()));
+    database.mongoConnect(function(db){
+        var users = db.collection('users');
+        users.update({_id:userID},{
+            $pull: {newMessages:conversationID.toString()}  
+        }, {multi:true}, function(){
+            callback();
+        });
+    });
+}
+exports.removeNewMessage = removeNewMessage;
 
 exports.findUserConversations = function(userID, callback){
     var messages = [];

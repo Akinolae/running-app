@@ -21,12 +21,14 @@
     
 
     <div class='container main-container'>
-        {{#if success}}
-            <p class='success'>{{success}}</p>
-        {{/if}}
-        {{#if failure}}
-            <p class='failure'>{{failure}}</p>
-        {{/if}}
+        <div class='alert-box {{#if success}}success{{/if}} {{#if failure}}failure{{/if}}'>
+            {{#if success}}
+                <span>{{success}}</span>
+            {{/if}}
+            {{#if failure}}
+                <span>{{failure}}</span>
+            {{/if}}
+        </div>
         
         {{{body}}}
     </div>

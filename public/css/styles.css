@@ -1,8 +1,14 @@
 .success {
-    background-color: green;
+    background-color: #00cc66;
 }
 .failure {
-    background-color: red;
+    background-color: #ff5c33;
+}
+.alert-box {
+    max-width: 50%;
+    left:0;
+    margin-left:0;
+    padding-left: 5px;
 }
 body {
     background-image: url('../img/marathon.jpg');

@@ -224,6 +224,8 @@ exports.newConversation = function(usersArray, subject, message, callback){
         var conversations = db.collection('conversations');
         conversations.insert({'subject': subject, 'users': usersArray, 'messages': [message]}, function(err, data){
             if(err) throw err;
+            console.log(data.ops[0]._id);
+            addToNewMessages(data.ops[0]._id)
             if(callback) {callback()};
         })
     })
@@ -235,10 +237,35 @@ exports.reply = function(conversationID, messageObject){
         var conversations = db.collection('conversations');
         conversations.update({'_id': conversationID}, {
             $push: {messages: messageObject}
-        },function(){
-            db.close();
-        })
-    })    
+        },function(err, conversation){
+            if(err) throw err;
+        });
+        
+        addToNewMessages(conversationID);
+        
+    });    
+};
+
+function addToNewMessages(conversationID,callback){
+    conversationID = new ObjectID(String(conversationID.toString()));
+    database.mongoConnect(function(db){
+        var conversations = db.collection('conversations');
+        conversations.find({'_id':conversationID},{'users':1}).toArray(function(err, data){
+            if(err) throw err;
+            var userArray = convertArrayToOID(data[0].users);
+            var users = db.collection('users');
+            
+            //make sure there is a newMessages array
+            users.update({_id:{$in: userArray}, 'newMessages': {$exists : false}},{
+                $set: {newMessages: [conversationID.toString()]}  
+            }, {multi:true}, function(){
+                users.update({_id:{$in: userArray}},{
+                    $addToSet: {newMessages:conversationID.toString()}  
+                }, {multi:true});
+            });
+        });
+        
+    });
 }
 
 exports.findUserConversations = function(userID, callback){
@@ -258,7 +285,7 @@ exports.findUserConversations = function(userID, callback){
     })
 }
 
-exports.findConversationByID = function(ID, callback){
+function findConversationByID(ID, callback){
     ID = new ObjectID(String(ID.toString()));
     database.mongoConnect(function(db){
         var conversations = db.collection('conversations');
@@ -271,9 +298,9 @@ exports.findConversationByID = function(ID, callback){
                 db.close();
             })
         })
-        
     })
 }
+exports.findConversationByID = findConversationByID;
 
 exports.addMessageToArray = function(userID, fromID, toID, fromName, toName, arrayName, subject, message, time){
     var userID = new ObjectID(String(userID.toString()));
@@ -311,4 +338,12 @@ exports.filterUsers = function(user, userArray, maxSeparation, pace, distance){
         }
     }
     return userArray;
+}
+
+function convertArrayToOID(array, callback){
+    var newArray = [];
+    for(var i = 0; i< array.length; i++){
+        newArray.push(new ObjectID(String(array[i].toString())));
+    }
+    return newArray;
 }

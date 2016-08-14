@@ -19,14 +19,15 @@
  
     {{> menu}}
     
-    {{#if success}}
-        <p class='success'>{{success}}</p>
-    {{/if}}
-    {{#if failure}}
-        <p class='failure'>{{failure}}</p>
-    {{/if}}
 
     <div class='container main-container'>
+        {{#if success}}
+            <p class='success'>{{success}}</p>
+        {{/if}}
+        {{#if failure}}
+            <p class='failure'>{{failure}}</p>
+        {{/if}}
+        
         {{{body}}}
     </div>
     

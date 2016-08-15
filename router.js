@@ -38,6 +38,8 @@ module.exports = function(app){
             failureRedirect: '/register', session:true})
     );
     
+    app.get('/logout', HomeController.logout);
+    
     app.get('/editProfile', HomeController.editProfile);
 
     app.get('/createProfile', HomeController.editProfile);    

@@ -162,3 +162,8 @@ exports.inbox = function(request, response){
         response.render('home/inbox', {user: request.user, newMessages : messageArray})
     })
 }
+
+exports.logout = function(request, response){
+    request.logout();
+    response.redirect('/');
+}

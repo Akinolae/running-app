@@ -115,7 +115,7 @@ exports.messages = function(request, response){
                 isNew = true;
             }
             
-            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'lastMessage':lastMessage.message, 'lastTime':lastMessage.time, 'isNew':isNew});
+            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'names':data[i].names,'lastMessage':lastMessage.message, 'lastTime':lastMessage.time, 'isNew':isNew});
         }
         conversations.sort(function(a,b){
             return b.lastTime - a.lastTime;

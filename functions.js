@@ -92,14 +92,15 @@ function getAllNames(IDArray, callback){
         }
         users.find({_id: {$in: OIDArray}},{'username':1}).toArray(function(err,data){
             if(err) throw err;
-            var nameArray = {};
+            var names = {};
             for(var i = 0; i < data.length; i++){
-                nameArray[String(data[i]._id)] = data[i].username;
+                names[String(data[i]._id)] = data[i].username;
             }
-            callback(nameArray);
+            callback(names);
         })
     })
 }
+exports.getAllNames = getAllNames;
 
 exports.fbregister = function(id, name, callback){
     database.mongoConnect(function(db){
@@ -220,13 +221,16 @@ function getDirection(lat1, lon1, lat2, lon2){
 }
 
 exports.newConversation = function(usersArray, subject, message, callback){
-    database.mongoConnect(function(db){
-        var conversations = db.collection('conversations');
-        conversations.insert({'subject': subject, 'users': usersArray, 'messages': [message]}, function(err, data){
-            if(err) throw err;
-            console.log(data.ops[0]._id);
-            addToNewMessages(data.ops[0]._id)
-            if(callback) {callback()};
+    getAllNames(usersArray, function(data){
+        var names = data;
+        database.mongoConnect(function(db){
+            var conversations = db.collection('conversations');
+            conversations.insert({'subject': subject, 'users': usersArray, 'names':names, 'messages': [message]}, function(err, data){
+                if(err) throw err;
+                console.log(data.ops[0]._id);
+                addToNewMessages(data.ops[0]._id)
+                if(callback) {callback()};
+            })
         })
     })
 }

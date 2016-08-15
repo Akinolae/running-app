@@ -1,6 +1,7 @@
 <table class='table table-hover col-sm-12 users-table'>
     <tr>
         <th>Subject</th>
+        <th>People</th>
         <th>Last Message</th>
         <th>Last Message Date</th>
     </tr>
@@ -8,6 +9,7 @@
         
         <tr onclick="document.location = '/conversations/{{this._id}}';" {{#if this.isNew}}class='bold'{{/if}}>
             <td>{{this.subject}}</td>
+            <td>{{#each this.names}}<span>{{this}} </span>{{/each}}</td>
             <td>{{this.lastMessage}}</td>
             <td class='time' id='{{this.lastTime}}'></td>
         </tr>

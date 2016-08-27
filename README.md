@@ -1,22 +1,33 @@
+# Running Meetup App
 
-     ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
+#### _A social site for connecting with nearby runners of similar skill level, 8/27/2016_
 
+#### By **Peter Armington**
 
-Welcome to your Node.js project on Cloud9 IDE!
+## Description
 
-This chat example showcases how to use `socket.io` with a static `express` server.
+User can create an account and set up a profile. User can then view other nearby users and filter them by preferred pace and run distance. Users can message eachother to organize meet ups.
 
-## Running the server
+## Setup/Installation Requirements
 
-1) Open `server.js` and start the app by clicking on the "Run" button in the top menu.
+Visit https://stark-taiga-42437.herokuapp.com/ and click 'Register' to create an account. 
 
-2) Alternatively you can launch the app from the Terminal:
+## Known Bugs
 
-    $ node server.js
+None.
 
-Once the server is running, open the project in the shape of 'https://projectname-username.c9.io/'. As you enter your name, watch the Users list (on the left) update. Once you press Enter or Send, the message is shared with all connected clients.
+## Support and contact details
+
+Contact github user parmingt for help and comments.
+
+## Technologies Used
+
+* App runs on an Express js server.
+* User profiles and messages are stored in a Mongo database.
+* AJAX requests to google location API to find user location.
+* Handlebars js library used for templating.
+* Bootstrap for mobile responsiveness.
+
+### License
+
+Copyright (c) 2016 **Peter Armington**

@@ -9,7 +9,7 @@
         
         <tr onclick="document.location = '/conversations/{{this._id}}';" {{#if this.isNew}}class='bold'{{/if}}>
             <td>{{this.subject}}</td>
-            <td>{{#each this.names}}<span>{{this}} </span>{{/each}}</td>
+            <td class='namesList'>{{#each this.names}}<span>{{this}} </span>{{/each}}</td>
             <td>{{this.lastMessage}}</td>
             <td class='time' id='{{this.lastTime}}'></td>
         </tr>

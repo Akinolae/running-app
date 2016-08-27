@@ -61,4 +61,10 @@ ul.navbar, ul.navbar li {
 .bold {
     font-weight: bold;
 }
+tr {
+    overflow: hidden;
+}
+.namesList {
+    max-width: 10%;
+}
 /*Colors: #6C648B #6BBAA7 #FBA100 #B6A19E*/

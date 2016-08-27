@@ -27,7 +27,7 @@ module.exports = function(app){
     app.get('/login',HomeController.login);
     
     app.post('/login',
-        passport.authenticate('local-login', {successRedirect: '/',
+        passport.authenticate('local-login', {successRedirect: '/listUsers',
             failureRedirect: '/login', session:true})
     );
     
@@ -48,7 +48,7 @@ module.exports = function(app){
         console.log(request.body);
         functions.editProfile(request.body.userID, request.body.pace, request.body.distance,
         request.body.lat, request.body.lon, function(){
-            response.redirect('/');
+            response.redirect('/listUsers');
         })
     })
     

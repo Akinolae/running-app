@@ -44,7 +44,7 @@ function findByName(username, callback){
 }
 exports.findByName = findByName;
 
-function findUser(id, callback){//returns only name and id
+function findUser(id, callback){// doesn't return password
     id = new ObjectID(String(id));
     database.mongoConnect(function(db){
         var users = db.collection('users');
@@ -181,11 +181,16 @@ exports.getAllUsers = function(callback){
 }
 
 exports.getSeparationArray = function(user, userArray){//inserts separation field into profile
+    if(!user.profile){return;}
     var lat1 = user.profile.lat;
     var lon1 = user.profile.lon;
-    for(var i = 0; i < userArray.length; i++){
-        var separation = getDistance(lat1, lon1, userArray[i].profile.lat, userArray[i].profile.lon)
-        userArray[i].separation = separation.toFixed(1);
+    for(var i = userArray.length - 1; i >= 0; i--){
+        if(!userArray[i].profile){
+            userArray.splice(i,1);
+        } else {
+            var separation = getDistance(lat1, lon1, userArray[i].profile.lat, userArray[i].profile.lon)
+            userArray[i].separation = separation.toFixed(1);
+        }
     }
     return userArray;
 }

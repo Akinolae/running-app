@@ -36,10 +36,10 @@ app.use(passport.session());
 app.use(function(req, res, next){
   var success = req.session.success;
   var failure = req.session.failure;
-  
+
   delete req.session.success;
   delete req.session.failure;
-  
+
   if (success) res.locals.success = success;
   if (failure) res.locals.failure = failure;
   next();
@@ -121,6 +121,8 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-app.listen(process.env.PORT, process.env.IP, function(){
-  console.log('Express server listening on port ' + process.env.PORT);
+var port = process.env.PORT || 3000
+
+app.listen(port, process.env.IP, function(){
+  console.log('Express server listening on port ' + port);
 });

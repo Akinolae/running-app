@@ -1,10 +1,14 @@
+var webpack = require('webpack');
+
 module.exports = {
-  context: __dirname + "/client/jsx",
-  entry: "./app.jsx",
+  context: __dirname,
+  entry: [
+    "./main.jsx"
+  ],
 
   output: {
     filename: "app.js",
-    path: __dirname + "/client/dist",
+    path: __dirname,
   },
 
   module: {
@@ -12,11 +16,11 @@ module.exports = {
         {
            test: /\.jsx?$/,
            exclude: /node_modules/,
-           loader: 'babel',
+           loaders: ['babel'],
 
-           query: {
-              presets: ['react','es2015']
-           }
+          //  query: {
+          //     presets: ['react','es2015']
+          //  }
         }
      ]
   },

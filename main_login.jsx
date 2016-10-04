@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Login = React.createClass({
   getInitialState: function(){
     return {};
@@ -5,7 +7,7 @@ var Login = React.createClass({
   render : function(){
     return (
       <div>
-        <h1>Login page</h1>
+        <h1>12</h1>
       </div>
     )
   }

@@ -1,3 +1,4 @@
+import React from 'react'
 import Login from './main_login.jsx';
 
 var App = React.createClass({
@@ -7,13 +8,11 @@ var App = React.createClass({
   render : function(){
     return (
       <div>
-        <h1>React Class</h1>
+        <h1>React Class is here to stay</h1>
         <Login />
       </div>
     )
   }
 })
 
-var destination = document.querySelector("#app");
-
-ReactDOM.render(<App />, destination);
+export default App;

@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "",
   "main": "server.js",
+  "scripts": {
+    "start": "webpack-dev-server --inline --progress --hot"
+  },
   "repository": "",
   "author": "Mostafa Eweda <mo.eweda@gmail.com>",
   "dependencies": {
@@ -19,6 +22,7 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "passport-oauth": "^1.0.0",
+    "react-dom": "^15.3.2",
     "session": "^0.1.0"
   },
   "devDependencies": {
@@ -26,6 +30,9 @@
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
-    "webpack": "^1.13.2"
+    "babel-preset-react-hmre": "^1.1.1",
+    "react-hot-loader": "^3.0.0-beta.5",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.1"
   }
 }

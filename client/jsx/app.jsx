@@ -1,3 +1,5 @@
+import Login from './main_login.jsx';
+
 var App = React.createClass({
   getInitialState: function(){
     return {};
@@ -6,11 +8,12 @@ var App = React.createClass({
     return (
       <div>
         <h1>React Class</h1>
+        <Login />
       </div>
     )
   }
 })
 
-var destination = document.querySelector("#container");
+var destination = document.querySelector("#app");
 
 ReactDOM.render(<App />, destination);

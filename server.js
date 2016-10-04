@@ -44,7 +44,7 @@ app.use(function(req, res, next){
   if (failure) res.locals.failure = failure;
   next();
 });
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client')));
 
 
 require('./router')(app);

@@ -12,6 +12,7 @@
     "babel": "^6.5.2",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.2",
     "express": "^4.14.0",
     "express-force-ssl": "^0.3.2",
     "express-handlebars": "1.1.0",
@@ -23,6 +24,7 @@
     "passport-local": "^1.0.0",
     "passport-oauth": "^1.0.0",
     "react-dom": "^15.3.2",
+    "react-router": "^2.8.1",
     "session": "^0.1.0"
   },
   "devDependencies": {

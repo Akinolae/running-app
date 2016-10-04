@@ -1,8 +1,10 @@
 // import React from './js/react.min.js';
 // import ReactDOM from 'react-dom';
 import Login from './main_login.jsx';
+import Router from 'react-router'
 var App = React.createClass({
   getInitialState: function(){
+    console.log(this.props);
     var user = null;
     return {
       user:user,
@@ -45,8 +47,7 @@ var App = React.createClass({
       </div>
     )
   }
-})
-
+});
 var destination = document.querySelector("#app");
 
 ReactDOM.render(<App />, destination);

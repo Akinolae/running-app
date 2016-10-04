@@ -2,11 +2,14 @@ var functions = require('../functions.js');
 var database = require('../database.js');
 
 exports.index = function(request, response){
-    response.render('../index.html', {user: request.user});
+  console.log(request.user);
+  response.render('../client/main.html', {user: request.user});
 };
 
 exports.login = function(request, response){
-    response.render('home/login', {user: request.user});
+  console.log(request)
+  passport.authenticate('local-login', {successRedirect: '/listUsers',
+  failureRedirect: '/login', session:true})
 };
 
 exports.register = function(request, response){

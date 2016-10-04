@@ -6,14 +6,14 @@ var functions = require('./functions.js');
 
 // Routes
 module.exports = function(app){
-     
+
     app.get('/', HomeController.index);
-    
+
     // Redirect the user to Facebook for authentication.  When complete,
     // Facebook will redirect the user back to the application at
     //     /auth/facebook/callback
     app.get('/auth/facebook', passport.authenticate('facebook'));
-    
+
     // Facebook will redirect the user to this URL after approval.  Finish the
     // authentication process by attempting to obtain an access token.  If
     // access was granted, the user will be logged in.  Otherwise,
@@ -22,28 +22,27 @@ module.exports = function(app){
         passport.authenticate('facebook', {successRedirect: '/createProfile',
                                   failureRedirect: '/'})
         );
-      
-    
+
+
     app.get('/login',HomeController.login);
-    
+
     app.post('/login',
-        passport.authenticate('local-login', {successRedirect: '/listUsers',
-            failureRedirect: '/login', session:true})
+        passport.authenticate('local-login', {successRedirect: '/', failureRedirect: '/', session:true})
     );
-    
+
     app.get('/register',HomeController.register);
-    
+
     app.post('/register',
         passport.authenticate('local-register', {successRedirect: '/createProfile',
             failureRedirect: '/register', session:true})
     );
-    
+
     app.get('/logout', HomeController.logout);
-    
+
     app.get('/editProfile', HomeController.editProfile);
 
-    app.get('/createProfile', HomeController.editProfile);    
-    
+    app.get('/createProfile', HomeController.editProfile);
+
     app.post('/editProfile', function(request, response){
         console.log(request.body);
         functions.editProfile(request.body.userID, request.body.pace, request.body.distance,
@@ -51,23 +50,23 @@ module.exports = function(app){
             response.redirect('/listUsers');
         })
     })
-    
+
     app.get('/profile/:userID', HomeController.profile);
-    
+
     app.get('/listUsers', HomeController.listUsers);
-    
+
     app.post('/listUsers', HomeController.listUsers);
-    
+
     app.get('/sendMessage/:userID', HomeController.getMessageForm);
-    
+
     app.post('/sendMessage', HomeController.sendMessage);
-    
+
     app.get('/inbox', HomeController.inbox);
-    
+
     app.get('/messages', HomeController.messages);
-    
+
     app.get('/conversations/:conversationID', HomeController.conversation);
-    
+
     app.post('/reply', HomeController.reply);
- 
+
 };

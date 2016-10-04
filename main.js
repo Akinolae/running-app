@@ -33,14 +33,14 @@ app.use(function(req, res, next){
   if (failure) res.locals.failure = failure;
   next();
 });
-// app.use(express.static(path.join(__dirname, 'client')));
 
+app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'client')));
-// require('./router')(app);
+require('./router')(app);
 
-app.get('/', function(request, response){
-  response.render('index.html');
-})
+// app.get('/', function(request, response){
+//   response.render('index.html');
+// })
 // Passport session setup.
 passport.serializeUser(function(user, done) {
   console.log("serializing " + user.username);
@@ -79,6 +79,7 @@ passport.use('local-login', new LocalStrategy({
     passReqToCallback : true
 },
   function(req,username, password, done) {
+    console.log("logging in");
     functions.login(username, password,function(user){
       if(!user) {
         req.session.failure = 'Incorrect username'

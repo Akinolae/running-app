@@ -2,7 +2,7 @@ var functions = require('../functions.js');
 var database = require('../database.js');
 
 exports.index = function(request, response){
-    response.render('home/index', {user: request.user});
+    response.render('../index.html', {user: request.user});
 };
 
 exports.login = function(request, response){
@@ -45,9 +45,9 @@ exports.listUsers = function(request, response){
         functions.getAllUsers(function(userArray){
             userArray = functions.getSeparationArray(user, userArray);
             userArray = functions.getDirectionArray(user, userArray);
-            
+
             userArray=functions.filterUsers(user, userArray, request.body.maxSeparation, request.body.filterPace, request.body.filterDistance)
-            
+
             response.render('home/listUsers.handlebars', {user:user, infoArray: userArray});
         });
     });
@@ -76,12 +76,12 @@ exports.sendMessage = function(request, response){
         time = request.body.time,
         subject = request.body.subject,
         message = request.body.message;
-    
+
     //create new conversations
     var userArray = [fromID, toID];
     var messageObject = {from: fromID, time: Date.now(), message: message};
     functions.newConversation(userArray, subject, messageObject)
-    
+
     request.session.success = "Message Sent";
     response.redirect('back');
 }
@@ -92,12 +92,12 @@ exports.reply = function(request, response){
         conversationID = request.body.conversationID,
         time = Date.now(),
         message = request.body.message;
-    
+
     //create new conversations
     var messageObject = {from: fromID, time: time, message: message};
-    
+
     functions.reply(conversationID, messageObject)
-    
+
     request.session.success = "Message Sent";
     response.redirect('back');
 }
@@ -110,11 +110,11 @@ exports.messages = function(request, response){
         for(var i = 0; i < data.length; i++){
             var lastMessage = data[i].messages[data[i].messages.length - 1];
             var isNew = false;
-            
+
             if(user.newMessages && user.newMessages.indexOf(data[i]._id.toString()) > -1){
                 isNew = true;
             }
-            
+
             conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'names':data[i].names,'lastMessage':lastMessage.message, 'lastTime':lastMessage.time, 'isNew':isNew});
         }
         conversations.sort(function(a,b){
@@ -128,25 +128,25 @@ exports.conversation = function(request, response){
     var conversationID = request.params.conversationID;
     var userID = request.user._id.toString();
     functions.findConversationByID(conversationID, function(conversation){
-        
+
         if(conversation.users.indexOf(userID) < 0){
             request.session.failure = 'Conversations are only visible to participants';
             response.redirect('back');
         } else {
-            
+
             //put names in message array
             var messages = conversation.messages;
             var names = conversation.names;
             for(var i = 0; i < messages.length; i++){
                 messages[i].fromName = names[messages[i].from];
             }
-            
+
             //remove from new messages
             functions.removeNewMessage(userID,conversationID, function(){
                 //render conversation
                 response.render('home/conversation', {user:request.user, conversation:conversation, messages:messages});
             });
-            
+
         }
     })
 }

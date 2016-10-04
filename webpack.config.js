@@ -3,12 +3,12 @@ var webpack = require('webpack');
 module.exports = {
   context: __dirname,
   entry: [
-    "./main.jsx"
+    "./client/clientApp.jsx"
   ],
 
   output: {
-    filename: "app.js",
-    path: __dirname,
+    path: "./client/",
+    filename: "clientApp.js",
   },
 
   module: {

@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var handlebars  = require('express-handlebars'), hbs;
 var app = express();
 var session = require('express-session');
 var passport = require('passport')
@@ -12,16 +11,6 @@ var mongodb = require('mongodb');
 var path = require('path');
 var database = require('./database.js');
 var router = express.Router();
-
-hbs = handlebars.create({
-    defaultLayout: 'main',
-
-    // Uses multiple partials dirs, templates in "shared/templates/" are shared
-    // with the client-side of the app (see below).
-    partialsDir: [
-        'views/partials/'
-        ]
-    });
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false })) // parse application/x-www-form-urlencoded
@@ -44,14 +33,14 @@ app.use(function(req, res, next){
   if (failure) res.locals.failure = failure;
   next();
 });
+// app.use(express.static(path.join(__dirname, 'client')));
+
 app.use(express.static(path.join(__dirname, 'client')));
+// require('./router')(app);
 
-
-require('./router')(app);
-
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
-
+app.get('/', function(request, response){
+  response.render('index.html');
+})
 // Passport session setup.
 passport.serializeUser(function(user, done) {
   console.log("serializing " + user.username);
@@ -121,7 +110,7 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 3030;
 
 app.listen(port, process.env.IP, function(){
   console.log('Express server listening on port ' + port);

@@ -16,25 +16,14 @@
 
 </head>
 <body>
- 
-    {{> menu}}
-    
 
-    <div class='container main-container'>
-        <div class='alert-box {{#if success}}success{{/if}} {{#if failure}}failure{{/if}}'>
-            {{#if success}}
-                <span>{{success}}</span>
-            {{/if}}
-            {{#if failure}}
-                <span>{{failure}}</span>
-            {{/if}}
-        </div>
-        
-        {{{body}}}
-    </div>
-    
+    {{> menu}}
+
+
+
+
     {{> message}}
-    
- 
+
+
 </body>
 </html>

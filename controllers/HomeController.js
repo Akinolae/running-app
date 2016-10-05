@@ -2,9 +2,17 @@ var functions = require('../functions.js');
 var database = require('../database.js');
 
 exports.index = function(request, response){
-  console.log(request.user);
-  response.render('../client/main.html', {user: request.user});
+  console.log("session");
+  request.session.user = request.user;
+  console.log(request.session);
+  response.render('mainHTML', {user: request.user});
 };
+
+exports.getUser = function(request, response){
+  console.log("session data");
+  console.log(request.session);
+  response.json({user:request.session.user});
+}
 
 exports.login = function(request, response){
   console.log(request)

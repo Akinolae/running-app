@@ -9,6 +9,8 @@ module.exports = function(app){
 
     app.get('/', HomeController.index);
 
+    app.get('/getUser', HomeController.getUser);
+
     // Redirect the user to Facebook for authentication.  When complete,
     // Facebook will redirect the user back to the application at
     //     /auth/facebook/callback
@@ -24,7 +26,7 @@ module.exports = function(app){
         );
 
 
-    app.get('/login',HomeController.login);
+    //app.get('/login',HomeController.login);
 
     app.post('/login',
         passport.authenticate('local-login', {successRedirect: '/', failureRedirect: '/', session:true})

@@ -1,0 +1,277 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'mustache',
+1 verbose cli   '--save' ]
+2 info using npm@2.15.9
+3 info using node@v4.5.0
+4 verbose install initial load of C:\Users\Peter\desktop\running-app\package.json
+5 warn package.json voting-app@0.0.0 No repository field.
+6 warn package.json voting-app@0.0.0 No license field.
+7 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\babel\package.json
+8 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\babel-core\package.json
+9 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\babel-loader\package.json
+10 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\babel-preset-es2015\package.json
+11 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\babel-preset-react\package.json
+12 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\babel-preset-react-hmre\package.json
+13 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\body-parser\package.json
+14 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\consolidate\package.json
+15 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\cookie-parser\package.json
+16 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\ejs\package.json
+17 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\express\package.json
+18 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\express-force-ssl\package.json
+19 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\express-handlebars\package.json
+20 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\express-react-engine\package.json
+21 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\express-react-views\package.json
+22 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\express-session\package.json
+23 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\handlebars\package.json
+24 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\mongodb\package.json
+25 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\mongoskin\package.json
+26 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\passport\package.json
+27 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\passport-facebook\package.json
+28 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\passport-local\package.json
+29 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\passport-oauth\package.json
+30 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\react\package.json
+31 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\react-dom\package.json
+32 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\react-hot-loader\package.json
+33 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\react-router\package.json
+34 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\session\package.json
+35 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\webpack\package.json
+36 verbose installManyTop reading scoped package data from C:\Users\Peter\desktop\running-app\node_modules\webpack-dev-server\package.json
+37 info package.json mongodb@2.2.10 No README data
+38 info package.json passport@0.3.2 No README data
+39 info package.json passport-oauth@1.0.0 No license field.
+40 info package.json webpack-dev-server@1.16.1 No README data
+41 info package.json express-handlebars@1.1.0 No license field.
+42 info package.json express-force-ssl@0.3.2 No license field.
+43 info package.json passport-local@1.0.0 No license field.
+44 info package.json session@0.1.0 bugs['web'] should probably be bugs['url'].
+45 info package.json session@0.1.0 No license field.
+46 verbose readDependencies loading dependencies from C:\Users\Peter\desktop\running-app\package.json
+47 silly cache add args [ 'mustache', null ]
+48 verbose cache add spec mustache
+49 silly cache add parsed spec Result {
+49 silly cache add   raw: 'mustache',
+49 silly cache add   scope: null,
+49 silly cache add   name: 'mustache',
+49 silly cache add   rawSpec: '',
+49 silly cache add   spec: 'latest',
+49 silly cache add   type: 'tag' }
+50 silly addNamed mustache@latest
+51 verbose addNamed "latest" is being treated as a dist-tag for mustache
+52 info addNameTag [ 'mustache', 'latest' ]
+53 silly mapToRegistry name mustache
+54 silly mapToRegistry using default registry
+55 silly mapToRegistry registry https://registry.npmjs.org/
+56 silly mapToRegistry data Result {
+56 silly mapToRegistry   raw: 'mustache',
+56 silly mapToRegistry   scope: null,
+56 silly mapToRegistry   name: 'mustache',
+56 silly mapToRegistry   rawSpec: '',
+56 silly mapToRegistry   spec: 'latest',
+56 silly mapToRegistry   type: 'tag' }
+57 silly mapToRegistry uri https://registry.npmjs.org/mustache
+58 verbose addNameTag registry:https://registry.npmjs.org/mustache not in flight; fetching
+59 verbose request uri https://registry.npmjs.org/mustache
+60 verbose request no auth needed
+61 info attempt registry request try #1 at 10:32:23 PM
+62 verbose request id 1fc460a3da1fe439
+63 http request GET https://registry.npmjs.org/mustache
+64 http 200 https://registry.npmjs.org/mustache
+65 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+65 verbose headers   etag: '"8UWSG3XXS0WM57DIOJ7U3OGWK"',
+65 verbose headers   'content-type': 'application/json',
+65 verbose headers   'content-encoding': 'gzip',
+65 verbose headers   'cache-control': 'max-age=300',
+65 verbose headers   'content-length': '11085',
+65 verbose headers   'accept-ranges': 'bytes',
+65 verbose headers   date: 'Wed, 05 Oct 2016 02:32:23 GMT',
+65 verbose headers   via: '1.1 varnish',
+65 verbose headers   age: '0',
+65 verbose headers   connection: 'keep-alive',
+65 verbose headers   'x-served-by': 'cache-iad2135-IAD',
+65 verbose headers   'x-cache': 'MISS',
+65 verbose headers   'x-cache-hits': '0',
+65 verbose headers   'x-timer': 'S1475634742.815661,VS0,VE500',
+65 verbose headers   vary: 'Accept-Encoding' }
+66 silly get cb [ 200,
+66 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+66 silly get     etag: '"8UWSG3XXS0WM57DIOJ7U3OGWK"',
+66 silly get     'content-type': 'application/json',
+66 silly get     'content-encoding': 'gzip',
+66 silly get     'cache-control': 'max-age=300',
+66 silly get     'content-length': '11085',
+66 silly get     'accept-ranges': 'bytes',
+66 silly get     date: 'Wed, 05 Oct 2016 02:32:23 GMT',
+66 silly get     via: '1.1 varnish',
+66 silly get     age: '0',
+66 silly get     connection: 'keep-alive',
+66 silly get     'x-served-by': 'cache-iad2135-IAD',
+66 silly get     'x-cache': 'MISS',
+66 silly get     'x-cache-hits': '0',
+66 silly get     'x-timer': 'S1475634742.815661,VS0,VE500',
+66 silly get     vary: 'Accept-Encoding' } ]
+67 verbose get saving mustache to C:\Users\Peter\AppData\Roaming\npm-cache\registry.npmjs.org\mustache\.cache.json
+68 verbose correctMkdir C:\Users\Peter\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+69 silly addNameTag next cb for mustache with tag latest
+70 silly addNamed mustache@2.2.1
+71 verbose addNamed "2.2.1" is a plain semver version for mustache
+72 silly mapToRegistry name mustache
+73 silly mapToRegistry using default registry
+74 silly mapToRegistry registry https://registry.npmjs.org/
+75 silly mapToRegistry data Result {
+75 silly mapToRegistry   raw: 'mustache',
+75 silly mapToRegistry   scope: null,
+75 silly mapToRegistry   name: 'mustache',
+75 silly mapToRegistry   rawSpec: '',
+75 silly mapToRegistry   spec: 'latest',
+75 silly mapToRegistry   type: 'tag' }
+76 silly mapToRegistry uri https://registry.npmjs.org/mustache
+77 verbose addRemoteTarball https://registry.npmjs.org/mustache/-/mustache-2.2.1.tgz not in flight; adding
+78 verbose addRemoteTarball [ 'https://registry.npmjs.org/mustache/-/mustache-2.2.1.tgz',
+78 verbose addRemoteTarball   '2c40ca21c278f53150682bcf9090e41a3339b876' ]
+79 info retry fetch attempt 1 at 10:32:24 PM
+80 info attempt registry request try #1 at 10:32:24 PM
+81 http fetch GET https://registry.npmjs.org/mustache/-/mustache-2.2.1.tgz
+82 http fetch 200 https://registry.npmjs.org/mustache/-/mustache-2.2.1.tgz
+83 silly fetchAndShaCheck shasum 2c40ca21c278f53150682bcf9090e41a3339b876
+84 verbose addTmpTarball C:\Users\Peter\AppData\Local\Temp\npm-20732-0d147a6c\registry.npmjs.org\mustache\-\mustache-2.2.1.tgz not in flight; adding
+85 verbose addTmpTarball already have metadata; skipping unpack for mustache@2.2.1
+86 verbose correctMkdir C:\Users\Peter\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+87 silly cache afterAdd mustache@2.2.1
+88 verbose afterAdd C:\Users\Peter\AppData\Roaming\npm-cache\mustache\2.2.1\package\package.json not in flight; writing
+89 verbose correctMkdir C:\Users\Peter\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+90 verbose afterAdd C:\Users\Peter\AppData\Roaming\npm-cache\mustache\2.2.1\package\package.json written
+91 silly install resolved [ { name: 'mustache',
+91 silly install resolved     version: '2.2.1',
+91 silly install resolved     description: 'Logic-less {{mustache}} templates with JavaScript',
+91 silly install resolved     author:
+91 silly install resolved      { name: 'mustache.js Authors',
+91 silly install resolved        email: 'http://github.com/janl/mustache.js' },
+91 silly install resolved     homepage: 'https://github.com/janl/mustache.js',
+91 silly install resolved     repository:
+91 silly install resolved      { type: 'git',
+91 silly install resolved        url: 'git+https://github.com/janl/mustache.js.git' },
+91 silly install resolved     keywords: [ 'mustache', 'template', 'templates', 'ejs' ],
+91 silly install resolved     main: './mustache.js',
+91 silly install resolved     bin: { mustache: './bin/mustache' },
+91 silly install resolved     files: [ 'mustache.js', 'mustache.min.js', 'bin', 'wrappers', 'LICENSE' ],
+91 silly install resolved     volo: { url: 'https://raw.github.com/janl/mustache.js/{version}/mustache.js' },
+91 silly install resolved     engines: { npm: '>=1.4.0' },
+91 silly install resolved     scripts:
+91 silly install resolved      { pretest: 'eslint mustache.js bin/mustache',
+91 silly install resolved        test: 'mocha --reporter spec test/*-test.js',
+91 silly install resolved        'test-render': 'mocha  --reporter spec test/render-test',
+91 silly install resolved        'pre-test-browser': 'node test/create-browser-suite.js',
+91 silly install resolved        'test-browser': 'npm run pre-test-browser && zuul -- test/context-test.js test/parse-test.js test/scanner-test.js test/render-test-browser.js',
+91 silly install resolved        'test-browser-local': 'npm run pre-test-browser && zuul --local 8080 -- test/context-test.js test/scanner-test.js test/parse-test.js test/render-test-browser.js' },
+91 silly install resolved     devDependencies:
+91 silly install resolved      { chai: '^3.4.0',
+91 silly install resolved        eslint: '^1.7.3',
+91 silly install resolved        mocha: '^2.1.0',
+91 silly install resolved        zuul: '^3.7.0' },
+91 silly install resolved     spm: { main: 'mustache.js', ignore: [Object] },
+91 silly install resolved     license: 'MIT',
+91 silly install resolved     gitHead: 'cd06b22dabdaeffe3e4c74ee02bd492a11bbb740',
+91 silly install resolved     bugs: { url: 'https://github.com/janl/mustache.js/issues' },
+91 silly install resolved     _id: 'mustache@2.2.1',
+91 silly install resolved     _shasum: '2c40ca21c278f53150682bcf9090e41a3339b876',
+91 silly install resolved     _from: 'mustache@latest',
+91 silly install resolved     _npmVersion: '2.14.8',
+91 silly install resolved     _nodeVersion: '4.2.1',
+91 silly install resolved     _npmUser: { name: 'dasilvacontin', email: 'dasilvacontin@gmail.com' },
+91 silly install resolved     dist:
+91 silly install resolved      { shasum: '2c40ca21c278f53150682bcf9090e41a3339b876',
+91 silly install resolved        tarball: 'https://registry.npmjs.org/mustache/-/mustache-2.2.1.tgz' },
+91 silly install resolved     maintainers: [ [Object], [Object], [Object], [Object] ],
+91 silly install resolved     directories: {},
+91 silly install resolved     _resolved: 'https://registry.npmjs.org/mustache/-/mustache-2.2.1.tgz' } ]
+92 info install mustache@2.2.1 into C:\Users\Peter\desktop\running-app
+93 info installOne mustache@2.2.1
+94 verbose installOne of mustache to C:\Users\Peter\desktop\running-app not in flight; installing
+95 verbose correctMkdir C:\Users\Peter\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+96 verbose lock using C:\Users\Peter\AppData\Roaming\npm-cache\_locks\mustache-12808f9132e73eda.lock for C:\Users\Peter\desktop\running-app\node_modules\mustache
+97 silly install write writing mustache 2.2.1 to C:\Users\Peter\desktop\running-app\node_modules\mustache
+98 verbose unbuild node_modules\mustache
+99 silly gentlyRm C:\Users\Peter\desktop\running-app\node_modules\mustache is being purged from base C:\Users\Peter\desktop\running-app
+100 verbose gentlyRm don't care about contents; nuking C:\Users\Peter\desktop\running-app\node_modules\mustache
+101 verbose tar unpack C:\Users\Peter\AppData\Roaming\npm-cache\mustache\2.2.1\package.tgz
+102 verbose tar unpacking to C:\Users\Peter\desktop\running-app\node_modules\mustache
+103 silly gentlyRm C:\Users\Peter\desktop\running-app\node_modules\mustache is being purged
+104 verbose gentlyRm don't care about contents; nuking C:\Users\Peter\desktop\running-app\node_modules\mustache
+105 silly gunzTarPerm modes [ '777', '666' ]
+106 silly gunzTarPerm extractEntry package.json
+107 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+108 silly gunzTarPerm extractEntry README.md
+109 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+110 silly gunzTarPerm extractEntry LICENSE
+111 silly gunzTarPerm modified mode [ 'LICENSE', 420, 438 ]
+112 silly gunzTarPerm extractEntry mustache.js
+113 silly gunzTarPerm modified mode [ 'mustache.js', 420, 438 ]
+114 silly gunzTarPerm extractEntry mustache.min.js
+115 silly gunzTarPerm modified mode [ 'mustache.min.js', 420, 438 ]
+116 silly gunzTarPerm extractEntry bin/mustache
+117 silly gunzTarPerm modified mode [ 'bin/mustache', 493, 511 ]
+118 silly gunzTarPerm extractEntry CHANGELOG.md
+119 silly gunzTarPerm modified mode [ 'CHANGELOG.md', 420, 438 ]
+120 silly gunzTarPerm extractEntry wrappers/dojo/mustache.js.post
+121 silly gunzTarPerm modified mode [ 'wrappers/dojo/mustache.js.post', 420, 438 ]
+122 silly gunzTarPerm extractEntry wrappers/dojo/mustache.js.pre
+123 silly gunzTarPerm modified mode [ 'wrappers/dojo/mustache.js.pre', 420, 438 ]
+124 silly gunzTarPerm extractEntry wrappers/jquery/mustache.js.post
+125 silly gunzTarPerm modified mode [ 'wrappers/jquery/mustache.js.post', 420, 438 ]
+126 silly gunzTarPerm extractEntry wrappers/jquery/mustache.js.pre
+127 silly gunzTarPerm modified mode [ 'wrappers/jquery/mustache.js.pre', 420, 438 ]
+128 silly gunzTarPerm extractEntry wrappers/mootools/mustache.js.post
+129 silly gunzTarPerm modified mode [ 'wrappers/mootools/mustache.js.post', 420, 438 ]
+130 silly gunzTarPerm extractEntry wrappers/mootools/mustache.js.pre
+131 silly gunzTarPerm modified mode [ 'wrappers/mootools/mustache.js.pre', 420, 438 ]
+132 silly gunzTarPerm extractEntry wrappers/qooxdoo/mustache.js.post
+133 silly gunzTarPerm modified mode [ 'wrappers/qooxdoo/mustache.js.post', 420, 438 ]
+134 silly gunzTarPerm extractEntry wrappers/qooxdoo/mustache.js.pre
+135 silly gunzTarPerm modified mode [ 'wrappers/qooxdoo/mustache.js.pre', 420, 438 ]
+136 silly gunzTarPerm extractEntry wrappers/yui3/mustache.js.post
+137 silly gunzTarPerm modified mode [ 'wrappers/yui3/mustache.js.post', 420, 438 ]
+138 silly gunzTarPerm extractEntry wrappers/yui3/mustache.js.pre
+139 silly gunzTarPerm modified mode [ 'wrappers/yui3/mustache.js.pre', 420, 438 ]
+140 verbose write writing to C:\Users\Peter\desktop\running-app\node_modules\mustache\package.json
+141 info preinstall mustache@2.2.1
+142 verbose readDependencies loading dependencies from C:\Users\Peter\desktop\running-app\node_modules\mustache\package.json
+143 verbose readDependencies loading dependencies from C:\Users\Peter\desktop\running-app\node_modules\mustache\package.json
+144 silly install resolved []
+145 verbose about to build C:\Users\Peter\desktop\running-app\node_modules\mustache
+146 info build C:\Users\Peter\desktop\running-app\node_modules\mustache
+147 info linkStuff mustache@2.2.1
+148 silly linkStuff mustache@2.2.1 has C:\Users\Peter\desktop\running-app\node_modules as its parent node_modules
+149 verbose linkBins mustache@2.2.1
+150 verbose link bins [ { mustache: './bin/mustache' },
+150 verbose link bins   'C:\\Users\\Peter\\desktop\\running-app\\node_modules\\.bin',
+150 verbose link bins   false ]
+151 verbose linkMans mustache@2.2.1
+152 verbose rebuildBundles mustache@2.2.1
+153 info install mustache@2.2.1
+154 info postinstall mustache@2.2.1
+155 verbose unlock done using C:\Users\Peter\AppData\Roaming\npm-cache\_locks\mustache-12808f9132e73eda.lock for C:\Users\Peter\desktop\running-app\node_modules\mustache
+156 verbose validateInstall loading C:\Users\Peter\desktop\running-app\package.json for validation
+157 verbose stack Error: The package react-dom@15.3.2 does not satisfy its siblings' peerDependencies requirements!
+157 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:125:32
+157 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:268:7
+157 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:142:5
+157 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+157 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+157 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+157 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+157 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+157 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+157 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+158 verbose cwd C:\Users\Peter\desktop\running-app
+159 error Windows_NT 10.0.14393
+160 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "mustache" "--save"
+161 error node v4.5.0
+162 error npm  v2.15.9
+163 error code EPEERINVALID
+164 error peerinvalid The package react-dom@15.3.2 does not satisfy its siblings' peerDependencies requirements!
+164 error peerinvalid Peer express-react-engine@0.6.0 wants react-dom@^0.14.0
+164 error peerinvalid Peer express-react-views@0.10.2 wants react-dom@^0.14.0 || ^15.0.0
+165 verbose exit [ 1, true ]

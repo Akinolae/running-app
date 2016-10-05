@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var app = express();
+var handlebars = require('express-handlebars');
 var session = require('express-session');
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
@@ -34,8 +35,11 @@ app.use(function(req, res, next){
   next();
 });
 
-app.engine('html', require('ejs').renderFile);
-app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static('client'));
+app.set('views', path.join(__dirname,'client'));
+var engines = require('consolidate');
+app.engine('html', engines.mustache);
+app.set('view engine', 'html');
 require('./router')(app);
 
 // app.get('/', function(request, response){

@@ -4709,24 +4709,44 @@
 
 	  getInitialState: function getInitialState() {
 	    var nearbyUsersList = [];
+	    var displayFilter = false;
 	    return {
-	      nearbyUsersList: nearbyUsersList
+	      nearbyUsersList: nearbyUsersList,
+	      displayFilter: displayFilter,
+	      filterSeparation: 5,
+	      filterDistance: 2,
+	      filterPace: 3
 	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.getList();
 	  },
 	  getList: function getList() {
 	    var component = this;
 	    $.post('/listUsers', {
-	      filterSeparation: 5,
-	      filterDistance: 2,
-	      filterPace: 3
+	      filterSeparation: this.state.filterSeparation,
+	      filterDistance: this.state.filterDistance,
+	      filterPace: this.state.filterPace
 	    }, function (data) {
 	      console.log(data.userArray);
 	      component.setState({ nearbyUsersList: data.userArray });
 	    });
 	  },
+	  showFilter: function showFilter() {
+	    var displayFilter = !this.state.displayFilter;
+	    this.setState({ displayFilter: displayFilter });
+	  },
+	  changeSeparation: function changeSeparation(event) {
+	    this.setState({ filterSeparation: event.target.value });
+	  },
+	  changePace: function changePace(event) {
+	    this.setState({ filterPace: event.target.value });
+	  },
+	  changeDistance: function changeDistance(event) {
+	    this.setState({ filterDistance: event.target.value });
+	  },
 	  render: function render() {
 	    var nearbyUsersList = this.state.nearbyUsersList;
-	    console.log('rendering', nearbyUsersList);
 	    return _react2.default.createElement(
 	      'div',
 	      null,
@@ -4736,14 +4756,164 @@
 	        'Nearby Users'
 	      ),
 	      _react2.default.createElement(
-	        'button',
-	        { className: 'btn btn-default', id: 'showFilter' },
-	        'Filter'
-	      ),
-	      _react2.default.createElement(
-	        'button',
-	        { className: 'btn btn-default', id: 'showFilter', onClick: this.getList },
-	        'Get Nearby'
+	        'form',
+	        { id: 'filter', className: 'row', action: '/listUsers', method: 'post' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-4' },
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Show users within: '
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'dropdown' },
+	            _react2.default.createElement(
+	              'select',
+	              { className: 'form-control', value: this.state.filterSeparation, controlled: true, onChange: this.changeSeparation },
+	              _react2.default.createElement(
+	                'option',
+	                { value: '2' },
+	                '2 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '5' },
+	                '5 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '10' },
+	                '10 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '15' },
+	                '15 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '20' },
+	                '20 miles'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-4' },
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Maximum pace difference: '
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'dropdown' },
+	            _react2.default.createElement(
+	              'select',
+	              { className: 'form-control', value: this.state.filterPace, controlled: true, onChange: this.changePace },
+	              _react2.default.createElement(
+	                'option',
+	                { value: '1' },
+	                '1 minute'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '2' },
+	                '2 minutes'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '3' },
+	                '3 minutes'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '4' },
+	                '4 minutes'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '5' },
+	                '5 minutes'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-4' },
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Maximum desired run distance difference: '
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'dropdown' },
+	            _react2.default.createElement(
+	              'select',
+	              { className: 'form-control', value: this.state.filterDistance, controlled: true, onChange: this.changeDistance },
+	              _react2.default.createElement(
+	                'option',
+	                { value: '1' },
+	                '1 mile'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '2' },
+	                '2 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '3' },
+	                '3 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '4' },
+	                '4 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '5' },
+	                '5 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '6' },
+	                '6 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '7' },
+	                '7 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '8' },
+	                '8 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '9' },
+	                '9 miles'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '10' },
+	                '10 miles'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { type: 'submit', className: 'btn btn-default', onClick: this.getList },
+	          'Update'
+	        )
 	      ),
 	      _react2.default.createElement(
 	        'div',
@@ -4797,66 +4967,6 @@
 
 	var _default = NearbyUsers;
 	exports.default = _default;
-
-	// {{!--Modal--}}
-	// <div className="modal fade" id='filter-modal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	//   <div class="modal-dialog">
-	//     <div class="modal-content">
-	//         <div class="modal-header">
-	//           <button type="button" class="close" data-dismiss="modal">&times;</button>
-	//           <h4 class="modal-title">Filter Users</h4>
-	//         </div>
-	//
-	//         <div class="modal-body">
-	//
-	//             <form role="form" action='/listUsers' method='post'>
-	//             <div>
-	//                 <label>Show users within: </label>
-	//                 <div class="dropdown">
-	//                     <select class="form-control" name='maxSeparation'>
-	//                       <option value='2'>2 miles</option>
-	//                       <option value='5'>5 miles</option>
-	//                       <option value='10'>10 miles</option>
-	//                       <option value='15'>15 miles</option>
-	//                       <option value='20'>20 miles</option>
-	//                     </select>
-	//                 </div>
-	//             </div>
-	//             <div>
-	//                 <label>Maximum pace difference: </label>
-	//                 <div class="dropdown">
-	//                     <select class="form-control" name='filterPace'>
-	//                       <option value='1'>1 minute</option>
-	//                       <option value='2'>2 minutes</option>
-	//                       <option value='3'>3 minutes</option>
-	//                       <option value='4'>4 minutes</option>
-	//                       <option value='5'>5 minutes</option>
-	//                     </select>
-	//                 </div>
-	//             </div>
-	//             <div>
-	//                 <label>Maximum desired run distance difference: </label>
-	//                 <div class="dropdown">
-	//                     <select class="form-control" name='filterDistance'>
-	//                       <option value='1'>1 mile</option>
-	//                       <option value='2'>2 miles</option>
-	//                       <option value='3'>3 miles</option>
-	//                       <option value='4'>4 miles</option>
-	//                       <option value='5'>5 miles</option>
-	//                       <option value='6'>6 miles</option>
-	//                       <option value='7'>7 miles</option>
-	//                       <option value='8'>8 miles</option>
-	//                       <option value='9'>9 miles</option>
-	//                       <option value='10'>10 miles</option>
-	//                     </select>
-	//                 </div>
-	//               <button type="submit" class="btn btn-default">Filter</button>
-	//             </form>
-	//         </div>
-	//
-	//     </div>
-	//   </div>
-	// </div>
 
 	// <script type="text/javascript">
 	//     $('.user-box').click(function(){

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Modal,ModalHeader,ModalTitle,ModalClose,ModalBody,ModalFooter} from 'react-modal-bootstrap';
 
 var NearbyUsers = React.createClass({
   getInitialState: function(){
@@ -38,20 +37,11 @@ var NearbyUsers = React.createClass({
   , changeDistance: function(event){
     this.setState({filterDistance:event.target.value}, function(){this.getList()})
   }
-  , getMessageForm: function(recipientID){
-    var senderID = this.props.user._id;
-    var message = (<Message senderID={senderID} recipientID={recipientID} closeMessage={this.closeMessage}/>)
-    this.setState({message:message})
-  }
-  , closeMessage: function(){
-    this.setState({message:null});
-  }
   , render: function(){
     var nearbyUsersList = this.state.nearbyUsersList;
     var component = this;
     return (
       <div>
-        {this.state.message}
         <h1>Nearby Users</h1>
         <form id="filter" className="row" action='/listUsers' method='post'>
           <div className="col-sm-4">
@@ -100,7 +90,7 @@ var NearbyUsers = React.createClass({
           {nearbyUsersList.map(function(nearbyUser){
             return(
               <div className='col-sm-4' key={nearbyUser.username}>
-                <User user={nearbyUser} getMessageForm={component.getMessageForm}/>
+                <User user={nearbyUser} getMessageForm={component.props.getMessageForm}/>
               </div>
             )
           })}
@@ -130,57 +120,6 @@ var User = React.createClass({
   }
 });
 
-var Message = React.createClass({
-  getInitialState: function(){
-    console.log(this.props.senderID);
-    return {
-      isOpen:true,
-      subject:'Running',
-      message:"Let's go"
-    }
-  }
-  , changeSubject: function(event){
-    this.setState({subject:event.target.value})
-  }
-  , changeMessage: function(event){
-    this.setState({message:event.target.value})
-  }
-  , send: function(){
-    var component = this;
-    $.post("/sendMessage",
-    {
-      fromID:this.props.senderID,
-      toID: this.props.recipientID,
-      subject: this.state.subject,
-      message: this.state.message
-    }, function(){
-      component.props.closeMessage();
-    }
-  );
-  }
-  , render: function(){
-    return (
-      <Modal isOpen={this.state.isOpen} onRequestHide={this.props.closeMessage}>
-        <ModalHeader>
-          <ModalClose onClick={this.props.closeMessage}/>
-          <ModalTitle>Message</ModalTitle>
-        </ModalHeader>
-        <ModalBody>
-          <input type='text' value={this.state.subject} controlled={true} onChange={this.changeSubject}/>
-          <input type='text'  value={this.state.message} controlled={true} onChange={this.changeMessage}/>
-        </ModalBody>
-        <ModalFooter>
-          <button className='btn btn-default' onClick={this.props.closeMessage}>
-            Close
-          </button>
-          <button className='btn btn-primary' onClick={this.send}>
-            Save changes
-          </button>
-        </ModalFooter>
-      </Modal>
-    )
-  }
-})
 
 export default NearbyUsers;
 

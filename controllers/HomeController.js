@@ -9,7 +9,6 @@ exports.index = function(request, response){
 };
 
 exports.getUser = function(request, response){
-  console.log("session data");
   console.log(request.session);
   response.json({user:request.session.user});
 }
@@ -129,7 +128,7 @@ exports.messages = function(request, response){
         conversations.sort(function(a,b){
             return b.lastTime - a.lastTime;
         })
-        response.render('home/messages', {user:request.user, conversations: conversations});
+        response.json({conversations: conversations});
     });
 };
 

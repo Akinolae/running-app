@@ -1,15 +1,19 @@
-// import React from './js/react.min.js';
-// import ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Login from './login.jsx';
 import Register from './register.jsx';
 import Home from './home.jsx'
 import NearbyUsers from './nearbyUsers.jsx';
-import Router from 'react-router'
+import Inbox from './inbox.jsx';
+import Message from './message.jsx';
+import { Router, Route, Link } from 'react-router'
 var App = React.createClass({
   getInitialState: function(){
     var user = null;
     return {
       user:user,
+      message:null,
+      conversations:[]
     };
   },
   componentDidMount: function(){
@@ -18,21 +22,36 @@ var App = React.createClass({
   getUser: function(){
     var component = this;
     $.ajax({url:"getUser"}).done(function(data){
-      component.setState({user:data.user})
+      component.setState({user:data.user}, function(){
+        component.getConversations();
+      })
     })
   },
-  getNearby: function(){
-
+  getConversations: function(){
+    var component = this;
+    $.ajax({url:"messages"}).done(function(data){
+      console.log(data.conversations);
+      component.setState({conversations:data.conversations});
+    })
+  },
+  getMessageForm: function(recipientID){
+    var senderID = this.state.user._id;
+    var message = (<Message senderID={senderID} recipientID={recipientID} closeMessage={this.closeMessage}/>)
+    this.setState({message:message})
+  },
+  closeMessage: function(){
+    this.setState({message:null});
   },
   render : function(){
     var parent = this;
     var clonedChildren = React.Children.map(this.props.children, function(child){
-      return React.cloneElement(child, {user: parent.state.user, getUser:parent.getUser});
+      return React.cloneElement(child, {user: parent.state.user, getUser:parent.getUser, getMessageForm:parent.getMessageForm, closeMessage:parent.closeMessage, conversations:parent.state.conversations});
     });
     var username = "";
     if(this.state.user){username = this.state.user.username;}
     return (
       <div>
+        {this.state.message}
         <nav className='navbar navbar-default'>
           <div className='container-fluid'>
 
@@ -49,11 +68,10 @@ var App = React.createClass({
 
             <div className='collapse navbar-collapse pull-right' id='collapse-menu'>
               <ul className='navbar nav'>
-                <li><ReactRouter.Link to="/home">Home ({username})</ReactRouter.Link></li>
-                <li><ReactRouter.Link to="/nearby">Nearby Runners</ReactRouter.Link></li>
-                <li><a href="/messages">Messages</a></li>
+                <li><Link to="/home">Home ({username})</Link></li>
+                <li><Link to="/nearby">Nearby Runners</Link></li>
+                <li><Link to="/inbox">Messages</Link></li>
                 <li><a href="/editProfile">Edit Profile</a></li>
-                <li><a href="/listUsers">Show Nearby Runners</a></li>
                 <li><a  href="/profile/"></a></li>
                 <li><a  href="/logout">Log Out</a></li>
               </ul>
@@ -62,8 +80,8 @@ var App = React.createClass({
         </nav>
         <div className='container main-container'>
             <div className='alert-box'>
-              <li><ReactRouter.Link to="/login">Login</ReactRouter.Link></li>
-              <li><ReactRouter.Link to="/register">Register</ReactRouter.Link></li>
+              <li><Link to="/login">Login</Link></li>
+              <li><Link to="/register">Register</Link></li>
             </div>
             {clonedChildren}
         </div>
@@ -73,12 +91,13 @@ var App = React.createClass({
 });
 var destination = document.querySelector("#app");
 ReactDOM.render(
-  <ReactRouter.Router>
-    <ReactRouter.Route path="/" component={App}>
-      <ReactRouter.Route path="login" component={Login}/>
-      <ReactRouter.Route path="register" component={Register} />
-      <ReactRouter.Route path="home" component={Home}/>
-      <ReactRouter.Route path="nearby" component={NearbyUsers}/>
-    </ReactRouter.Route>
-  </ReactRouter.Router>,
+  <Router>
+    <Route path="/" component={App}>
+      <Route path="login" component={Login}/>
+      <Route path="register" component={Register} />
+      <Route path="home" component={Home}/>
+      <Route path="nearby" component={NearbyUsers}/>
+      <Route path="inbox" component={Inbox}/>
+    </Route>
+  </Router>,
   destination);

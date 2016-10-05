@@ -82,19 +82,17 @@ exports.getMessageForm = function(request, response){
 exports.sendMessage = function(request, response){
     var fromID = request.body.fromID,
         toID = request.body.toID,
-        fromName = request.body.fromName,
-        toName = request.body.toName,
-        time = request.body.time,
         subject = request.body.subject,
         message = request.body.message;
 
     //create new conversations
     var userArray = [fromID, toID];
     var messageObject = {from: fromID, time: Date.now(), message: message};
+    console.log(messageObject);
     functions.newConversation(userArray, subject, messageObject)
 
     request.session.success = "Message Sent";
-    response.redirect('back');
+    response.end();
 }
 
 exports.reply = function(request, response){

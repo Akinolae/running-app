@@ -22,7 +22,6 @@ var Login = React.createClass({
   login: function(event){
     event.preventDefault();
     var component = this;
-    console.log("login user state",this.state.username);
     $.post("/login",
       {
         username:this.state.username,

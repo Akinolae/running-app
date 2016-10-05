@@ -1,9 +1,12 @@
 import React from 'react';
+// import Router from 'react-router';
 
 var Navbar = React.createClass({
   getInitialState: function(){
+    return {};
   },
   render: function(){
+    console.log("rendering navbar");
     var username = "";
     if(this.props.user){username = this.props.user.username;}
     return (
@@ -23,7 +26,7 @@ var Navbar = React.createClass({
 
           <div className='collapse navbar-collapse pull-right' id='collapse-menu'>
             <ul className='navbar nav'>
-              <li><a href="/">Home ({username})</a></li>
+              <li><ReactRouter.Link to="/home">Home ()</ReactRouter.Link></li>
               <li><a href="/messages">Messages</a></li>
               <li><a href="/editProfile">Edit Profile</a></li>
               <li><a href="/listUsers">Show Nearby Runners</a></li>

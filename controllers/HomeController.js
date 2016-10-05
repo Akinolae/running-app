@@ -45,11 +45,11 @@ exports.profile = function(request, response){
 }
 
 exports.listUsers = function(request, response){
-    if(!request.user){
+    if(!request.session.user){
         request.session.failure = "You must be logged in to view other users";
-        response.redirect('/');
+        response.end();
     }
-    var userID = request.user._id.toString();
+    var userID = request.session.user._id.toString();
     var user;
     functions.findUser(userID, function(profile){
         user = profile;
@@ -57,9 +57,9 @@ exports.listUsers = function(request, response){
             userArray = functions.getSeparationArray(user, userArray);
             userArray = functions.getDirectionArray(user, userArray);
 
-            userArray=functions.filterUsers(user, userArray, request.body.maxSeparation, request.body.filterPace, request.body.filterDistance)
+            userArray=functions.filterUsers(user, userArray, request.body.filterSeparation, request.body.filterPace, request.body.filterDistance)
 
-            response.render('home/listUsers.handlebars', {user:user, infoArray: userArray});
+            response.json({userArray:userArray})
         });
     });
 }

@@ -11,6 +11,7 @@ var Inbox = React.createClass({
   },
   render: function(){
     var conversations = this.state.conversations;
+    var component = this;
     return (
       <div>
         <h1>Inbox</h1>
@@ -25,7 +26,7 @@ var Inbox = React.createClass({
             <tbody>
               {conversations.map(function(conversation){
                 return (
-                  <Conversation key={conversation._id} conversationData={conversation} />
+                  <ConversationRow key={conversation._id} conversationData={conversation} getConversationModal={component.props.getConversationModal}/>
                 )
               })}
             </tbody>
@@ -36,7 +37,7 @@ var Inbox = React.createClass({
   }
 });
 
-var Conversation = React.createClass({
+var ConversationRow = React.createClass({
   getInitialState: function(){
     var data = this.props.conversationData;
     var nameList = Object.keys(data.names).map(function(key){return data.names[key]});
@@ -46,9 +47,12 @@ var Conversation = React.createClass({
       lastTime: lastTime
     };
   },
+  getModal: function(){
+    this.props.getConversationModal(this.props.conversationData._id);
+  },
   render: function(){
     return (
-      <tr>
+      <tr onClick={this.getModal}>
         <td className='col-sm-2'><strong>{this.props.conversationData.subject}</strong></td>
         <td className='col-sm-2'>{this.state.names.join(" ")}</td>
         <td className='col-sm-6'>{this.props.conversationData.lastMessage}</td>

@@ -6,14 +6,16 @@ import Home from './home.jsx'
 import NearbyUsers from './nearbyUsers.jsx';
 import Inbox from './inbox.jsx';
 import Message from './message.jsx';
+import Conversation from './conversation.jsx'
 import { Router, Route, Link } from 'react-router'
 var App = React.createClass({
   getInitialState: function(){
     var user = null;
     return {
       user:user,
-      message:null,
-      conversations:[]
+      messageModal:null,
+      conversations:[],
+      conversationModal:null
     };
   },
   componentDidMount: function(){
@@ -37,21 +39,35 @@ var App = React.createClass({
   getMessageForm: function(recipientID){
     var senderID = this.state.user._id;
     var message = (<Message senderID={senderID} recipientID={recipientID} closeMessage={this.closeMessage}/>)
-    this.setState({message:message})
+    this.setState({messageModal:message})
   },
   closeMessage: function(){
     this.setState({message:null});
   },
+  getConversationModal: function(conversationID){
+    var component = this;
+    this.state.conversations.forEach(function(conversation){
+      if(conversation._id === conversationID){
+        console.log(conversation);
+        var conversationModal = (<Conversation data={conversation} close={component.closeConversation}/>);
+        component.setState({conversationModal:conversationModal});
+      }
+    })
+  },
+  closeConversation: function(){
+    this.setState({conversationModal:null})
+  },
   render : function(){
     var parent = this;
     var clonedChildren = React.Children.map(this.props.children, function(child){
-      return React.cloneElement(child, {user: parent.state.user, getUser:parent.getUser, getMessageForm:parent.getMessageForm, closeMessage:parent.closeMessage, conversations:parent.state.conversations});
+      return React.cloneElement(child, {user: parent.state.user, getUser:parent.getUser, getMessageForm:parent.getMessageForm, closeMessage:parent.closeMessage, conversations:parent.state.conversations, getConversationModal:parent.getConversationModal});
     });
     var username = "";
     if(this.state.user){username = this.state.user.username;}
     return (
       <div>
-        {this.state.message}
+        {this.state.messageModal}
+        {this.state.conversationModal}
         <nav className='navbar navbar-default'>
           <div className='container-fluid'>
 

@@ -117,13 +117,14 @@ exports.messages = function(request, response){
         var conversations = [];
         for(var i = 0; i < data.length; i++){
             var lastMessage = data[i].messages[data[i].messages.length - 1];
+            var messages = data[i].messages;
             var isNew = false;
 
             if(user.newMessages && user.newMessages.indexOf(data[i]._id.toString()) > -1){
                 isNew = true;
             }
 
-            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'names':data[i].names,'lastMessage':lastMessage.message, 'lastTime':lastMessage.time, 'isNew':isNew});
+            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'names':data[i].names,'lastMessage':lastMessage.message, messages:messages,'lastTime':lastMessage.time, 'isNew':isNew});
         }
         conversations.sort(function(a,b){
             return b.lastTime - a.lastTime;

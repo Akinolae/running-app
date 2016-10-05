@@ -3,11 +3,8 @@ import {Modal,ModalHeader,ModalTitle,ModalClose,ModalBody,ModalFooter} from 'rea
 
 var Conversation = React.createClass({
   getInitialState: function(){
-    console.log(this.props.senderID);
     return {
       isOpen:true,
-      subject:'Running',
-      message:"Let's go"
     }
   }
   , changeSubject: function(event){
@@ -31,17 +28,17 @@ var Conversation = React.createClass({
   }
   , render: function(){
     return (
-      <Modal isOpen={this.state.isOpen} onRequestHide={this.props.closeMessage}>
+      <Modal isOpen={this.state.isOpen} onRequestHide={this.props.close}>
         <ModalHeader>
-          <ModalClose onClick={this.props.closeMessage}/>
+          <ModalClose onClick={this.props.close}/>
           <ModalTitle>Message</ModalTitle>
         </ModalHeader>
         <ModalBody>
-          <input type='text' value={this.state.subject} controlled={true} onChange={this.changeSubject}/>
+
           <input type='text'  value={this.state.message} controlled={true} onChange={this.changeMessage}/>
         </ModalBody>
         <ModalFooter>
-          <button className='btn btn-default' onClick={this.props.closeMessage}>
+          <button className='btn btn-default' onClick={this.props.close}>
             Close
           </button>
           <button className='btn btn-primary' onClick={this.send}>

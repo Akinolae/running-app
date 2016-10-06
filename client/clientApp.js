@@ -48031,15 +48031,21 @@
 	  render: function render() {
 	    var classes = "message-bubble";
 	    if (this.props.currentUser) {
-	      classes += " message-from-self";
+	      classes += " bubble-right";
+	    } else {
+	      classes += " bubble-left";
 	    }
 	    return _react2.default.createElement(
 	      'div',
-	      { className: classes },
+	      { className: 'bubble-container' },
 	      _react2.default.createElement(
-	        'p',
-	        null,
-	        this.props.data.message
+	        'div',
+	        { className: classes },
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.props.data.message
+	        )
 	      )
 	    );
 	  }

@@ -57,12 +57,14 @@ var Conversation = React.createClass({
 var ChatBox = React.createClass({
   render: function(){
     var classes = "message-bubble";
-    if(this.props.currentUser){classes += " message-from-self";}
+    if(this.props.currentUser){classes += " bubble-right";}
+    else {classes += " bubble-left"}
     return (
-      <div className={classes}>
-        <p>{this.props.data.message}</p>
+      <div className="bubble-container">
+        <div className={classes}>
+          <p>{this.props.data.message}</p>
+        </div>
       </div>
-
     )
   }
 })

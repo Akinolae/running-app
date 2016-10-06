@@ -45,26 +45,35 @@ ul.navbar, ul.navbar li {
 .col-sm-6 {
     margin-top: 10px;
 }
-.converation-messages {
-  position: absolute;
+.conversation-messages {
+  position: relative;
+  overflow: auto;
+  width: 70%;
+}
+.bubble-container {
+  width:90%;
 }
 .message-bubble {
     background-color: #6BBAA7;
-    max-width: 300px;
-    display: table;
-    margin: 5px;
+    max-width: 55%;
+    display: block;
+    position:relative;
     padding: 5px;
     border-radius: 20px;
+    clear: both;
 }
 .message-bubble p {
     position: relative;
     bottom:50%;
     transform: translate(0%, 25%);
 }
-.message-from-self {
-  position:relative;
-  transform: translate(100%, 0%);
+.bubble-right {
+  float: right;
   background-color: #FBA100;
+}
+.bubble-left {
+  background-color: #6BBAA7;
+  float: left;
 }
 .bold {
     font-weight: bold;

@@ -69,6 +69,8 @@ module.exports = function(app){
 
     app.get('/conversations/:conversationID', HomeController.conversation);
 
+    app.post('/getConversation', HomeController.getConversation);
+
     app.post('/reply', HomeController.reply);
 
 };

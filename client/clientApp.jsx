@@ -15,21 +15,24 @@ var App = React.createClass({
       user:user,
       messageModal:null,
       conversations:[],
-      conversationModal:null
+      conversationModal:null,
+      viewedConversationIndex:-1,
+      viewedConversation:null,
     };
   },
   componentDidMount: function(){
-    this.getUser();
+    // this.getUser();
   },
   getUser: function(){
     var component = this;
     $.ajax({url:"getUser"}).done(function(data){
+      if(!data.user){return;}
       component.setState({user:data.user}, function(){
         component.getConversations();
       })
     })
   },
-  getConversations: function(){
+  getConversations: function(callback){
     var component = this;
     $.ajax({url:"messages"}).done(function(data){
       console.log(data.conversations);
@@ -46,19 +49,33 @@ var App = React.createClass({
   },
   getConversationModal: function(conversationID){
     var component = this;
-    this.state.conversations.forEach(function(conversation){
+    this.state.conversations.forEach(function(conversation, index){
       if(conversation._id === conversationID){
         console.log(conversation);
-        var conversationModal = (<Conversation data={conversation} close={component.closeConversation}/>);
-        component.setState({conversationModal:conversationModal});
+        component.setState({viewedConversation:conversation});
       }
     })
   },
+  updateConversationModal: function(){
+    var conversationID = this.state.viewedConversation._id;
+    var component = this;
+    $.post("/getConversation",{
+      conversationID:conversationID
+    }, function(data){
+      component.setState({viewedConversation:data.conversation})
+    })
+  },
   closeConversation: function(){
-    this.setState({conversationModal:null})
+    this.setState({viewedConversation:null})
   },
   render : function(){
     var parent = this;
+    var conversationModal;
+    if(!this.state.viewedConversation){
+      conversationModal = (<div></div>);
+    } else {
+      conversationModal = (<Conversation data={this.state.viewedConversation} close={this.closeConversation} user={this.state.user} updateConversationModal={this.updateConversationModal}/>);
+    }
     var clonedChildren = React.Children.map(this.props.children, function(child){
       return React.cloneElement(child, {user: parent.state.user, getUser:parent.getUser, getMessageForm:parent.getMessageForm, closeMessage:parent.closeMessage, conversations:parent.state.conversations, getConversationModal:parent.getConversationModal});
     });
@@ -67,7 +84,7 @@ var App = React.createClass({
     return (
       <div>
         {this.state.messageModal}
-        {this.state.conversationModal}
+        {conversationModal}
         <nav className='navbar navbar-default'>
           <div className='container-fluid'>
 

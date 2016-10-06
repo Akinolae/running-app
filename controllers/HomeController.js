@@ -9,12 +9,12 @@ exports.index = function(request, response){
 };
 
 exports.getUser = function(request, response){
-  console.log(request.session);
+  console.log("get user", request.session);
   response.json({user:request.session.user});
 }
 
 exports.login = function(request, response){
-  console.log(request)
+  console.log("login",request)
   passport.authenticate('local-login', {successRedirect: '/listUsers',
   failureRedirect: '/login', session:true})
 };
@@ -96,7 +96,6 @@ exports.sendMessage = function(request, response){
 
 exports.reply = function(request, response){
     var fromID = request.body.fromID,
-        fromName = request.body.fromName,
         conversationID = request.body.conversationID,
         time = Date.now(),
         message = request.body.message;
@@ -111,26 +110,27 @@ exports.reply = function(request, response){
 }
 
 exports.messages = function(request, response){
-    var user = request.user;
-    var userID = user._id.toString();
-    functions.findUserConversations(userID, function(data){
-        var conversations = [];
-        for(var i = 0; i < data.length; i++){
-            var lastMessage = data[i].messages[data[i].messages.length - 1];
-            var messages = data[i].messages;
-            var isNew = false;
+  console.log("getting messages");
+  var user = request.session.user;
+  var userID = user._id.toString();
+  functions.findUserConversations(userID, function(data){
+      var conversations = [];
+      for(var i = 0; i < data.length; i++){
+          var lastMessage = data[i].messages[data[i].messages.length - 1];
+          var messages = data[i].messages;
+          var isNew = false;
 
-            if(user.newMessages && user.newMessages.indexOf(data[i]._id.toString()) > -1){
-                isNew = true;
-            }
+          if(user.newMessages && user.newMessages.indexOf(data[i]._id.toString()) > -1){
+              isNew = true;
+          }
 
-            conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'names':data[i].names,'lastMessage':lastMessage.message, messages:messages,'lastTime':lastMessage.time, 'isNew':isNew});
-        }
-        conversations.sort(function(a,b){
-            return b.lastTime - a.lastTime;
-        })
-        response.json({conversations: conversations});
-    });
+          conversations.push({'_id':data[i]._id, 'subject':data[i].subject, 'names':data[i].names,'lastMessage':lastMessage.message, 'messages':messages,'lastTime':lastMessage.time, 'isNew':isNew});
+      }
+      conversations.sort(function(a,b){
+          return b.lastTime - a.lastTime;
+      })
+      response.json({conversations: conversations});
+  });
 };
 
 exports.conversation = function(request, response){
@@ -154,6 +154,33 @@ exports.conversation = function(request, response){
             functions.removeNewMessage(userID,conversationID, function(){
                 //render conversation
                 response.render('home/conversation', {user:request.user, conversation:conversation, messages:messages});
+            });
+
+        }
+    })
+}
+
+exports.getConversation = function(request, response){
+    var conversationID = request.body.conversationID;
+    var userID = request.session.user._id.toString();
+    functions.findConversationByID(conversationID, function(conversation){
+
+        if(conversation.users.indexOf(userID) < 0){
+            request.session.failure = 'Conversations are only visible to participants';
+            response.redirect('back');
+        } else {
+
+            //put names in message array
+            var messages = conversation.messages;
+            var names = conversation.names;
+            for(var i = 0; i < messages.length; i++){
+                messages[i].fromName = names[messages[i].from];
+            }
+
+            //remove from new messages
+            functions.removeNewMessage(userID,conversationID, function(){
+                //render conversation
+                response.json({conversation:conversation});
             });
 
         }

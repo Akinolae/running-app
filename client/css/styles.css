@@ -45,6 +45,9 @@ ul.navbar, ul.navbar li {
 .col-sm-6 {
     margin-top: 10px;
 }
+.converation-messages {
+  position: absolute;
+}
 .message-bubble {
     background-color: #6BBAA7;
     max-width: 300px;
@@ -57,6 +60,11 @@ ul.navbar, ul.navbar li {
     position: relative;
     bottom:50%;
     transform: translate(0%, 25%);
+}
+.message-from-self {
+  position:relative;
+  transform: translate(100%, 0%);
+  background-color: #FBA100;
 }
 .bold {
     font-weight: bold;

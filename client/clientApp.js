@@ -102,21 +102,26 @@
 	      user: user,
 	      messageModal: null,
 	      conversations: [],
-	      conversationModal: null
+	      conversationModal: null,
+	      viewedConversationIndex: -1,
+	      viewedConversation: null
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.getUser();
+	    // this.getUser();
 	  },
 	  getUser: function getUser() {
 	    var component = this;
 	    $.ajax({ url: "getUser" }).done(function (data) {
+	      if (!data.user) {
+	        return;
+	      }
 	      component.setState({ user: data.user }, function () {
 	        component.getConversations();
 	      });
 	    });
 	  },
-	  getConversations: function getConversations() {
+	  getConversations: function getConversations(callback) {
 	    var component = this;
 	    $.ajax({ url: "messages" }).done(function (data) {
 	      console.log(data.conversations);
@@ -133,19 +138,33 @@
 	  },
 	  getConversationModal: function getConversationModal(conversationID) {
 	    var component = this;
-	    this.state.conversations.forEach(function (conversation) {
+	    this.state.conversations.forEach(function (conversation, index) {
 	      if (conversation._id === conversationID) {
 	        console.log(conversation);
-	        var conversationModal = _react2.default.createElement(_conversation2.default, { data: conversation, close: component.closeConversation });
-	        component.setState({ conversationModal: conversationModal });
+	        component.setState({ viewedConversation: conversation });
 	      }
 	    });
 	  },
+	  updateConversationModal: function updateConversationModal() {
+	    var conversationID = this.state.viewedConversation._id;
+	    var component = this;
+	    $.post("/getConversation", {
+	      conversationID: conversationID
+	    }, function (data) {
+	      component.setState({ viewedConversation: data.conversation });
+	    });
+	  },
 	  closeConversation: function closeConversation() {
-	    this.setState({ conversationModal: null });
+	    this.setState({ viewedConversation: null });
 	  },
 	  render: function render() {
 	    var parent = this;
+	    var conversationModal;
+	    if (!this.state.viewedConversation) {
+	      conversationModal = _react2.default.createElement('div', null);
+	    } else {
+	      conversationModal = _react2.default.createElement(_conversation2.default, { data: this.state.viewedConversation, close: this.closeConversation, user: this.state.user, updateConversationModal: this.updateConversationModal });
+	    }
 	    var clonedChildren = _react2.default.Children.map(this.props.children, function (child) {
 	      return _react2.default.cloneElement(child, { user: parent.state.user, getUser: parent.getUser, getMessageForm: parent.getMessageForm, closeMessage: parent.closeMessage, conversations: parent.state.conversations, getConversationModal: parent.getConversationModal });
 	    });
@@ -157,7 +176,7 @@
 	      'div',
 	      null,
 	      this.state.messageModal,
-	      this.state.conversationModal,
+	      conversationModal,
 	      _react2.default.createElement(
 	        'nav',
 	        { className: 'navbar navbar-default' },
@@ -47940,27 +47959,25 @@
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      isOpen: true
+	      isOpen: true,
+	      newMessage: ""
 	    };
 	  },
-	  changeSubject: function changeSubject(event) {
-	    this.setState({ subject: event.target.value });
-	  },
 	  changeMessage: function changeMessage(event) {
-	    this.setState({ message: event.target.value });
+	    this.setState({ newMessage: event.target.value });
 	  },
 	  send: function send() {
 	    var component = this;
-	    $.post("/sendMessage", {
-	      fromID: this.props.senderID,
-	      toID: this.props.recipientID,
-	      subject: this.state.subject,
-	      message: this.state.message
+	    $.post("/reply", {
+	      fromID: this.props.user._id,
+	      message: this.state.newMessage,
+	      conversationID: this.props.data._id
 	    }, function () {
-	      component.props.closeMessage();
+	      component.props.updateConversationModal();
 	    });
 	  },
 	  render: function render() {
+	    var component = this;
 	    return _react2.default.createElement(
 	      _reactModalBootstrap.Modal,
 	      { isOpen: this.state.isOpen, onRequestHide: this.props.close },
@@ -47977,7 +47994,18 @@
 	      _react2.default.createElement(
 	        _reactModalBootstrap.ModalBody,
 	        null,
-	        _react2.default.createElement('input', { type: 'text', value: this.state.message, controlled: true, onChange: this.changeMessage })
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'conversation-messages' },
+	          this.props.data.messages.map(function (message) {
+	            var currentUser = false;
+	            if (message.from === component.props.user._id) {
+	              currentUser = true;
+	            }
+	            return _react2.default.createElement(ChatBox, { data: message, key: message.from + message.time, currentUser: currentUser });
+	          })
+	        ),
+	        _react2.default.createElement('input', { type: 'text', value: this.state.newMessage, controlled: true, onChange: this.changeMessage })
 	      ),
 	      _react2.default.createElement(
 	        _reactModalBootstrap.ModalFooter,
@@ -47990,8 +48018,28 @@
 	        _react2.default.createElement(
 	          'button',
 	          { className: 'btn btn-primary', onClick: this.send },
-	          'Save changes'
+	          'Send'
 	        )
+	      )
+	    );
+	  }
+	});
+
+	var ChatBox = _react2.default.createClass({
+	  displayName: 'ChatBox',
+
+	  render: function render() {
+	    var classes = "message-bubble";
+	    if (this.props.currentUser) {
+	      classes += " message-from-self";
+	    }
+	    return _react2.default.createElement(
+	      'div',
+	      { className: classes },
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        this.props.data.message
 	      )
 	    );
 	  }
@@ -48007,6 +48055,8 @@
 	  }
 
 	  __REACT_HOT_LOADER__.register(Conversation, 'Conversation', 'C:/Users/Peter/Desktop/running-app/client/conversation.jsx');
+
+	  __REACT_HOT_LOADER__.register(ChatBox, 'ChatBox', 'C:/Users/Peter/Desktop/running-app/client/conversation.jsx');
 
 	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/Desktop/running-app/client/conversation.jsx');
 	}();

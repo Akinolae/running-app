@@ -5,28 +5,26 @@ var Conversation = React.createClass({
   getInitialState: function(){
     return {
       isOpen:true,
+      newMessage:"",
     }
   }
-  , changeSubject: function(event){
-    this.setState({subject:event.target.value})
-  }
   , changeMessage: function(event){
-    this.setState({message:event.target.value})
+    this.setState({newMessage:event.target.value})
   }
   , send: function(){
     var component = this;
-    $.post("/sendMessage",
+    $.post("/reply",
     {
-      fromID:this.props.senderID,
-      toID: this.props.recipientID,
-      subject: this.state.subject,
-      message: this.state.message
+      fromID:this.props.user._id,
+      message: this.state.newMessage,
+      conversationID: this.props.data._id,
     }, function(){
-      component.props.closeMessage();
+      component.props.updateConversationModal();
     }
   );
   }
   , render: function(){
+    var component = this;
     return (
       <Modal isOpen={this.state.isOpen} onRequestHide={this.props.close}>
         <ModalHeader>
@@ -34,20 +32,39 @@ var Conversation = React.createClass({
           <ModalTitle>Message</ModalTitle>
         </ModalHeader>
         <ModalBody>
-
-          <input type='text'  value={this.state.message} controlled={true} onChange={this.changeMessage}/>
+          <div className="conversation-messages">
+            {this.props.data.messages.map(function(message){
+              var currentUser = false;
+              if(message.from === component.props.user._id){currentUser = true;}
+              return (<ChatBox data={message} key={message.from + message.time} currentUser={currentUser}/>)
+            })}
+          </div>
+          <input type='text'  value={this.state.newMessage} controlled={true} onChange={this.changeMessage}/>
         </ModalBody>
         <ModalFooter>
           <button className='btn btn-default' onClick={this.props.close}>
             Close
           </button>
           <button className='btn btn-primary' onClick={this.send}>
-            Save changes
+            Send
           </button>
         </ModalFooter>
       </Modal>
     )
   }
 });
+
+var ChatBox = React.createClass({
+  render: function(){
+    var classes = "message-bubble";
+    if(this.props.currentUser){classes += " message-from-self";}
+    return (
+      <div className={classes}>
+        <p>{this.props.data.message}</p>
+      </div>
+
+    )
+  }
+})
 
 export default Conversation;

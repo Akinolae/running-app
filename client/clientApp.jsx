@@ -6,7 +6,8 @@ import Home from './home.jsx'
 import NearbyUsers from './nearbyUsers.jsx';
 import Inbox from './inbox.jsx';
 import Message from './message.jsx';
-import Conversation from './conversation.jsx'
+import Conversation from './conversation.jsx';
+import EditProfile from './editProfile.jsx';
 import { Router, Route, Link } from 'react-router'
 var App = React.createClass({
   getInitialState: function(){
@@ -104,7 +105,7 @@ var App = React.createClass({
                 <li><Link to="/home">Home ({username})</Link></li>
                 <li><Link to="/nearby">Nearby Runners</Link></li>
                 <li><Link to="/inbox">Messages</Link></li>
-                <li><a href="/editProfile">Edit Profile</a></li>
+                <li><Link to="/editProfile">Edit Profile</Link></li>
                 <li><a  href="/profile/"></a></li>
                 <li><a  href="/logout">Log Out</a></li>
               </ul>
@@ -131,6 +132,7 @@ ReactDOM.render(
       <Route path="home" component={Home}/>
       <Route path="nearby" component={NearbyUsers}/>
       <Route path="inbox" component={Inbox}/>
+      <Route path="editProfile" component={EditProfile}/>
     </Route>
   </Router>,
   destination);

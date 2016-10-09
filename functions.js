@@ -63,7 +63,7 @@ exports.findUser = findUser;
 exports.register = function(username, password, callback){
     database.mongoConnect(function(db){
         var users = db.collection('users');
-        
+
         //check if username exists
         users.find({'username':username},{username:1,_id:0}).toArray(function(err, data){
             if(err) throw err;
@@ -141,7 +141,7 @@ function editProfile(userID, pace, distance, lat, lon, callback){
         users.update({_id:userID},{
             $set: {profile: {'pace':pace, 'distance':distance, 'lat':lat, 'lon':lon}}
             }, function(){
-                callback();
+              if(callback){callback();}
             })
     })
 }
@@ -177,7 +177,7 @@ exports.getAllUsers = function(callback){
             }
         });
     });
-    
+
 }
 
 exports.getSeparationArray = function(user, userArray){//inserts separation field into profile
@@ -249,9 +249,9 @@ exports.reply = function(conversationID, messageObject){
         },function(err, conversation){
             if(err) throw err;
         });
-        
+
         addToNewMessages(conversationID);
-    });    
+    });
 };
 
 function addToNewMessages(conversationID,callback){
@@ -263,13 +263,13 @@ function addToNewMessages(conversationID,callback){
             var userArray = convertArrayToOID(data[0].users);
             var users = db.collection('users');
             console.log(userArray);
-            
+
             //make sure there is a newMessages array
             users.update({_id:{$in: userArray}, 'newMessages': {$exists : false}},{
-                $push: {newMessages: conversationID.toString()}  
+                $push: {newMessages: conversationID.toString()}
             }, {multi:true}, function(){
                 users.update({_id:{$in: userArray}},{
-                    $addToSet: {newMessages:conversationID.toString()}  
+                    $addToSet: {newMessages:conversationID.toString()}
                 }, {multi:true});
             });
         });
@@ -281,7 +281,7 @@ function removeNewMessage(userID, conversationID,callback){
     database.mongoConnect(function(db){
         var users = db.collection('users');
         users.update({_id:userID},{
-            $pull: {newMessages:conversationID.toString()}  
+            $pull: {newMessages:conversationID.toString()}
         }, {multi:true}, function(){
             callback();
         });

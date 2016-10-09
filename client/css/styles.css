@@ -45,24 +45,28 @@ ul.navbar, ul.navbar li {
 .col-sm-6 {
     margin-top: 10px;
 }
+.conversation-modal {
+  width: 100px;
+}
 .conversation-messages {
   position: relative;
-  overflow: auto;
-  width: 70%;
+  overflow-x: auto;
+  /*min-height: 300px;*/
 }
 .bubble-container {
-  width:90%;
 }
 .message-bubble {
     background-color: #6BBAA7;
     max-width: 55%;
     display: block;
     position:relative;
+    word-break:break-word;
+    margin: 5px;
     padding: 5px;
     border-radius: 20px;
     clear: both;
 }
-.message-bubble p {
+.bubble-text {
     position: relative;
     bottom:50%;
     transform: translate(0%, 25%);

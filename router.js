@@ -49,7 +49,7 @@ module.exports = function(app){
         console.log(request.body);
         functions.editProfile(request.body.userID, request.body.pace, request.body.distance,
         request.body.lat, request.body.lon, function(){
-            response.redirect('/listUsers');
+          response.end();
         })
     })
 

@@ -25,8 +25,9 @@ var Conversation = React.createClass({
   }
   , render: function(){
     var component = this;
+    var lastSender;
     return (
-      <Modal isOpen={this.state.isOpen} onRequestHide={this.props.close}>
+      <Modal isOpen={this.state.isOpen} onRequestHide={this.props.close} id="conversation-modal">
         <ModalHeader>
           <ModalClose onClick={this.props.close}/>
           <ModalTitle>Message</ModalTitle>
@@ -35,8 +36,13 @@ var Conversation = React.createClass({
           <div className="conversation-messages">
             {this.props.data.messages.map(function(message){
               var currentUser = false;
+              var newMessageGroup = false;
+              if(message.from != lastSender){
+                lastSender = message.from;
+                newMessageGroup = true;
+              }
               if(message.from === component.props.user._id){currentUser = true;}
-              return (<ChatBox data={message} key={message.from + message.time} currentUser={currentUser}/>)
+              return (<ChatBox data={message} key={message.from + message.time} currentUser={currentUser} names={component.props.data.names} newMessageGroup={newMessageGroup}/>)
             })}
           </div>
           <input type='text'  value={this.state.newMessage} controlled={true} onChange={this.changeMessage}/>
@@ -59,10 +65,15 @@ var ChatBox = React.createClass({
     var classes = "message-bubble";
     if(this.props.currentUser){classes += " bubble-right";}
     else {classes += " bubble-left"}
+    if(this.props.newMessageGroup){
+      var name = this.props.names[this.props.data.from];
+      var nameDisplay = (<p><strong>{name}:</strong></p>)
+    }
     return (
       <div className="bubble-container">
         <div className={classes}>
-          <p>{this.props.data.message}</p>
+          {nameDisplay}
+          <p classNmae="bubble-text">{this.props.data.message}</p>
         </div>
       </div>
     )

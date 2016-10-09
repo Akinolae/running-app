@@ -22,6 +22,17 @@ app.use(session({ secret: 'anything',
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(req, res, next) {
+  console.log(req.session);
+  if ( req.path == '/login') return next();
+  if (req.session.passport == null){
+// if user is not logged-in redirect back to login page //
+      res.redirect('/login');
+  }   else{
+      next();
+  }
+});
+
 // Session-persisted message middleware
 app.use(function(req, res, next){
   var success = req.session.success;

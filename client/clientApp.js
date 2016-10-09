@@ -128,7 +128,6 @@
 	  getConversations: function getConversations(callback) {
 	    var component = this;
 	    $.ajax({ url: "messages" }).done(function (data) {
-	      console.log(data.conversations);
 	      component.setState({ conversations: data.conversations });
 	    });
 	  },
@@ -169,9 +168,6 @@
 	      conversationModal = _react2.default.createElement(_conversation2.default, { data: this.state.viewedConversation, close: this.closeConversation, user: this.state.user, updateConversationModal: this.updateConversationModal });
 	    }
 	    var clonedChildren = _react2.default.Children.map(this.props.children, function (child) {
-	      if (parent.state.user) {
-	        console.log("pace", parent.state.user.profile.pace);
-	      }
 	      return _react2.default.cloneElement(child, { user: parent.state.user, getUser: parent.updateUserData, getMessageForm: parent.getMessageForm, closeMessage: parent.closeMessage, conversations: parent.state.conversations, getConversationModal: parent.getConversationModal });
 	    });
 	    var username = "";

@@ -26,10 +26,10 @@ module.exports = function(app){
         );
 
 
-    //app.get('/login',HomeController.login);
+    app.get('/login',HomeController.login);
 
     app.post('/login',
-        passport.authenticate('local-login', {successRedirect: '/', failureRedirect: '/', session:true})
+        passport.authenticate('local-login', {successRedirect: '/', failureRedirect: '/login', session:true})
     );
 
     app.get('/register',HomeController.register);

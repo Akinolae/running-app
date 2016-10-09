@@ -36,7 +36,6 @@ var App = React.createClass({
   getConversations: function(callback){
     var component = this;
     $.ajax({url:"messages"}).done(function(data){
-      console.log(data.conversations);
       component.setState({conversations:data.conversations});
     })
   },
@@ -77,7 +76,6 @@ var App = React.createClass({
       conversationModal = (<Conversation data={this.state.viewedConversation} close={this.closeConversation} user={this.state.user} updateConversationModal={this.updateConversationModal}/>);
     }
     var clonedChildren = React.Children.map(this.props.children, function(child){
-      if(parent.state.user){console.log("pace",parent.state.user.profile.pace);}
       return React.cloneElement(child, {user: parent.state.user, getUser:parent.updateUserData, getMessageForm:parent.getMessageForm, closeMessage:parent.closeMessage, conversations:parent.state.conversations, getConversationModal:parent.getConversationModal});
     });
     var username = "";

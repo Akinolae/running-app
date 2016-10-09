@@ -26,9 +26,7 @@ exports.updateSessionUser = function(request, response){
 }
 
 exports.login = function(request, response){
-  console.log("login",request)
-  passport.authenticate('local-login', {successRedirect: '/listUsers',
-  failureRedirect: '/login', session:true})
+  response.render('login');
 };
 
 exports.register = function(request, response){

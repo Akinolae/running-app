@@ -112,7 +112,7 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    // this.getUser();
+	    this.updateUserData();
 	  },
 	  updateUserData: function updateUserData() {
 	    var component = this;

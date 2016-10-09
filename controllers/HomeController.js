@@ -2,10 +2,15 @@ var functions = require('../functions.js');
 var database = require('../database.js');
 
 exports.index = function(request, response){
-  console.log("session");
-  request.session.user = request.user;
-  console.log(request.session);
-  response.render('mainHTML', {user: request.session.user});
+  if(!request.user){
+    console.log('no user');
+    response.render('mainHTML')
+  } else {
+    console.log('logged in as ', request.user.username);
+    request.session.user = request.user;
+    console.log('session data ',request.session);
+    response.render('mainHTML', {user: JSON.stringify(request.session.user)});
+  }
 };
 
 exports.getUser = function(request, response){

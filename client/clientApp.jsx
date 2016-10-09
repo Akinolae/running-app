@@ -24,9 +24,9 @@ var App = React.createClass({
   componentDidMount: function(){
     // this.getUser();
   },
-  getUser: function(){
+  updateUserData: function(){
     var component = this;
-    $.ajax({url:"getUser"}).done(function(data){
+    $.ajax({url:"updateUserData"}).done(function(data){
       if(!data.user){return;}
       component.setState({user:data.user}, function(){
         component.getConversations();
@@ -46,13 +46,12 @@ var App = React.createClass({
     this.setState({messageModal:message})
   },
   closeMessage: function(){
-    this.setState({message:null});
+    this.setState({messageModal:null});
   },
   getConversationModal: function(conversationID){
     var component = this;
     this.state.conversations.forEach(function(conversation, index){
       if(conversation._id === conversationID){
-        console.log(conversation);
         component.setState({viewedConversation:conversation});
       }
     })
@@ -78,7 +77,8 @@ var App = React.createClass({
       conversationModal = (<Conversation data={this.state.viewedConversation} close={this.closeConversation} user={this.state.user} updateConversationModal={this.updateConversationModal}/>);
     }
     var clonedChildren = React.Children.map(this.props.children, function(child){
-      return React.cloneElement(child, {user: parent.state.user, getUser:parent.getUser, getMessageForm:parent.getMessageForm, closeMessage:parent.closeMessage, conversations:parent.state.conversations, getConversationModal:parent.getConversationModal});
+      if(parent.state.user){console.log("pace",parent.state.user.profile.pace);}
+      return React.cloneElement(child, {user: parent.state.user, getUser:parent.updateUserData, getMessageForm:parent.getMessageForm, closeMessage:parent.closeMessage, conversations:parent.state.conversations, getConversationModal:parent.getConversationModal});
     });
     var username = "";
     if(this.state.user){username = this.state.user.username;}

@@ -43,10 +43,11 @@ module.exports = function(app){
 
     app.get('/editProfile', HomeController.editProfile);
 
+    app.get('/updateUserData', HomeController.updateSessionUser);
+
     app.get('/createProfile', HomeController.editProfile);
 
     app.post('/editProfile', function(request, response){
-        console.log(request.body);
         functions.editProfile(request.body.userID, request.body.pace, request.body.distance,
         request.body.lat, request.body.lon, function(){
           response.end();

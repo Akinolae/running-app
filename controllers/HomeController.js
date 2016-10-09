@@ -5,12 +5,19 @@ exports.index = function(request, response){
   console.log("session");
   request.session.user = request.user;
   console.log(request.session);
-  response.render('mainHTML', {user: request.user});
+  response.render('mainHTML', {user: request.session.user});
 };
 
 exports.getUser = function(request, response){
-  console.log("get user", request.session);
   response.json({user:request.session.user});
+}
+
+exports.updateSessionUser = function(request, response){
+  var userID = request.session.user._id;
+  functions.findUser(userID, function(data){
+    request.session.user = data;
+    response.json({user: request.session.user});
+  })
 }
 
 exports.login = function(request, response){
@@ -37,9 +44,9 @@ exports.editProfile = function(request, response){
 };
 
 exports.profile = function(request, response){
-    var userID = request.params.userID.toString();
+    var userID = request.session.user.userID.toString();
     functions.findUser(userID, function(foundUser){
-        response.render('home/profile', {user: request.user, profileOf: foundUser})
+        response.json('home/profile', {user: request.user, profileOf: foundUser})
     });
 }
 

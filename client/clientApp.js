@@ -114,9 +114,9 @@
 	  componentDidMount: function componentDidMount() {
 	    // this.getUser();
 	  },
-	  getUser: function getUser() {
+	  updateUserData: function updateUserData() {
 	    var component = this;
-	    $.ajax({ url: "getUser" }).done(function (data) {
+	    $.ajax({ url: "updateUserData" }).done(function (data) {
 	      if (!data.user) {
 	        return;
 	      }
@@ -138,13 +138,12 @@
 	    this.setState({ messageModal: message });
 	  },
 	  closeMessage: function closeMessage() {
-	    this.setState({ message: null });
+	    this.setState({ messageModal: null });
 	  },
 	  getConversationModal: function getConversationModal(conversationID) {
 	    var component = this;
 	    this.state.conversations.forEach(function (conversation, index) {
 	      if (conversation._id === conversationID) {
-	        console.log(conversation);
 	        component.setState({ viewedConversation: conversation });
 	      }
 	    });
@@ -170,7 +169,10 @@
 	      conversationModal = _react2.default.createElement(_conversation2.default, { data: this.state.viewedConversation, close: this.closeConversation, user: this.state.user, updateConversationModal: this.updateConversationModal });
 	    }
 	    var clonedChildren = _react2.default.Children.map(this.props.children, function (child) {
-	      return _react2.default.cloneElement(child, { user: parent.state.user, getUser: parent.getUser, getMessageForm: parent.getMessageForm, closeMessage: parent.closeMessage, conversations: parent.state.conversations, getConversationModal: parent.getConversationModal });
+	      if (parent.state.user) {
+	        console.log("pace", parent.state.user.profile.pace);
+	      }
+	      return _react2.default.cloneElement(child, { user: parent.state.user, getUser: parent.updateUserData, getMessageForm: parent.getMessageForm, closeMessage: parent.closeMessage, conversations: parent.state.conversations, getConversationModal: parent.getConversationModal });
 	    });
 	    var username = "";
 	    if (this.state.user) {
@@ -21889,42 +21891,32 @@
 	var Home = _react2.default.createClass({
 	  displayName: 'Home',
 
-	  getInitialState: function getInitialState() {
-	    return {};
-	  },
 	  render: function render() {
 	    var user = this.props.user;
 	    var profile;
-	    if (user) {
-	      profile = _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h2',
-	          null,
-	          'Home page for ',
-	          user.username
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Preferred distance: ',
-	          user.profile.distance,
-	          ' miles'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Preferred pace: ',
-	          user.profile.pace,
-	          ' min/mile'
-	        )
-	      );
-	    }
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      profile
+	      _react2.default.createElement(
+	        'h2',
+	        null,
+	        'Home page for ',
+	        user.username
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        'Preferred distance: ',
+	        user.profile.distance,
+	        ' miles'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        'Preferred pace: ',
+	        user.profile.pace,
+	        ' min/mile'
+	      )
 	    );
 	  }
 	});
@@ -42497,6 +42489,30 @@
 	  inputLon: function inputLon(event) {
 	    this.setState({ lon: event.target.value });
 	  },
+	  getLocationFromGoogle: function getLocationFromGoogle(event) {
+	    event.preventDefault();
+	    var component = this;
+	    var address = $('#addressInput').val();
+	    $.ajax({
+	      url: 'https://maps.googleapis.com/maps/api/geocode/json',
+	      data: { 'address': address },
+	      dataType: 'json',
+	      success: function success(r) {
+	        component.setState({ lat: r.results[0].geometry.location.lat, lon: r.results[0].geometry.location.lng });
+	      },
+	      error: function error(e) {
+	        console.log('error', e);
+	      }
+	    });
+	  },
+	  getLocationFromDevice: function getLocationFromDevice() {
+	    var component = this;
+	    if (navigator.geolocation) {
+	      navigator.geolocation.getCurrentPosition(function () {
+	        component.setState({ lat: position.coords.latitude, lon: position.coords.longitude });
+	      });
+	    }
+	  },
 	  render: function render() {
 	    var user = this.props.user;
 	    return _react2.default.createElement(
@@ -42666,7 +42682,7 @@
 	                { className: 'input-group-btn' },
 	                _react2.default.createElement(
 	                  'button',
-	                  { className: 'btn btn-secondary btn-default', type: 'button', id: 'getLocationFromGoogle' },
+	                  { className: 'btn btn-secondary btn-default', type: 'button', id: 'getLocationFromGoogle', onClick: this.getLocationFromGoogle },
 	                  'Go!'
 	                )
 	              )
@@ -42676,7 +42692,7 @@
 	              { className: 'col-sm-6' },
 	              _react2.default.createElement(
 	                'button',
-	                { className: 'btn btn-default input-block-level form-control', type: 'button', id: 'getLocationFromDevice', 'data-toggle': 'tooltip', title: 'Requires secure connection (https)' },
+	                { className: 'btn btn-default input-block-level form-control', type: 'button', id: 'getLocationFromDevice', 'data-toggle': 'tooltip', title: 'Requires secure connection (https)', onClick: this.getLocationFromDevice },
 	                'Get Location from Device'
 	              )
 	            )
@@ -42716,37 +42732,18 @@
 	  }
 	});
 
-	// function getLocation() {
-	//     if (navigator.geolocation) {
-	//         navigator.geolocation.getCurrentPosition(showPosition);
-	//     } else {
-	//     }
-	// }
+	function getLocation() {
+	  if (navigator.geolocation) {
+	    navigator.geolocation.getCurrentPosition(showPosition);
+	  } else {}
+	}
 	// function showPosition(position) {
-	//     $('#lat').val(position.coords.latitude);
-	//     $('#lon').val(position.coords.longitude);
 	// }
 
 	// document.getElementById('getLocationFromDevice').onclick = function(){
 	//     getLocation();
 	// }
 
-	// $('#getLocationFromGoogle').click(function(event){
-	//     event.preventDefault();
-	//     var address = $('#addressInput').val();
-	//     $.ajax({
-	//         url: 'https://maps.googleapis.com/maps/api/geocode/json',
-	//         data: {'address': address},
-	//         dataType: 'json',
-	//         success: function(r){
-	//            $('#lat').val(r.results[0].geometry.location.lat);
-	//            $('#lon').val(r.results[0].geometry.location.lng);
-	//         },
-	//         error: function(e){
-	//            console.log('error', e);
-	//         }
-	//     })
-	// })
 
 	var _default = EditProfile;
 	exports.default = _default;
@@ -42758,6 +42755,8 @@
 	  }
 
 	  __REACT_HOT_LOADER__.register(EditProfile, 'EditProfile', 'C:/Users/Peter/Desktop/running-app/client/editProfile.jsx');
+
+	  __REACT_HOT_LOADER__.register(getLocation, 'getLocation', 'C:/Users/Peter/Desktop/running-app/client/editProfile.jsx');
 
 	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/Desktop/running-app/client/editProfile.jsx');
 	}();

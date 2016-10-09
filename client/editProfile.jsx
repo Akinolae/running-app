@@ -38,6 +38,30 @@ var EditProfile = React.createClass({
   inputLon: function(event){
       this.setState({lon: event.target.value});
   },
+  getLocationFromGoogle: function(event){
+    event.preventDefault();
+    var component = this;
+    var address = $('#addressInput').val();
+    $.ajax({
+      url: 'https://maps.googleapis.com/maps/api/geocode/json',
+      data: {'address': address},
+      dataType: 'json',
+      success: function(r){
+        component.setState({lat:r.results[0].geometry.location.lat, lon:r.results[0].geometry.location.lng});
+      },
+      error: function(e){
+        console.log('error', e);
+      }
+    })
+  },
+  getLocationFromDevice: function(){
+    var component = this;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(){
+          component.setState({lat:position.coords.latitude, lon:position.coords.longitude});
+        });
+    }
+  },
   render: function(){
     var user = this.props.user;
     return (
@@ -87,11 +111,11 @@ var EditProfile = React.createClass({
               <div className='input-group'>
                 <input type='text' className='form-control' id='addressInput' placeholder='Get location from address...' />
                   <span className='input-group-btn'>
-                    <button className='btn btn-secondary btn-default' type='button' id='getLocationFromGoogle'>Go!</button>
+                    <button className='btn btn-secondary btn-default' type='button' id='getLocationFromGoogle' onClick={this.getLocationFromGoogle}>Go!</button>
                   </span>
               </div>
               <div className='col-sm-6'>
-                <button className='btn btn-default input-block-level form-control' type='button' id='getLocationFromDevice' data-toggle="tooltip" title="Requires secure connection (https)" >Get Location from Device</button>
+                <button className='btn btn-default input-block-level form-control' type='button' id='getLocationFromDevice' data-toggle="tooltip" title="Requires secure connection (https)" onClick={this.getLocationFromDevice}>Get Location from Device</button>
               </div>
             </div>
 
@@ -114,36 +138,18 @@ var EditProfile = React.createClass({
   }
 })
 
-// function getLocation() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(showPosition);
-//     } else {
-//     }
-// }
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+    }
+}
 // function showPosition(position) {
-//     $('#lat').val(position.coords.latitude);
-//     $('#lon').val(position.coords.longitude);
 // }
 
 // document.getElementById('getLocationFromDevice').onclick = function(){
 //     getLocation();
 // }
 
-// $('#getLocationFromGoogle').click(function(event){
-//     event.preventDefault();
-//     var address = $('#addressInput').val();
-//     $.ajax({
-//         url: 'https://maps.googleapis.com/maps/api/geocode/json',
-//         data: {'address': address},
-//         dataType: 'json',
-//         success: function(r){
-//            $('#lat').val(r.results[0].geometry.location.lat);
-//            $('#lon').val(r.results[0].geometry.location.lng);
-//         },
-//         error: function(e){
-//            console.log('error', e);
-//         }
-//     })
-// })
 
 export default EditProfile;

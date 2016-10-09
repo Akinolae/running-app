@@ -141,6 +141,7 @@ function editProfile(userID, pace, distance, lat, lon, callback){
         users.update({_id:userID},{
             $set: {profile: {'pace':pace, 'distance':distance, 'lat':lat, 'lon':lon}}
             }, function(){
+              console.log('setting pace',pace);
               if(callback){callback();}
             })
     })

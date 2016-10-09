@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "description": "",
   "main": "server.js",
-  "scripts": {
-    "start": "webpack-dev-server --inline --progress --hot"
-  },
   "repository": "",
   "author": "Mostafa Eweda <mo.eweda@gmail.com>",
   "dependencies": {

@@ -2,12 +2,23 @@ import React from 'react';
 
 var EditProfile = React.createClass({
   getInitialState: function(){
-    var user = this.props.user;
+    console.log('edit profile initial state');
+    var pace = 8;
+    var distance = 4;
+    var lat;
+    var lon;
+    if(this.props.user.profile){
+      var user = this.props.user;
+      pace = user.profile.pace;
+      distance = user.profile.distance;
+      lat = user.profile.lat;
+      lon = user.profile.lon;
+    }
     return {
-      pace: user.profile.pace,
-      distance: user.profile.distance,
-      lat: user.profile.lat,
-      lon: user.profile.lon
+      pace: pace,
+      distance: distance,
+      lat: lat,
+      lon: lon
     }
   },
   submitEdit: function(event){
@@ -63,12 +74,13 @@ var EditProfile = React.createClass({
     }
   },
   render: function(){
-    var user = this.props.user;
+    var username, id;
+    if(this.props.user){username = this.props.user.username; id = this.props.user._id}
     return (
       <div>
-        <h1>Edit profile for {user.username}</h1>
+        <h1>Edit profile for {username}</h1>
         <form action='editProfile' method='post'>
-          <input type="hidden" name="userID" value={user._id}/>
+          <input type="hidden" name="userID" value={id}/>
           <div className='row'>
             <div className='col-sm-6'>
               <label>Enter typical mile pace: </label>

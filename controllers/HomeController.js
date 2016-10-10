@@ -30,7 +30,7 @@ exports.login = function(request, response){
 };
 
 exports.register = function(request, response){
-    response.render('home/register', {user: request.user});
+    response.render('register');
 };
 
 exports.editProfile = function(request, response){

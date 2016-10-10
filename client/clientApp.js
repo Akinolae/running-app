@@ -42445,12 +42445,23 @@
 	  displayName: 'EditProfile',
 
 	  getInitialState: function getInitialState() {
-	    var user = this.props.user;
+	    console.log('edit profile initial state');
+	    var pace = 8;
+	    var distance = 4;
+	    var lat;
+	    var lon;
+	    if (this.props.user.profile) {
+	      var user = this.props.user;
+	      pace = user.profile.pace;
+	      distance = user.profile.distance;
+	      lat = user.profile.lat;
+	      lon = user.profile.lon;
+	    }
 	    return {
-	      pace: user.profile.pace,
-	      distance: user.profile.distance,
-	      lat: user.profile.lat,
-	      lon: user.profile.lon
+	      pace: pace,
+	      distance: distance,
+	      lat: lat,
+	      lon: lon
 	    };
 	  },
 	  submitEdit: function submitEdit(event) {
@@ -42505,7 +42516,10 @@
 	    }
 	  },
 	  render: function render() {
-	    var user = this.props.user;
+	    var username, id;
+	    if (this.props.user) {
+	      username = this.props.user.username;id = this.props.user._id;
+	    }
 	    return _react2.default.createElement(
 	      'div',
 	      null,
@@ -42513,12 +42527,12 @@
 	        'h1',
 	        null,
 	        'Edit profile for ',
-	        user.username
+	        username
 	      ),
 	      _react2.default.createElement(
 	        'form',
 	        { action: 'editProfile', method: 'post' },
-	        _react2.default.createElement('input', { type: 'hidden', name: 'userID', value: user._id }),
+	        _react2.default.createElement('input', { type: 'hidden', name: 'userID', value: id }),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'row' },

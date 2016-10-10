@@ -35,8 +35,8 @@ module.exports = function(app){
     app.get('/register',HomeController.register);
 
     app.post('/register',
-        passport.authenticate('local-register', {successRedirect: '/createProfile',
-            failureRedirect: '/register', session:true})
+        passport.authenticate('local-register', {successRedirect: '/',
+            failureRedirect: '/', session:true})
     );
 
     app.get('/logout', HomeController.logout);

@@ -104,7 +104,6 @@ var App = React.createClass({
                 <li><Link to="/nearby">Nearby Runners</Link></li>
                 <li><Link to="/inbox">Messages</Link></li>
                 <li><Link to="/editProfile">Edit Profile</Link></li>
-                <li><a  href="/profile/"></a></li>
                 <li><a  href="/logout">Log Out</a></li>
               </ul>
             </div>

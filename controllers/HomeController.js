@@ -210,6 +210,7 @@ exports.inbox = function(request, response){
 }
 
 exports.logout = function(request, response){
-    request.logout();
-    response.redirect('/');
+    request.session.destroy(function(){
+      response.redirect("/")
+    })
 }

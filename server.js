@@ -126,7 +126,7 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-var port = process.env.PORT || 3030;
+var port = process.env.PORT || 8080;
 
 app.listen(port, process.env.IP, function(){
   console.log('Express server listening on port ' + port);

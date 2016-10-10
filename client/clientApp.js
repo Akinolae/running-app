@@ -253,11 +253,6 @@
 	              _react2.default.createElement(
 	                'li',
 	                null,
-	                _react2.default.createElement('a', { href: '/profile/' })
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
 	                _react2.default.createElement(
 	                  'a',
 	                  { href: '/logout' },

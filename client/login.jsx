@@ -21,7 +21,6 @@ var Login = React.createClass({
       this.setState({password: event.target.value});
   },
   login: function(){
-    console.log('login function called');
     var component = this;
     $.post("/login",
       {
@@ -34,9 +33,11 @@ var Login = React.createClass({
     );
   },
   render : function(){
-    console.log("this is jsx yo");
     return (
       <div>
+        <link rel="stylesheet" href="/css/bootstrap.css"/>
+        <link rel="stylesheet" href="/css/styles.css"/>
+        <form method="post" action="/login">
             <div className='form-inline'>
                 <label>Username:</label>
                 <input type="text"  className='form-control' value={this.state.username} controlled={true} onChange={this.inputName} name='username'/>
@@ -48,6 +49,7 @@ var Login = React.createClass({
             <div>
                 <button className='btn btn-success' onClick={this.login}>Log In</button>
             </div>
+        </form>
       </div>
     )
   }

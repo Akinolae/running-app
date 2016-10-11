@@ -22,7 +22,7 @@ var App = React.createClass({
     };
   },
   componentDidMount: function(){
-    // this.updateUserData();
+    this.updateUserData();
   },
   updateUserData: function(){
     var component = this;

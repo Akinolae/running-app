@@ -112,7 +112,7 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    // this.updateUserData();
+	    this.updateUserData();
 	  },
 	  updateUserData: function updateUserData() {
 	    var component = this;
@@ -21719,7 +21719,6 @@
 	    this.setState({ password: event.target.value });
 	  },
 	  login: function login() {
-	    console.log('login function called');
 	    var component = this;
 	    $.post("/login", {
 	      username: component.state.username,
@@ -21729,37 +21728,42 @@
 	    });
 	  },
 	  render: function render() {
-	    console.log("this is jsx yo");
 	    return _react2.default.createElement(
 	      'div',
 	      null,
+	      _react2.default.createElement('link', { rel: 'stylesheet', href: '/css/bootstrap.css' }),
+	      _react2.default.createElement('link', { rel: 'stylesheet', href: '/css/styles.css' }),
 	      _react2.default.createElement(
-	        'div',
-	        { className: 'form-inline' },
+	        'form',
+	        { method: 'post', action: '/login' },
 	        _react2.default.createElement(
-	          'label',
-	          null,
-	          'Username:'
+	          'div',
+	          { className: 'form-inline' },
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Username:'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', className: 'form-control', value: this.state.username, controlled: true, onChange: this.inputName, name: 'username' })
 	        ),
-	        _react2.default.createElement('input', { type: 'text', className: 'form-control', value: this.state.username, controlled: true, onChange: this.inputName, name: 'username' })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'form-inline' },
 	        _react2.default.createElement(
-	          'label',
-	          null,
-	          'Password:'
+	          'div',
+	          { className: 'form-inline' },
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Password:'
+	          ),
+	          _react2.default.createElement('input', { type: 'password', className: 'form-control', value: this.state.password, controlled: true, onChange: this.inputPassword, name: 'password' })
 	        ),
-	        _react2.default.createElement('input', { type: 'password', className: 'form-control', value: this.state.password, controlled: true, onChange: this.inputPassword, name: 'password' })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        null,
 	        _react2.default.createElement(
-	          'button',
-	          { className: 'btn btn-success', onClick: this.login },
-	          'Log In'
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'btn btn-success', onClick: this.login },
+	            'Log In'
+	          )
 	        )
 	      )
 	    );

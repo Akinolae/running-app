@@ -22,10 +22,11 @@ var App = React.createClass({
     };
   },
   componentDidMount: function(){
-    this.updateUserData();
+    // this.updateUserData();
   },
   updateUserData: function(){
     var component = this;
+    console.log('upadting data');
     $.ajax({url:"updateUserData"}).done(function(data){
       if(!data.user){return;}
       component.setState({user:data.user}, function(){
@@ -104,6 +105,7 @@ var App = React.createClass({
                 <li><Link to="/nearby">Nearby Runners</Link></li>
                 <li><Link to="/inbox">Messages</Link></li>
                 <li><Link to="/editProfile">Edit Profile</Link></li>
+                <li><Link to="/login">Log In</Link></li>
                 <li><a  href="/logout">Log Out</a></li>
               </ul>
             </div>
@@ -111,8 +113,6 @@ var App = React.createClass({
         </nav>
         <div className='container main-container'>
             <div className='alert-box'>
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/register">Register</Link></li>
             </div>
             {clonedChildren}
         </div>

@@ -29,7 +29,7 @@ module.exports = function(app){
     app.get('/login',HomeController.login);
 
     app.post('/login',
-        passport.authenticate('local-login', {successRedirect: '/', failureRedirect: '/login', session:true})
+      passport.authenticate('local-login', {successRedirect: '/', failureRedirect: '/login', session:true})
     );
 
     app.get('/register',HomeController.register);

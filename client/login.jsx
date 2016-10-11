@@ -1,4 +1,5 @@
 import React from 'react';
+import jQuery from 'jquery'
 
 var Login = React.createClass({
   getInitialState: function(){
@@ -19,13 +20,13 @@ var Login = React.createClass({
   inputPassword: function(event){
       this.setState({password: event.target.value});
   },
-  login: function(event){
-    event.preventDefault();
+  login: function(){
+    console.log('login function called');
     var component = this;
     $.post("/login",
       {
-        username:this.state.username,
-        password:this.state.password
+        username:component.state.username,
+        password:component.state.password
       },
       function(data){
         component.props.getUser();
@@ -33,21 +34,20 @@ var Login = React.createClass({
     );
   },
   render : function(){
+    console.log("this is jsx yo");
     return (
       <div>
-        <form action="/login" method="post">
             <div className='form-inline'>
                 <label>Username:</label>
-                <input type="text"  className='form-control' value={this.state.username} controlled={true} onChange={this.inputName}/>
+                <input type="text"  className='form-control' value={this.state.username} controlled={true} onChange={this.inputName} name='username'/>
             </div>
             <div className='form-inline'>
                 <label>Password:</label>
-                <input type="password" className='form-control' value={this.state.password} controlled={true} onChange={this.inputPassword}/>
+                <input type="password" className='form-control' value={this.state.password} controlled={true} onChange={this.inputPassword} name='password'/>
             </div>
             <div>
-                <input type="submit" className='btn btn-success' value="Log In" onClick={this.login}/>
+                <button className='btn btn-success' onClick={this.login}>Log In</button>
             </div>
-        </form>
       </div>
     )
   }

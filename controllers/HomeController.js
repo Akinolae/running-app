@@ -4,12 +4,12 @@ var database = require('../database.js');
 exports.index = function(request, response){
   if(!request.user){
     console.log('no user');
-    response.render('mainHTML')
+    response.render('main')
   } else {
     console.log('logged in as ', request.user.username);
     request.session.user = request.user;
     console.log('session data ',request.session);
-    response.render('mainHTML', {user: JSON.stringify(request.session.user)});
+    response.render('main', {user: JSON.stringify(request.session.user)});
   }
 };
 
@@ -18,6 +18,9 @@ exports.getUser = function(request, response){
 }
 
 exports.updateSessionUser = function(request, response){
+  if(!request.session){
+    response.end();
+  }
   var userID = request.session.user._id;
   functions.findUser(userID, function(data){
     request.session.user = data;
@@ -26,6 +29,7 @@ exports.updateSessionUser = function(request, response){
 }
 
 exports.login = function(request, response){
+  console.log('render login');
   response.render('login');
 };
 

@@ -22,39 +22,39 @@ app.use(session({ secret: 'anything',
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(function(req, res, next) {
-  if ( req.path === '/login' || req.path === '/register') return next();
-  if (req.session.passport == null){
-// if user is not logged-in redirect back to login page //
-      res.redirect('/login');
-  }   else{
-      next();
-  }
-});
-
-// Session-persisted message middleware
-app.use(function(req, res, next){
-  var success = req.session.success;
-  var failure = req.session.failure;
-
-  delete req.session.success;
-  delete req.session.failure;
-
-  if (success) res.locals.success = success;
-  if (failure) res.locals.failure = failure;
-  next();
-});
-
 app.use(express.static('client'));
 app.set('views', path.join(__dirname,'client'));
-var engines = require('consolidate');
-app.engine('html', engines.mustache);
-app.set('view engine', 'html');
+// var engines = require('consolidate');
+// app.engine('html', engines.mustache);
+// app.set('view engine', 'html');
+app.set('view engine', 'jsx');
+app.engine('jsx', require('express-react-views').createEngine());
 require('./router')(app);
 
-// app.get('/', function(request, response){
-//   response.render('index.html');
-// })
+// app.use(function(req, res, next) {
+//   if ( req.path === '/login' || req.path === '/register') return next();
+//   if (req.session.passport == null){
+// // if user is not logged-in redirect back to login page //
+//       res.redirect('/login');
+//   }   else{
+//       next();
+//   }
+// });
+
+// Session-persisted message middleware
+// app.use(function(req, res, next){
+//   var success = req.session.success;
+//   var failure = req.session.failure;
+//
+//   delete req.session.success;
+//   delete req.session.failure;
+//
+//   if (success) res.locals.success = success;
+//   if (failure) res.locals.failure = failure;
+//   next();
+// });
+
+
 // Passport session setup.
 passport.serializeUser(function(user, done) {
   console.log("serializing " + user.username);

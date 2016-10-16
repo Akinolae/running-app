@@ -36,7 +36,6 @@ var Login = React.createClass({
     return (
       <div>
         <link rel="stylesheet" href="/css/bootstrap.css"/>
-        <link rel="stylesheet" href="/css/styles.css"/>
         <form method="post" action="/login">
             <div className='form-inline'>
                 <label>Username:</label>
@@ -48,6 +47,7 @@ var Login = React.createClass({
             </div>
             <div>
                 <button className='btn btn-success' onClick={this.login}>Log In</button>
+                <a href="/register">Register</a>
             </div>
         </form>
       </div>

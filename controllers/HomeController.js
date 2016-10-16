@@ -18,6 +18,8 @@ exports.getUser = function(request, response){
 }
 
 exports.updateSessionUser = function(request, response){
+  console.log('update user');
+  console.log(request.session);
   if(!request.session){
     response.end();
   }
@@ -29,7 +31,6 @@ exports.updateSessionUser = function(request, response){
 }
 
 exports.login = function(request, response){
-  console.log('render login');
   response.render('login');
 };
 

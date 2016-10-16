@@ -97,6 +97,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var ReactRouter = __webpack_require__(360);
 	var App = _react2.default.createClass({
 	  displayName: 'App',
 
@@ -112,17 +113,20 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.updateUserData();
-	  },
-	  updateUserData: function updateUserData() {
 	    var component = this;
-	    console.log('upadting data');
+	    this.updateUserData(function () {
+	      component.props.history.pushState(null, '/home');
+	    });
+	  },
+	  updateUserData: function updateUserData(callback) {
+	    var component = this;
 	    $.ajax({ url: "updateUserData" }).done(function (data) {
 	      if (!data.user) {
 	        return;
 	      }
 	      component.setState({ user: data.user }, function () {
 	        component.getConversations();
+	        callback();
 	      });
 	    });
 	  },
@@ -304,9 +308,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(App, 'App', 'C:/Users/Peter/Desktop/running-app/client/clientApp.jsx');
+	  __REACT_HOT_LOADER__.register(App, 'App', 'C:/Users/Peter/desktop/running-app/client/clientApp.jsx');
 
-	  __REACT_HOT_LOADER__.register(destination, 'destination', 'C:/Users/Peter/Desktop/running-app/client/clientApp.jsx');
+	  __REACT_HOT_LOADER__.register(destination, 'destination', 'C:/Users/Peter/desktop/running-app/client/clientApp.jsx');
 	}();
 
 	;
@@ -21732,7 +21736,6 @@
 	      'div',
 	      null,
 	      _react2.default.createElement('link', { rel: 'stylesheet', href: '/css/bootstrap.css' }),
-	      _react2.default.createElement('link', { rel: 'stylesheet', href: '/css/styles.css' }),
 	      _react2.default.createElement(
 	        'form',
 	        { method: 'post', action: '/login' },
@@ -21763,6 +21766,11 @@
 	            'button',
 	            { className: 'btn btn-success', onClick: this.login },
 	            'Log In'
+	          ),
+	          _react2.default.createElement(
+	            'a',
+	            { href: '/register' },
+	            'Register'
 	          )
 	        )
 	      )
@@ -21779,9 +21787,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Login, 'Login', 'C:/Users/Peter/Desktop/running-app/client/login.jsx');
+	  __REACT_HOT_LOADER__.register(Login, 'Login', 'C:/Users/Peter/desktop/running-app/client/login.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/Desktop/running-app/client/login.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/desktop/running-app/client/login.jsx');
 	}();
 
 	;
@@ -32028,8 +32036,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Login = _react2.default.createClass({
-	  displayName: "Login",
+	var Register = _react2.default.createClass({
+	  displayName: "Register",
 
 	  getInitialState: function getInitialState() {
 	    return {};
@@ -32038,9 +32046,10 @@
 	    return _react2.default.createElement(
 	      "div",
 	      null,
+	      _react2.default.createElement("link", { rel: "stylesheet", href: "/css/bootstrap.css" }),
 	      _react2.default.createElement(
 	        "form",
-	        { action: "/login", method: "post" },
+	        { action: "/register", method: "post" },
 	        _react2.default.createElement(
 	          "div",
 	          { className: "form-inline" },
@@ -32064,14 +32073,14 @@
 	        _react2.default.createElement(
 	          "div",
 	          null,
-	          _react2.default.createElement("input", { type: "submit", className: "btn btn-success", value: "Log In", onClick: this.login })
+	          _react2.default.createElement("input", { type: "submit", className: "btn btn-success", value: "Register" })
 	        )
 	      )
 	    );
 	  }
 	});
 
-	var _default = Login;
+	var _default = Register;
 	exports.default = _default;
 	;
 
@@ -32080,9 +32089,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Login, "Login", "C:/Users/Peter/Desktop/running-app/client/register.jsx");
+	  __REACT_HOT_LOADER__.register(Register, "Register", "C:/Users/Peter/desktop/running-app/client/register.jsx");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/Peter/Desktop/running-app/client/register.jsx");
+	  __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/Peter/desktop/running-app/client/register.jsx");
 	}();
 
 	;
@@ -32145,9 +32154,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Home, 'Home', 'C:/Users/Peter/Desktop/running-app/client/home.jsx');
+	  __REACT_HOT_LOADER__.register(Home, 'Home', 'C:/Users/Peter/desktop/running-app/client/home.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/Desktop/running-app/client/home.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/desktop/running-app/client/home.jsx');
 	}();
 
 	;
@@ -32463,11 +32472,11 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(NearbyUsers, 'NearbyUsers', 'C:/Users/Peter/Desktop/running-app/client/nearbyUsers.jsx');
+	  __REACT_HOT_LOADER__.register(NearbyUsers, 'NearbyUsers', 'C:/Users/Peter/desktop/running-app/client/nearbyUsers.jsx');
 
-	  __REACT_HOT_LOADER__.register(User, 'User', 'C:/Users/Peter/Desktop/running-app/client/nearbyUsers.jsx');
+	  __REACT_HOT_LOADER__.register(User, 'User', 'C:/Users/Peter/desktop/running-app/client/nearbyUsers.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/Desktop/running-app/client/nearbyUsers.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/desktop/running-app/client/nearbyUsers.jsx');
 	}();
 
 	;
@@ -32620,11 +32629,11 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Inbox, 'Inbox', 'C:/Users/Peter/Desktop/running-app/client/inbox.jsx');
+	  __REACT_HOT_LOADER__.register(Inbox, 'Inbox', 'C:/Users/Peter/desktop/running-app/client/inbox.jsx');
 
-	  __REACT_HOT_LOADER__.register(ConversationRow, 'ConversationRow', 'C:/Users/Peter/Desktop/running-app/client/inbox.jsx');
+	  __REACT_HOT_LOADER__.register(ConversationRow, 'ConversationRow', 'C:/Users/Peter/desktop/running-app/client/inbox.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/Desktop/running-app/client/inbox.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/desktop/running-app/client/inbox.jsx');
 	}();
 
 	;
@@ -47135,9 +47144,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Message, 'Message', 'C:/Users/Peter/Desktop/running-app/client/message.jsx');
+	  __REACT_HOT_LOADER__.register(Message, 'Message', 'C:/Users/Peter/desktop/running-app/client/message.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/Desktop/running-app/client/message.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/desktop/running-app/client/message.jsx');
 	}();
 
 	;
@@ -52640,11 +52649,11 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Conversation, 'Conversation', 'C:/Users/Peter/Desktop/running-app/client/conversation.jsx');
+	  __REACT_HOT_LOADER__.register(Conversation, 'Conversation', 'C:/Users/Peter/desktop/running-app/client/conversation.jsx');
 
-	  __REACT_HOT_LOADER__.register(ChatBox, 'ChatBox', 'C:/Users/Peter/Desktop/running-app/client/conversation.jsx');
+	  __REACT_HOT_LOADER__.register(ChatBox, 'ChatBox', 'C:/Users/Peter/desktop/running-app/client/conversation.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/Desktop/running-app/client/conversation.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/desktop/running-app/client/conversation.jsx');
 	}();
 
 	;
@@ -52983,11 +52992,11 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(EditProfile, 'EditProfile', 'C:/Users/Peter/Desktop/running-app/client/editProfile.jsx');
+	  __REACT_HOT_LOADER__.register(EditProfile, 'EditProfile', 'C:/Users/Peter/desktop/running-app/client/editProfile.jsx');
 
-	  __REACT_HOT_LOADER__.register(getLocation, 'getLocation', 'C:/Users/Peter/Desktop/running-app/client/editProfile.jsx');
+	  __REACT_HOT_LOADER__.register(getLocation, 'getLocation', 'C:/Users/Peter/desktop/running-app/client/editProfile.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/Desktop/running-app/client/editProfile.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Peter/desktop/running-app/client/editProfile.jsx');
 	}();
 
 	;

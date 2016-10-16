@@ -1,13 +1,14 @@
 import React from 'react';
 
-var Login = React.createClass({
+var Register = React.createClass({
   getInitialState: function(){
     return {};
   },
   render : function(){
     return (
       <div>
-        <form action="/login" method="post">
+        <link rel="stylesheet" href="/css/bootstrap.css"/>
+        <form action="/register" method="post">
             <div className='form-inline'>
                 <label>New Username:</label>
                 <input type="text"  className='form-control' name="username"/>
@@ -17,7 +18,7 @@ var Login = React.createClass({
                 <input type="password" className='form-control' name="password"/>
             </div>
             <div>
-                <input type="submit" className='btn btn-success' value="Log In" onClick={this.login}/>
+                <input type="submit" className='btn btn-success' value="Register"/>
             </div>
         </form>
       </div>
@@ -25,4 +26,4 @@ var Login = React.createClass({
   }
 })
 
-export default Login;
+export default Register;

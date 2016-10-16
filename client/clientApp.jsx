@@ -9,6 +9,7 @@ import Message from './message.jsx';
 import Conversation from './conversation.jsx';
 import EditProfile from './editProfile.jsx';
 import { Router, Route, Link } from 'react-router'
+var ReactRouter = require('react-router')
 var App = React.createClass({
   getInitialState: function(){
     var user = null;
@@ -22,15 +23,18 @@ var App = React.createClass({
     };
   },
   componentDidMount: function(){
-    this.updateUserData();
-  },
-  updateUserData: function(){
     var component = this;
-    console.log('upadting data');
+    this.updateUserData(function(){
+      component.props.history.pushState(null, '/home');
+    });
+  },
+  updateUserData: function(callback){
+    var component = this;
     $.ajax({url:"updateUserData"}).done(function(data){
       if(!data.user){return;}
       component.setState({user:data.user}, function(){
         component.getConversations();
+        callback();
       })
     })
   },

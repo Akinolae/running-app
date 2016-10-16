@@ -3,6 +3,8 @@ import jQuery from 'jquery'
 
 var Main = React.createClass({
   render : function(){
+    console.log("locals");
+    console.log(this.props.user);
     return (
       <div>
           <link rel="stylesheet" href="/css/bootstrap.css"/>
